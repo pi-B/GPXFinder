@@ -2,6 +2,7 @@
     require('PointsGPX.php');
     require('connexionDB.php');
     
+
     session_start();
     ob_start();
 
@@ -39,11 +40,8 @@
             $preparation_query->execute(); 
             $cle_primaire = $preparation_query->fetch();
 
-            echo $cle_primaire[0];
-
-
-
-            
+            echo $cle_primaire[0].'<br>';
+            $cle_primaire = $cle_primaire[0];
 
             // creation du fichier dans le repertoire juste créé avec toutes les variables de cette sortie
             $query = "insert into FICHIER(Id_Parcours,Description,Distance,Date_parcours,Ville_depart,Duree,Type_activite,Meteo,Denivele) values (:id,:description,:distance,:date,:ville,:duree,:activite,:meteo,:denivele)";
@@ -69,34 +67,34 @@
                 var_dump($_POST);
             }
             
-            // if(!empty($liste_points)){
+            if(!empty($liste_points)){
                 
-                
-            //     foreach($liste_points as $point){
-            //         $query = "insert into POINT_GPX(timecode,altitude,latitude,longitude,type,Id_Fichier) values (:timestamp,:alt,:lat,:long,:type,:id_fichier)";
-            //         echo $query."<br>";
-            //         $preparation_query = $linkpdo->prepare($query);
+                foreach($liste_points as $point){
+                    $query = "insert into POINT_GPX(timecode,altitude,latitude,longitude,type,Id_Fichier) values (:timestamp,:alt,:lat,:long,:type,:id_fichier)";
+                    $preparation_query = $linkpdo->prepare($query);
         
-            //         if($preparation_query->execute(array(
-            //             'timestamp' => $point->getTime(),
-            //             'alt' => $point->getEle(),
-            //             'lat' => $point->getLat(),
-            //             'long' => $point->getLong(),
-            //             'type' => 'trkpt',
-            //             'id_fichier' => $id_fichier
-            //         )))
-            //         {
-            //             echo "Point enregistré <br><br>";
-            //         } else {	
-            //             echo "Erreur : <br>";
-            //             echo "<pre>".$preparation_query->debugDumpParams()."</pre>";
-            //             echo "<br><br>";
-            //         }
-            //     }
-            // }
+                    if($preparation_query->execute(array(
+                        'timestamp' => $point->getTime(),
+                        'alt' => $point->getEle(),
+                        'lat' => $point->getLat(),
+                        'long' => $point->getLong(),
+                        'type' => 'trkpt',
+                        'id_fichier' => $cle_primaire
+                    )))
+                    {
+                        echo "Point enregistré <br><br>";
+                    } else {	
+                        echo "Erreur : <br>";
+                        echo "<pre>".$preparation_query->debugDumpParams()."</pre>";
+                        echo "<br><br>";
+                    }
+                }
+            } else {
+                echo "Aucuns points à ajouter <br>";
+            }
             
         }
-        
+
         ajouterPointDB();
 
 ?>
