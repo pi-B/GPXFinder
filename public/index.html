@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link
+        rel="stylesheet"
+        href="https://unpkg.com/swiper@8/swiper-bundle.min.css"
+    />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous">
+    <link rel="stylesheet" href="./style.css">
+    <title>GPX - Accueil</title>
+</head>
+<body class="font-Monserrat">
+
+    <!-- Header -->
+    <header>
+        <nav class=" flex items-center bg-purple-400 py-4 px-12">
+            <h2 class="uppercase font-semibold text-lg cursor-pointer"><a href="index.html">Gpx Finder</a></h2>
+            <ul class="hidden md:flex flex-1 items-center justify-end gap-12 text-sm">
+                <li class="uppercase cursor-pointer"><a href="html/dragNdrop.html">Ajouter</a></li>
+                <li class="uppercase cursor-pointer"><a href="html/search.html">Rechercher</a></li>
+                <button type="button" class="bg-red-400 text-white py-3 px-7 rounded-md uppercase">Logout</button>
+                <div><img src="../img/user.png" alt="Avatar"></div>
+            </ul>
+            <div class="flex md:hidden flex-1 justify-end cursor-pointer"><i class="text-2xl far fa-caret-square-down"></i></div>
+        </nav>
+    </header>
+
+    <!-- Hero -->
+    <section class="relative mt-8">
+        <div class="container flex flex-col items-center md:flex-row gap-12 bg-gradient-to-r from-cyan-200 to-blue-200 p-8">
+            <h1 class="text-2xl font-semibold">Bienvenue <span class="text-purple-600">XXXXX</span>, envie de prendre l'air ?</h1>
+            <div class="boutons flex flex-col sm:flex-row gap-4">
+                <a href="html/dragNdrop.html" class="bg-gray-400 text-white py-3 px-7 rounded-md min-w-200 text-center">Ajouter une trace</a>
+                <a href="html/search.html" class="bg-purple-400 text-white py-3 px-7 rounded-md text-center">Rechercher une trace</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Dernieres Traces -->
+    <section class="relative mt-8">
+
+        <div class="container">
+            <h2 class="text-xl text-center mb-8">Vos derniers exploits...</h2>
+            <!-- Slider main container -->
+            <div class="swiper">
+                <!-- Additional required wrapper -->
+                <div class="swiper-wrapper">
+                    <!-- Slides -->
+                    <div class="swiper-slide">
+                        <!-- Carte -->
+                        <div class="card p-4 rounded-md flex flex-col w-96 max-w-sm items-center gap-4 bg-gray-100">
+                            <h3 class="uppercase font-semibold">Randonée en montagne</h3>
+                            <img src="../img/On-the-Top.-135x90.jpg" alt="Miniature Trace" class="h-32 min-h-24">
+                            <ul class="flex flex-col gap-3">
+                                <li class="flex gap-3">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                    <p>Lourdes</p>
+                                </li>
+                                <li class="flex gap-3">
+                                    <i class="fas fa-stopwatch"></i>
+                                    <p>1 H 10 ' 35 "</p>
+                                </li>
+                                <li class="flex gap-3">
+                                    <i class="fas fa-ruler"></i>
+                                    <p>8.7 km</p>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="card p-4 rounded-md flex flex-col w-96 max-w-sm items-center gap-4 bg-gray-100">
+                            <h3 class="uppercase">Randonée en montagne</h3>
+                            <img src="../img/On-the-Top.-135x90.jpg" alt="Miniature Trace" class="h-32 min-h-24">
+                            <ul class="flex flex-col gap-3">
+                                <li class="flex gap-3">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                    <p>Lourdes</p>
+                                </li>
+                                <li class="flex gap-3">
+                                    <i class="fas fa-stopwatch"></i>
+                                    <p>1 H 10 ' 35 "</p>
+                                </li>
+                                <li class="flex gap-3">
+                                    <i class="fas fa-ruler"></i>
+                                    <p>8.7 km</p>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="card p-4 rounded-md flex flex-col w-96 max-w-sm items-center gap-4 bg-gray-100">
+                            <h3 class="uppercase">Randonée en montagne</h3>
+                            <img src="../img/On-the-Top.-135x90.jpg" alt="Miniature Trace" class="h-32 min-h-24">
+                            <ul class="flex flex-col gap-3">
+                                <li class="flex gap-3">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                    <p>Lourdes</p>
+                                </li>
+                                <li class="flex gap-3">
+                                    <i class="fas fa-stopwatch"></i>
+                                    <p>1 H 10 ' 35 "</p>
+                                </li>
+                                <li class="flex gap-3">
+                                    <i class="fas fa-ruler"></i>
+                                    <p>8.7 km</p>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="card p-4 rounded-md flex flex-col w-96 max-w-sm items-center gap-4 bg-gray-100">
+                            <h3 class="uppercase">Randonée en montagne</h3>
+                            <img src="../img/On-the-Top.-135x90.jpg" alt="Miniature Trace" class="h-32 min-h-24">
+                            <ul class="flex flex-col gap-3">
+                                <li class="flex gap-3">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                    <p>Lourdes</p>
+                                </li>
+                                <li class="flex gap-3">
+                                    <i class="fas fa-stopwatch"></i>
+                                    <p>1 H 10 ' 35 "</p>
+                                </li>
+                                <li class="flex gap-3">
+                                    <i class="fas fa-ruler"></i>
+                                    <p>8.7 km</p>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="card p-4 rounded-md flex flex-col w-96 max-w-sm items-center gap-4 bg-gray-100">
+                            <h3 class="uppercase">Randonée en montagne</h3>
+                            <img src="../img/On-the-Top.-135x90.jpg" alt="Miniature Trace" class="h-32 min-h-24">
+                            <ul class="flex flex-col gap-3">
+                                <li class="flex gap-3">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                    <p>Lourdes</p>
+                                </li>
+                                <li class="flex gap-3">
+                                    <i class="fas fa-stopwatch"></i>
+                                    <p>1 H 10 ' 35 "</p>
+                                </li>
+                                <li class="flex gap-3">
+                                    <i class="fas fa-ruler"></i>
+                                    <p>8.7 km</p>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <!-- If we need pagination -->
+                <div class="swiper-pagination"></div>
+            
+                <!-- If we need navigation buttons -->
+                <div class="swiper-button-prev text-purple-600"></div>
+                <div class="swiper-button-next text-purple-600"></div>
+            
+                <!-- If we need scrollbar -->
+                <div class="swiper-scrollbar"></div>
+            </div>
+
+        </div>
+
+        
+    </section>
+
+    <script src="https://unpkg.com/swiper@8/swiper-bundle.min.js"></script>
+    <script src="../src/swiper.js"></script>
+</body>
+</html>

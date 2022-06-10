@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link
+        rel="stylesheet"
+        href="https://unpkg.com/swiper@8/swiper-bundle.min.css"
+    />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous">
+    <link rel="stylesheet" href="../style.css">
+    <title>GPX - Afficher</title>
+</head>
+<body class="font-Monserrat">
+
+    <!-- Header -->
+    <header>
+        <nav class=" flex items-center bg-purple-400 py-4 px-12">
+            <h2 class="uppercase font-semibold text-lg cursor-pointer"><a href="../index.html">Gpx Finder</a></h2>
+            <ul class="hidden md:flex flex-1 items-center justify-end gap-12 text-sm">
+                <li class="uppercase cursor-pointer"><a href="add.html">Ajouter</a></li>
+                <li class="uppercase cursor-pointer"><a href="search.html">Rechercher</a></li>
+                <button type="button" class="bg-red-400 text-white py-3 px-7 rounded-md uppercase">Logout</button>
+                <div><img src="../img/user.png" alt="Avatar"></div>
+            </ul>
+            <div class="flex md:hidden flex-1 justify-end cursor-pointer"><i class="text-2xl far fa-caret-square-down"></i></div>
+        </nav>
+    </header>
+
+    <!-- Titre de la page -->
+    <h1 class="text-2xl font-bold text-center my-8">Afficher un parcours :</h1>
+
+    <!-- Saisie  -->
+    <section class="relative">
+
+        <div class="container flex flex-col md:flex-row gap-3">
+            <h2 class="font-semibold text-lg text-purple-600">Trace(s) associée(s) à ce parcours : </h2>
+            <div class="flex gap-2" id="traces">
+                <div class="trace active" rel="trace1">
+                    <p class="py-2 px-3 text-white rounded-full text-center cursor-pointer">24/05/2022</p>
+                </div>
+                <div class="trace" rel="trace2">
+                    <p class="py-2 px-3 text-white rounded-full text-center cursor-pointer">27/05/2022</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="results">
+            <!-- Resultat Trace 1 -->
+            <div id="trace1" class="result container my-8">
+
+                <form action="edit.html" method="post">
+
+                    <!-- Donnees generales (Titre + Desc + Image) -->
+                    <div class="flex flex-col gap-4 xl:flex-row">
+                        <div class="flex flex-col gap-8 nom_desc">
+                            <input readonly type="text" name="nom" value="Nom de la trace" 
+                            class="border-2 border-gray-300 p-4 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-purple-400">
+                            <textarea name="desc" id="desc" cols="70" rows="4" value="Description de la trace"
+                            class="border-2 border-gray-300 p-4 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-purple-400"></textarea>
+                        </div>
+                        <div class="ajouter_image border-2 p-8 w-full">
+                            <h3 class="mb-3 text-lg font-semibold">Image</h3>
+                            <div name="image" id="image" class="rounded-lg overflow-hidden h-40 bg-slate-400"></div>
+                        </div>
+                    </div>
+
+                    <!-- Données Avancées -->
+                    <h2 class="my-4 font-semibold text-lg text-purple-600">Données Avancées :</h2>
+
+                    <!-- Zone Flex -->
+                    <div class="flex flex-col gap-8 md:flex-row">
+                        <!-- Colonne Flex 1 -->
+                        <div class="flex flex-col gap-4 w-full">
+
+                            <div class="input_text">
+                                <div class="label_error flex flex-row gap-8 mb-2">
+                                    <label for="distance">Distance</label>
+                                    <span class="erreur text-red-500 text-sm">Distance non calculée</span>
+                                </div>
+                                <input readonly type="text" name="distance" id="distance" value="18 km"
+                                class="border-2 border-gray-300 p-4 rounded-md shadow-sm w-full focus:outline-none focus:ring-1 focus:ring-purple-400">
+                            </div>
+
+                            <div class="input_text">
+                                <div class="label_error flex flex-row gap-8 mb-2">
+                                    <label for="temps">Temps</label>
+                                    <span class="erreur text-red-500 text-sm">Temps non calculée</span>
+                                </div>
+                                <input disabled type="text" name="temps" id="temps" value="1h10'30''"
+                                class="border-2  border-gray-300 p-4 rounded-md shadow-sm w-full focus:outline-none focus:ring-1 focus:ring-purple-400">
+                            </div>
+
+                            <div class="input_text">
+                                <div class="label_error flex flex-row gap-8 mb-2">
+                                    <label for="denivele">Dénivelé</label>
+                                    <span class="erreur text-red-500 text-sm">Dénivelé non calculée</span>
+                                </div>
+                                <input disabled type="text" name="denivele" id="denivele" value="1 456 m"
+                                class="border-2 border-gray-300 p-4 rounded-md shadow-sm w-full focus:outline-none focus:ring-1 focus:ring-purple-400">
+                            </div>
+
+                            <div class="input_text">
+                                <div class="label_error flex flex-row gap-8 mb-2">
+                                    <label for="denivele">Type d'activité</label>
+                                    <span class="erreur text-red-500 text-sm">Choisir le type d'activité</span>
+                                </div>
+                                <input type="text" list="activites" name="activite" id="activite" class="border-2 border-gray-300 p-4 rounded-md shadow-sm w-full focus:outline-none focus:ring-1 focus:ring-purple-400">
+                                    <datalist id="activites">
+                                        <option value="VTT"></option>
+                                        <option value="Course à pieds"></option>
+                                        <option value="Randonée pedestre"></option>
+                                        <option value="Natation"></option>
+                                        <option value="Vélo de route"></option>
+                                        <option value="Kayak"></option>
+                                    </datalist>
+                                </input>
+                                    
+                            </div>
+
+                            
+                        </div>
+                        <!-- Colonne Flex 2 -->
+                        <div class="flex flex-col gap-4 w-full mb-4">
+
+                            <div class="input_text">
+                                <div class="label_error flex flex-row gap-8 mb-2">
+                                    <label for="distance">Date</label>
+                                    <span class="erreur text-red-500 text-sm">Date invalide</span>
+                                </div>
+                                <input type="date" name="date" id="date" value="12/01/2018"
+                                class="border-2 border-gray-300 p-4 rounded-md shadow-sm w-full focus:outline-none focus:ring-1 focus:ring-purple-400">
+                            </div>
+
+                            <div class="input_text">
+                                <div class="label_error flex flex-row gap-8 mb-2">
+                                    <label for="denivele">Ville Départ</label>
+                                    <span class="erreur text-red-500 text-sm"></span>
+                                </div>
+                                <input type="text" list="villes" name="ville" id="ville" class="border-2 border-gray-300 p-4 rounded-md shadow-sm w-full focus:outline-none focus:ring-1 focus:ring-purple-400">
+                                    <datalist id="villes">
+                                        <option value="Toulouse"></option>
+                                        <option value="Blagnac"></option>
+                                        <option value="Albi"></option>
+                                        <option value="Auch"></option>
+                                        <option value="Saint-Orens"></option>
+                                        <option value="Villefranche"></option>
+                                    </datalist>
+                                </input>
+                                    
+                            </div>
+
+                            <div class="input_text">
+                                <div class="label_error flex flex-row gap-8 mb-2">
+                                    <label for="temps">Home Trainer</label>
+                                    <span class="erreur text-red-500 text-sm"></span>
+                                </div>
+                                <div class="flex justify-around items-center py-4 mt-2 border-gray-300 border-2 rounded-md">
+                                    <label for="oui"><i class="fas fa-check-circle"></i></label>
+                                    <input type="radio" name="ht" id="oui" class="text-purple-400 focus:ring-1 focus:ring-purple-400">
+                                    <label for="non"><i class="fas fa-times-circle"></i></i></label>
+                                    <input type="radio" name="ht" id="non" class="text-purple-400 focus:ring-1 focus:ring-purple-400">
+                                </div>
+                            </div>
+
+                            <div class="input_text">
+                                <div class="label_error flex flex-row gap-8 mb-2">
+                                    <label for="temps">Météo</label>
+                                    <span class="erreur text-red-500 text-sm"></span>
+                                </div>
+                                <div class="flex justify-around items-center py-4 mt-2 border-gray-300 border-2 rounded-md">
+                                    <label for="rain"><i class="fas fa-cloud-rain"></i></label>
+                                    <input type="radio" name="meteo" id="rain" class="text-purple-400 focus:ring-1 focus:ring-purple-400">
+                                    <label for="clouds"><i class="fas fa-cloud-sun"></i></label>
+                                    <input type="radio" name="meteo" id="clouds" class="text-purple-400 focus:ring-1 focus:ring-purple-400">
+                                    <label for="sun"><i class="fas fa-sun"></i></i></label>
+                                    <input type="radio" name="meteo" id="sun" class="text-purple-400 focus:ring-1 focus:ring-purple-400">
+                                </div>
+                            </div>
+
+                            
+                        </div>
+                    </div>
+
+                    <!-- Seul / En Groupe -->
+                    <div class="input_text mb-4">
+                        <div class="label_error flex flex-row gap-8 mb-2">
+                            <label for="group">Seul ou en Groupe</label>
+                            <span class="erreur text-red-500 text-sm"></span>
+                        </div>
+                        <div class="flex justify-around items-center py-4 mt-2 border-gray-300 border-2 rounded-md">
+                            <label for="seul"><i class="fas fa-user"></i></label>
+                            <input type="radio" name="group" id="seul" class="text-purple-400 focus:ring-1 focus:ring-purple-400">
+                            <label for="groupe"><i class="fas fa-users"></i></label>
+                            <input type="radio" name="group" id="groupe" class="text-purple-400 focus:ring-1 focus:ring-purple-400">
+                        </div>
+                    </div>
+
+                    <!-- Membres du groupe -->
+                    <div class="input_text mb-8">
+                        <div class="label_error flex flex-row gap-8 mb-2">
+                            <label for="membre">Membres du groupe :</label>
+                            <span class="erreur text-red-500 text-sm"></span>
+                        </div>
+                        <input type="text" list="membres" name="membre" id="membre" class="border-2 border-gray-300 p-4 rounded-md shadow-sm w-full focus:outline-none focus:ring-1 focus:ring-purple-400">
+                                    <datalist id="membres">
+                                        <option value="Famille"></option>
+                                        <option value="Club de VTT"></option>
+                                        <option value="Club de Course"></option>
+                                        <option value="Micheline"></option>
+                                        <option value="Patrick"></option>
+                                        <option value="Bruno"></option>
+                                    </datalist>
+                                </input>
+                            
+                    </div>
+
+                    <!-- Submit -->
+                    <div class="flex flex-col md:flex-row gap-3 justify-around mb-8">
+                        <a href="../index.html" class="bg-red-400 text-white py-3 px-7 rounded-md text-center">Accueil</a>
+                        <a href="./addTo.html" class="bg-gray-400 text-white py-3 px-7 rounded-md text-center">Télécharger le fichier</a>
+                        <button type="submit" class="bg-purple-400 text-white py-3 px-7 rounded-md text-center">Modifier Trace</button>
+                    </div>
+
+                </form>
+            </div>
+
+            <!-- Resultat Trace 2 caché
+                Quand on clique sur Trace 2 on cache Trace 1 et vice versa -->
+            <div id="trace2" class="result container my-8">
+
+                <form action="#" method="post">
+
+                    <!-- Donnees generales (Titre + Desc + Image) -->
+                    <div class="flex flex-col gap-4 xl:flex-row">
+                        <div class="flex flex-col gap-8 nom_desc">
+                            <input readonly type="text" name="nom" value="Nom de la trace" 
+                            class="border-2 border-gray-300 p-4 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-purple-400">
+                            <textarea name="desc" id="desc" cols="70" rows="4" value="Description de la trace"
+                            class="border-2 border-gray-300 p-4 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-purple-400"></textarea>
+                        </div>
+                        <div class="ajouter_image border-2 p-8 w-full">
+                            <h3 class="mb-3 text-lg font-semibold">Image</h3>
+                            <div name="image" id="image" class="rounded-lg overflow-hidden h-40 bg-slate-400"></div>
+                        </div>
+                    </div>
+
+                    <!-- Données Avancées -->
+                    <h2 class="my-4 font-semibold text-lg text-purple-600">Données Avancées :</h2>
+
+                    <!-- Zone Flex -->
+                    <div class="flex flex-col gap-8 md:flex-row">
+                        <!-- Colonne Flex 1 -->
+                        <div class="flex flex-col gap-4 w-full">
+
+                            <div class="input_text">
+                                <div class="label_error flex flex-row gap-8 mb-2">
+                                    <label for="distance">Distance</label>
+                                    <span class="erreur text-red-500 text-sm">Distance non calculée</span>
+                                </div>
+                                <input readonly type="text" name="distance" id="distance" value="18 km"
+                                class="border-2 border-gray-300 p-4 rounded-md shadow-sm w-full focus:outline-none focus:ring-1 focus:ring-purple-400">
+                            </div>
+
+                            <div class="input_text">
+                                <div class="label_error flex flex-row gap-8 mb-2">
+                                    <label for="temps">Temps</label>
+                                    <span class="erreur text-red-500 text-sm">Temps non calculée</span>
+                                </div>
+                                <input disabled type="text" name="temps" id="temps" value="1h10'30''"
+                                class="border-2  border-gray-300 p-4 rounded-md shadow-sm w-full focus:outline-none focus:ring-1 focus:ring-purple-400">
+                            </div>
+
+                            <div class="input_text">
+                                <div class="label_error flex flex-row gap-8 mb-2">
+                                    <label for="denivele">Dénivelé</label>
+                                    <span class="erreur text-red-500 text-sm">Dénivelé non calculée</span>
+                                </div>
+                                <input disabled type="text" name="denivele" id="denivele" value="1 456 m"
+                                class="border-2 border-gray-300 p-4 rounded-md shadow-sm w-full focus:outline-none focus:ring-1 focus:ring-purple-400">
+                            </div>
+
+                            <div class="input_text">
+                                <div class="label_error flex flex-row gap-8 mb-2">
+                                    <label for="denivele">Type d'activité</label>
+                                    <span class="erreur text-red-500 text-sm">Choisir le type d'activité</span>
+                                </div>
+                                <input type="text" list="activites" name="activite" id="activite" class="border-2 border-gray-300 p-4 rounded-md shadow-sm w-full focus:outline-none focus:ring-1 focus:ring-purple-400">
+                                    <datalist id="activites">
+                                        <option value="VTT"></option>
+                                        <option value="Course à pieds"></option>
+                                        <option value="Randonée pedestre"></option>
+                                        <option value="Natation"></option>
+                                        <option value="Vélo de route"></option>
+                                        <option value="Kayak"></option>
+                                    </datalist>
+                                </input>
+                                    
+                            </div>
+
+                            
+                        </div>
+                        <!-- Colonne Flex 2 -->
+                        <div class="flex flex-col gap-4 w-full mb-4">
+
+                            <div class="input_text">
+                                <div class="label_error flex flex-row gap-8 mb-2">
+                                    <label for="distance">Date</label>
+                                    <span class="erreur text-red-500 text-sm">Date invalide</span>
+                                </div>
+                                <input type="date" name="date" id="date" value="12/01/2018"
+                                class="border-2 border-gray-300 p-4 rounded-md shadow-sm w-full focus:outline-none focus:ring-1 focus:ring-purple-400">
+                            </div>
+
+                            <div class="input_text">
+                                <div class="label_error flex flex-row gap-8 mb-2">
+                                    <label for="denivele">Ville Départ</label>
+                                    <span class="erreur text-red-500 text-sm"></span>
+                                </div>
+                                <input type="text" list="villes" name="ville" id="ville" class="border-2 border-gray-300 p-4 rounded-md shadow-sm w-full focus:outline-none focus:ring-1 focus:ring-purple-400">
+                                    <datalist id="villes">
+                                        <option value="Toulouse"></option>
+                                        <option value="Blagnac"></option>
+                                        <option value="Albi"></option>
+                                        <option value="Auch"></option>
+                                        <option value="Saint-Orens"></option>
+                                        <option value="Villefranche"></option>
+                                    </datalist>
+                                </input>
+                                    
+                            </div>
+
+                            <div class="input_text">
+                                <div class="label_error flex flex-row gap-8 mb-2">
+                                    <label for="temps">Home Trainer</label>
+                                    <span class="erreur text-red-500 text-sm"></span>
+                                </div>
+                                <div class="flex justify-around items-center py-4 mt-2 border-gray-300 border-2 rounded-md">
+                                    <label for="oui"><i class="fas fa-check-circle"></i></label>
+                                    <input type="radio" name="ht" id="oui" class="text-purple-400 focus:ring-1 focus:ring-purple-400">
+                                    <label for="non"><i class="fas fa-times-circle"></i></i></label>
+                                    <input type="radio" name="ht" id="non" class="text-purple-400 focus:ring-1 focus:ring-purple-400">
+                                </div>
+                            </div>
+
+                            <div class="input_text">
+                                <div class="label_error flex flex-row gap-8 mb-2">
+                                    <label for="temps">Météo</label>
+                                    <span class="erreur text-red-500 text-sm"></span>
+                                </div>
+                                <div class="flex justify-around items-center py-4 mt-2 border-gray-300 border-2 rounded-md">
+                                    <label for="rain"><i class="fas fa-cloud-rain"></i></label>
+                                    <input type="radio" name="meteo" id="rain" class="text-purple-400 focus:ring-1 focus:ring-purple-400">
+                                    <label for="clouds"><i class="fas fa-cloud-sun"></i></label>
+                                    <input type="radio" name="meteo" id="clouds" class="text-purple-400 focus:ring-1 focus:ring-purple-400">
+                                    <label for="sun"><i class="fas fa-sun"></i></i></label>
+                                    <input type="radio" name="meteo" id="sun" class="text-purple-400 focus:ring-1 focus:ring-purple-400">
+                                </div>
+                            </div>
+
+                            
+                        </div>
+                    </div>
+
+                    <!-- Seul / En Groupe -->
+                    <div class="input_text mb-4">
+                        <div class="label_error flex flex-row gap-8 mb-2">
+                            <label for="group">Seul ou en Groupe</label>
+                            <span class="erreur text-red-500 text-sm"></span>
+                        </div>
+                        <div class="flex justify-around items-center py-4 mt-2 border-gray-300 border-2 rounded-md">
+                            <label for="seul"><i class="fas fa-user"></i></label>
+                            <input type="radio" name="group" id="seul" class="text-purple-400 focus:ring-1 focus:ring-purple-400">
+                            <label for="groupe"><i class="fas fa-users"></i></label>
+                            <input type="radio" name="group" id="groupe" class="text-purple-400 focus:ring-1 focus:ring-purple-400">
+                        </div>
+                    </div>
+
+                    <!-- Membres du groupe -->
+                    <div class="input_text mb-8">
+                        <div class="label_error flex flex-row gap-8 mb-2">
+                            <label for="membre">Membres du groupe :</label>
+                            <span class="erreur text-red-500 text-sm"></span>
+                        </div>
+                        <input type="text" list="membres" name="membre" id="membre" class="border-2 border-gray-300 p-4 rounded-md shadow-sm w-full focus:outline-none focus:ring-1 focus:ring-purple-400">
+                                    <datalist id="membres">
+                                        <option value="Famille"></option>
+                                        <option value="Club de VTT"></option>
+                                        <option value="Club de Course"></option>
+                                        <option value="Micheline"></option>
+                                        <option value="Patrick"></option>
+                                        <option value="Bruno"></option>
+                                    </datalist>
+                                </input>
+                            
+                    </div>
+
+                    <!-- Submit -->
+                    <div class="flex flex-col md:flex-row gap-3 justify-around mb-8">
+                        <a href="../index.html" class="bg-red-400 text-white py-3 px-7 rounded-md text-center">Retour</a>
+                        <button type="reset" class="bg-gray-400 text-white py-3 px-7 rounded-md text-center">Tout Effacer</button>
+                        <button type="submit" class="bg-purple-400 text-white py-3 px-7 rounded-md text-center">Créer Parcours</button>
+                        <a href="./addTo.html" class="bg-purple-400 text-white py-3 px-7 rounded-md text-center">Ajouter à un Parcours</a>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+
+    </section>
+
+    <script>
+
+        var actif = document.getElementsByClassName("active");
+        var divActive = actif[0].getAttribute("rel");
+        document.getElementById(divActive).style.display = "block";
+
+        // Get the container element
+        var tracesList = document.getElementById("traces");
+
+        // Get all buttons with class="btn" inside the container
+        var traces = tracesList.getElementsByClassName("trace");
+
+        // Loop through the buttons and add the active class to the current/clicked button
+        for (var i = 0; i < traces.length; i++) {
+            traces[i].addEventListener("click", function(i) {
+                var current = document.getElementsByClassName("active");
+                current[0].className = current[0].className.replace(" active", "");
+                this.className += " active";
+
+                var results = document.getElementsByClassName("result");
+                var divName = this.getAttribute("rel");
+                var divElem = document.getElementById(divName);
+                for (var j = 0; j < results.length; j++) {
+                    results[j].style.display = "none";
+                }
+                divElem.style.display = 'block';
+            });
+        }
+    </script>
+</body>
+</html>

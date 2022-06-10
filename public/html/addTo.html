@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link
+        rel="stylesheet"
+        href="https://unpkg.com/swiper@8/swiper-bundle.min.css"
+    />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous">
+    <link rel="stylesheet" href="../style.css">
+    <title>GPX - Ajouter</title>
+</head>
+<body class="font-Monserrat">
+
+    <!-- Header -->
+    <header>
+        <nav class=" flex items-center bg-purple-400 py-4 px-12">
+            <h2 class="uppercase font-semibold text-lg cursor-pointer"><a href="../index.html">Gpx Finder</a></h2>
+            <ul class="hidden md:flex flex-1 items-center justify-end gap-12 text-sm">
+                <li class="uppercase cursor-pointer"><a href="add.html">Ajouter</a></li>
+                <li class="uppercase cursor-pointer"><a href="search.html">Rechercher</a></li>
+                <button type="button" class="bg-red-400 text-white py-3 px-7 rounded-md uppercase">Logout</button>
+                <div><img src="../img/user.png" alt="Avatar"></div>
+            </ul>
+            <div class="flex md:hidden flex-1 justify-end cursor-pointer"><i class="text-2xl far fa-caret-square-down"></i></div>
+        </nav>
+    </header>
+
+    <!-- Titre de la page -->
+    <h1 class="text-2xl font-bold text-center my-8">Ajouter au parcours :</h1>
+
+    <div class="container">
+        <form action="addToPost.php">
+            <div class="flex flex-col gap-4">
+                <label for="parcours">Ajouter à :</label>
+                <select name="parcours" id="parcours">
+                    <option value="1">Parcours 1</option>
+                    <option value="2">Parcours 2</option>
+                    <option value="3">Parcours 3</option>
+                </select>
+            </div>
+    
+             <!-- Submit -->
+             <div class="flex flex-col md:flex-row gap-3 justify-around my-8">
+                <a href="add.html" class="bg-red-400 text-white py-3 px-7 rounded-md text-center">Retour</a>
+                <button type="reset" class="bg-gray-400 text-white py-3 px-7 rounded-md text-center">Effacer</button>
+                <button type="submit" class="bg-purple-400 text-white py-3 px-7 rounded-md text-center">Ajouter au Parcours</button>
+            </div>
+    
+        </form>
+    </div>
+
+</body>
+</html>
