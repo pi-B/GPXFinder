@@ -1,5 +1,5 @@
 <?php
-require(connexionBD.php);
+require("connexionDB.php");
 
 if (!empty($_POST['email'])){
     $email_recup = htmlspecialchars($_POST['email']);
@@ -7,7 +7,7 @@ if (!empty($_POST['email'])){
 
     if(filter_var($email_recup,FILTER_VALIDATE_EMAIL)){
         $req = $linkpdo->prepare('Select login from utilisateur where mail like :mail');
-        $req->execute(array(email_recup));
+        $req->execute(array('mail' => $email_recup));
         $cpt_mail_existant = $req ->rowCount();
         if($cpt_mail_existant == 1){
             $res = $req->fetch();
@@ -18,8 +18,9 @@ if (!empty($_POST['email'])){
             for($i=0; $i < 8 ; $i++){
                 $recup_code .= mt_rand(0,9);
             }
-            $recuper_insert = $linkpdo->prepare('Update utilisateur set tokenréinit = :token where mail = :mail');
-            $recup_insert->execute((array($recup_code, $email_recup)));
+            $recuper_insert = $linkpdo->prepare('Update utilisateur set tokeninit = :token where mail = :mail');
+            $recuper_insert->execute((array('token' => $recup_code,
+                                            'mail' => $email_recup)));
 
             $header="MIME-Version: 1.0\r\n";
             $header.='From: GPX_FINDER<agence.2bcl@gmail.com>'."\n";
@@ -57,6 +58,7 @@ if (!empty($_POST['email'])){
             </html>
             ';
             mail($email_recup, "Récupération de mot de passe - GPX_Finder", $message, $header);
+            echo"mail envoyé";
                 //header("Location:")
         }else{
             $erreur = "Cette adresse mail ne correspond à aucun utilisateur";
