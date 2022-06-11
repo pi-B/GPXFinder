@@ -1,3 +1,38 @@
+<?php 
+    // Test avec l'url : http://localhost/PTUTHub/PTUT/public/html/show.html?parcours=16
+    require('../../php/PointsGPX.php');
+    require('../../php/connexionDB.php'); 
+
+    function liste_fichiers_parcours(){
+        
+        $id_parcours = $_GET['parcours'];
+        $liste_parcours = "";
+        $compteur = 1;
+
+        $linkpdo = connexion();
+        $req = "SELECT id_fichier, date_format(date_parcours,'%d/%m/%Y') as date_parcours FROM fichier where id_parcours = $id_parcours";
+        $res = $linkpdo->prepare($req);
+        $res->execute();
+        while($data = $res->fetch()){
+            if($compteur == 1){
+               $liste_parcours .= "<div class=\"trace active\" rel=\"trace1\">
+                    <p class=\"py-2 px-3 text-white rounded-full text-center cursor-pointer\">".$data['date_parcours']."</p>
+                </div>";
+            } else {
+                $liste_parcours .= "<div class=\"trace\" rel=\"trace".$compteur."\">
+                <p class=\"py-2 px-3 text-white rounded-full text-center cursor-pointer\">".$data['date_parcours']."</p>
+                </div>";
+            }
+            $compteur = $compteur + 1;
+        }
+        
+        return $liste_parcours;
+    }
+
+    liste_fichiers_parcours();
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -37,12 +72,7 @@
         <div class="container flex flex-col md:flex-row gap-3">
             <h2 class="font-semibold text-lg text-purple-600">Trace(s) associée(s) à ce parcours : </h2>
             <div class="flex gap-2" id="traces">
-                <div class="trace active" rel="trace1">
-                    <p class="py-2 px-3 text-white rounded-full text-center cursor-pointer">24/05/2022</p>
-                </div>
-                <div class="trace" rel="trace2">
-                    <p class="py-2 px-3 text-white rounded-full text-center cursor-pointer">27/05/2022</p>
-                </div>
+                <?php  echo liste_fichiers_parcours() ; ?>
             </div>
         </div>
 

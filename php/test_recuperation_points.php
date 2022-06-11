@@ -35,7 +35,7 @@
         $res->execute();
         $liste_parcours="";
         while($data = $res->fetch()){
-            $liste_parcours .= "<option value=".$data['id_parcours'].">".$data['nom']."</option>";
+            $liste_parcours .= "<option value=".$data['id_parcours'].">".$data['nom']." - ".$data['id_parcours']."</option>";
         }
             return $liste_parcours;
         }
@@ -43,27 +43,31 @@
     // On renvoit tous les points contenus dans un fichier sous la forme d'un tableau
     // de tuplet (lat,lon) afin de les fournir à leaflet
     function recuperer_points_fichier(){
-    if(verifier_nb_fichier_meme_nom() == '1'){
-        $id_fichier = recuperer_id_fichier('');
+       if(isset($_POST['selection_parcours'])){
+            $id_fichier = $_POST['selection_parcours'];
 
-        $linkpdo = connexion();
-        $req = (" SELECT latitude, longitude FROM point_gpx where id_fichier =".$id_fichier);
-        $res = $linkpdo->prepare($req);
-        $res->execute();
+            $linkpdo = connexion();
+            $req = (" SELECT latitude, longitude FROM point_gpx where id_fichier =".$id_fichier);
+            $res = $linkpdo->prepare($req);
+            $res->execute();
 
-        $liste_points=array();
-        while($data = $res->fetch()){
-            $temp = array();
-            array_push($temp,$data['latitude'],$data['longitude']);
-            array_push($liste_points,$temp);
-        }
+            $liste_points=array();
+            while($data = $res->fetch()){
+                $temp = array();
+                array_push($temp,$data['latitude'],$data['longitude']);
+                array_push($liste_points,$temp);
+            }
+
+        //     echo "var dump des points recoltés: <br>";
+        //    echo "<pre>";
+        //     print_r($liste_points);
+        //     echo "</pre>";
+            return $liste_points;
+       }
         
-
-        return $liste_points;
+        
     }
-       
-    }
-
+    recuperer_points_fichier();
 ?>
 
 <!DOCTYPE html>
@@ -107,10 +111,10 @@
         tiles.addTo(map);
         
         var latlngs = [
-    [45.51, -122.68],
-    [37.77, -122.43],
-    [34.04, -118.2]
-    ];
+        [45.51, -122.68],
+        [37.77, -122.43],
+        [34.04, -118.2]
+        ];
         var latlngsphp = <?php echo json_encode(recuperer_points_fichier()); ?>;
         console.log(latlngsphp);
         console.log(latlngs);
