@@ -51,11 +51,51 @@
 
         $onglets = "";
         $linkpdo = connexion();
-        $req = "SELECT description, distance, duree , denivele, Type_activite as activite, date_format(date_parcours,'%d/%m/%Y') as date_parcours, Ville_depart as ville FROM `fichier` where Id_Parcours = $id_parcours";
+        $req = "SELECT description, distance, duree , denivele, Type_activite as activite, date_format(date_parcours,'%d/%m/%Y') as date_parcours, Ville_depart as ville,meteo FROM `fichier` where Id_Parcours = $id_parcours";
         $res = $linkpdo->prepare($req);
         $res->execute();
 
         while($data = $res->fetch()){
+            $meteo = "";
+
+            if($data['meteo'] == "pluie"){
+                $meteo .= "
+                <label for=\"rain\"><i class=\"fas fa-cloud-rain\"></i></label>
+                <input type=\"radio\" name=\"meteo\" id=\"rain\" class=\"text-purple-400 focus:ring-1 focus:ring-purple-400\" checked>
+                <label for=\"clouds\"><i class=\"fas fa-cloud-sun\"></i></label>
+                <input type=\"radio\" name=\"meteo\" id=\"clouds\" class=\"text-purple-400 focus:ring-1 focus:ring-purple-400\">
+                <label for=\"sun\"><i class=\"fas fa-sun\"></i></i></label>
+                <input type=\"radio\" name=\"meteo\" id=\"sun\" class=\"text-purple-400 focus:ring-1 focus:ring-purple-400\">
+                " ;
+            } elseif($data['meteo'] == "nuage"){
+                $meteo .= "
+                <label for=\"rain\"><i class=\"fas fa-cloud-rain\"></i></label>
+                <input type=\"radio\" name=\"meteo\" id=\"rain\" class=\"text-purple-400 focus:ring-1 focus:ring-purple-400\">
+                <label for=\"clouds\"><i class=\"fas fa-cloud-sun\"></i></label>
+                <input type=\"radio\" name=\"meteo\" id=\"clouds\" class=\"text-purple-400 focus:ring-1 focus:ring-purple-400\" checked>
+                <label for=\"sun\"><i class=\"fas fa-sun\"></i></i></label>
+                <input type=\"radio\" name=\"meteo\" id=\"sun\" class=\"text-purple-400 focus:ring-1 focus:ring-purple-400\">
+                " ;
+            } elseif($data['meteo'] == "soleil"){
+                $meteo .= "
+                <label for=\"rain\"><i class=\"fas fa-cloud-rain\"></i></label>
+                <input type=\"radio\" name=\"meteo\" id=\"rain\" class=\"text-purple-400 focus:ring-1 focus:ring-purple-400\">
+                <label for=\"clouds\"><i class=\"fas fa-cloud-sun\"></i></label>
+                <input type=\"radio\" name=\"meteo\" id=\"clouds\" class=\"text-purple-400 focus:ring-1 focus:ring-purple-400\">
+                <label for=\"sun\"><i class=\"fas fa-sun\"></i></i></label>
+                <input type=\"radio\" name=\"meteo\" id=\"sun\" class=\"text-purple-400 focus:ring-1 focus:ring-purple-400\" checked>
+                " ;
+            } else {
+                $meteo .= "
+                <label for=\"rain\"><i class=\"fas fa-cloud-rain\"></i></label>
+                <input type=\"radio\" name=\"meteo\" id=\"rain\" class=\"text-purple-400 focus:ring-1 focus:ring-purple-400\">
+                <label for=\"clouds\"><i class=\"fas fa-cloud-sun\"></i></label>
+                <input type=\"radio\" name=\"meteo\" id=\"clouds\" class=\"text-purple-400 focus:ring-1 focus:ring-purple-400\">
+                <label for=\"sun\"><i class=\"fas fa-sun\"></i></i></label>
+                <input type=\"radio\" name=\"meteo\" id=\"sun\" class=\"text-purple-400 focus:ring-1 focus:ring-purple-400\">
+                " ;
+            }
+
             $onglets .= 
             "
             <!-- Resultat Trace ".$compteur." -->
@@ -68,8 +108,8 @@
                                 <div class=\"flex flex-col gap-8 nom_desc\">
                                     <input readonly type=\"text\" name=\"nom\" value=\"Nom de la trace\" 
                                     class=\"border-2 border-gray-300 p-4 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-purple-400\">
-                                    <textarea name=\"desc\" id=\"desc\" cols=\"70\" rows=\"4\" value=\"Description de la trace\"
-                                    class=\"border-2 border-gray-300 p-4 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-purple-400\"></textarea>
+                                    <textarea name=\"desc\" id=\"desc\" cols=\"70\" rows=\"4\" value=\"\"
+                                    class=\"border-2 border-gray-300 p-4 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-purple-400\">".$data['description']."</textarea>
                                 </div>
                                 <div class=\"ajouter_image border-2 p-8 w-full\">
                                     <h3 class=\"mb-3 text-lg font-semibold\">Image</h3>
@@ -155,12 +195,7 @@
                                             <label for=\"temps\">Météo</label>
                                         </div>
                                         <div class=\"flex justify-around items-center py-4 mt-2 border-gray-300 border-2 rounded-md\">
-                                            <label for=\"rain\"><i class=\"fas fa-cloud-rain\"></i></label>
-                                            <input type=\"radio\" name=\"meteo\" id=\"rain\" class=\"text-purple-400 focus:ring-1 focus:ring-purple-400\">
-                                            <label for=\"clouds\"><i class=\"fas fa-cloud-sun\"></i></label>
-                                            <input type=\"radio\" name=\"meteo\" id=\"clouds\" class=\"text-purple-400 focus:ring-1 focus:ring-purple-400\">
-                                            <label for=\"sun\"><i class=\"fas fa-sun\"></i></i></label>
-                                            <input type=\"radio\" name=\"meteo\" id=\"sun\" class=\"text-purple-400 focus:ring-1 focus:ring-purple-400\">
+                                            ".$meteo."
                                         </div>
                                     </div>
             
