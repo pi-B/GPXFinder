@@ -5,6 +5,8 @@
     session_start();
     ob_start();
 
+
+
     function placeholder($statistique){
         $tableau_stat = array(0 => 'distance', 1 => 'temps', 2 => 'denivele', 3 => 'date', 4 => 'nom', 5 => 'duree');
         if(isset($_SESSION["$statistique"]) and !empty($_SESSION["$statistique"])){
@@ -171,7 +173,7 @@
                                 <label for="distance">Date</label>
                                 <span class="erreur text-red-500 text-sm">Date invalide</span>
                             </div>
-                            <input type="date" name="date" id="date" 
+                            <input type="date" name="date" id="date" value="<?php echo $_SESSION['date']; ?>"
                             class="border-2 border-gray-300 p-4 rounded-md shadow-sm w-full focus:outline-none focus:ring-1 focus:ring-purple-400">
                         </div>
 
