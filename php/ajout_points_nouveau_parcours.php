@@ -4,6 +4,8 @@
     
     session_start();
     ob_start();
+    
+    
 
     function definirValeur($variable){
         if($_POST[$variable] == ""){
@@ -15,6 +17,19 @@
 
     function ajouterPointDB(){
             $liste_points = $_SESSION['tableauPoints'];
+            if (!isset($_SESSION['variables_fichiers'])) {
+                echo "Variables non définies";
+            } else {
+                $nom = $_SESSION['variables_fichiers'][0];
+                $description = $_SESSION['variables_fichiers'][1];
+                $distance = $_SESSION['distance'];
+                $duree = $_SESSION['duree'];
+                $denivele_parcours = $_SESSION['variables_fichiers'][4];
+                $date_parcours = $_SESSION['variables_fichiers'][5];
+                $ville_depart = $_SESSION['variables_fichiers'][6];
+                $type_activite = $_SESSION['variables_fichiers'][7];
+                $meteo = $_SESSION['variables_fichiers'][8];
+            }
 
             // Creation du repertoire
             $linkpdo = connexion();
@@ -23,7 +38,7 @@
 
             if($preparation_query->execute(
                 array(
-                    'nom_repertoire' => $_POST['nom']
+                    'nom_repertoire' => $_SESSION['variables_fichiers'][0]
                 )
             )){
                 echo "Repertoire créé";
@@ -34,12 +49,18 @@
                 var_dump($_POST);
             }
 
-            $query = "select LAST_INSERT_ID()";     // permet de récupérer la clé primaire de la derniere ligne insérée une connexion
+            //recuperer la valeur du dernier id_parcours dans la table repertoire
+            $sql = "select id_parcours from repertoire order by id_parcours desc limit 1";
+            $preparation_query = $linkpdo->prepare($sql);
+            $preparation_query->execute();
+            $resultats = $preparation_query->fetch();
+            $id_parcours = $resultats['id_parcours'];
+
+            // permet de récupérer la clé primaire de la derniere ligne insérée une connexion
+            $query = "select LAST_INSERT_ID()";     
             $preparation_query = $linkpdo->prepare($query);
             $preparation_query->execute(); 
             $cle_primaire = $preparation_query->fetch();
-
-            echo $cle_primaire[0].'<br>';
             $cle_primaire = $cle_primaire[0];
 
             // creation du fichier dans le repertoire juste créé avec toutes les variables de cette sortie
@@ -47,15 +68,15 @@
             $preparation_query = $linkpdo->prepare($query);
             if($preparation_query->execute(
                 array(
-                    'id' => $cle_primaire[0],
-                    'description' => $_POST['desc'],
-                    'distance'=> round(definirValeur("distance"),2),
-                    'date' =>  definirValeur("date"),
-                    'ville' => $_POST['ville'],
-                    'duree' => definirValeur("duree"),
-                    'activite' => $_POST['activite'],
-                    'meteo' => $_POST['meteo'],
-                    'denivele' => definirValeur("denivele")
+                    'id' => $id_parcours,
+                    'description' => $description,
+                    'distance'=> $distance,
+                    'date' =>  $date_parcours,
+                    'ville' => $ville_depart,
+                    'duree' => $duree,
+                    'activite' => $type_activite,
+                    'meteo' => $meteo,
+                    'denivele' => $denivele_parcours
                 )
             )){
                 echo "Fichier bien cree <br>";
@@ -96,4 +117,12 @@
 
         ajouterPointDB();
 
+        //recuperer la valeur du dernier id_parcours dans la table repertoire
+        $sql = "select id_parcours from repertoire order by id_parcours desc limit 1";
+        $preparation_query = $linkpdo->prepare($sql);
+        $preparation_query->execute();
+        $resultats = $preparation_query->fetch();
+        $id_parcours = $resultats['id_parcours'];
+
+        header('Location: ../public/html/show.html?parcours='.$id_parcours);
 ?>
