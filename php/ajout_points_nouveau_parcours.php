@@ -41,7 +41,7 @@
             $cle_primaire = $preparation_query->fetch();
 
             echo "id_parcours : ".$cle_primaire[0].'<br>';
-            $cle_primaire = $cle_primaire[0];
+            $id_parcours = $cle_primaire[0];
 
             if(!isset($_POST['ht'])){
                 $hometrainer = NULL;
@@ -67,7 +67,7 @@
             $preparation_query = $linkpdo->prepare($query);
             if($preparation_query->execute(
                 array(
-                    'id' => $cle_primaire,
+                    'id' => $id_parcours,
                     'description' => $_POST['desc'],
                     'distance'=> round(definirValeur("distance"),2),
                     'date' =>  definirValeur("date"),
@@ -119,12 +119,13 @@
                         // echo "<br><br>";
                     }
                 }
+               
             } else {
                 echo "Aucuns points à ajouter <br>";
             }
             
         }
-        var_dump($_POST);
+
         ajouterPointDB();
 
 ?>
