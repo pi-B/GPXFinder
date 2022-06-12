@@ -27,7 +27,7 @@
                     'nom_repertoire' => $_POST['nom']
                 )
             )){
-                echo "Repertoire créé";
+                echo "Repertoire créé <br>";
             } else {
                 echo "Erreur : <br>";
 				echo $preparation_query->debugDumpParams();
@@ -40,26 +40,50 @@
             $preparation_query->execute(); 
             $cle_primaire = $preparation_query->fetch();
 
-            echo $cle_primaire[0].'<br>';
+            echo "id_parcours : ".$cle_primaire[0].'<br>';
             $cle_primaire = $cle_primaire[0];
 
+            if(!isset($_POST['ht'])){
+                $hometrainer = NULL;
+            } else{
+                $hometrainer = $_POST['ht'];
+            }
+
+            if(!isset($_POST['meteo'])){
+                $meteo = NULL;
+            } else{
+                $meteo = $_POST['meteo'];
+            }
+
+            if(!isset($_POST['group'])){
+                $groupe = NULL;
+            } else{
+                $groupe = $_POST['group'];
+            }
+
             // creation du fichier dans le repertoire juste créé avec toutes les variables de cette sortie
-            $query = "insert into FICHIER(Id_Parcours,Description,Distance,Date_parcours,Ville_depart,Duree,Type_activite,Meteo,Denivele) values (:id,:description,:distance,:date,:ville,:duree,:activite,:meteo,:denivele)";
+            $query = "insert into FICHIER(Id_Parcours,Description,Distance,Date_parcours,Ville_depart,Duree,Type_activite,Meteo,Denivele,home_trainer,groupe) 
+            values (:id,:description,:distance,:date,:ville,:duree,:activite,:meteo,:denivele,:home_trainer,:groupe)";
             $preparation_query = $linkpdo->prepare($query);
             if($preparation_query->execute(
                 array(
-                    'id' => $cle_primaire[0],
+                    'id' => $cle_primaire,
                     'description' => $_POST['desc'],
                     'distance'=> round(definirValeur("distance"),2),
                     'date' =>  definirValeur("date"),
                     'ville' => $_POST['ville'],
                     'duree' => definirValeur("duree"),
                     'activite' => $_POST['activite'],
-                    'meteo' => $_POST['meteo'],
-                    'denivele' => definirValeur("denivele")
+                    'meteo' => $meteo,
+                    'denivele' => definirValeur("denivele"),
+                    'home_trainer' => $hometrainer,
+                    'groupe' => $groupe
                 )
             )){
                 echo "Fichier bien cree <br>";
+                echo "Erreur : <br><pre>";
+				echo $preparation_query->debugDumpParams();
+				echo "</pre><br><br>";
             } else {
                 echo "Erreur : <br><pre>";
 				echo $preparation_query->debugDumpParams();
@@ -84,9 +108,9 @@
                     {
                         echo "Point enregistré <br><br>";
                     } else {	
-                        echo "Erreur : <br>";
-                        echo "<pre>".$preparation_query->debugDumpParams()."</pre>";
-                        echo "<br><br>";
+                        // echo "Erreur : <br>";
+                        // echo "<pre>".$preparation_query->debugDumpParams()."</pre>";
+                        // echo "<br><br>";
                     }
                 }
             } else {
@@ -94,7 +118,8 @@
             }
             
         }
-
+        var_dump($_POST);
         ajouterPointDB();
+        header('location:../public/index.html')
 
 ?>

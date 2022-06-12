@@ -51,12 +51,14 @@
 
         $onglets = "";
         $linkpdo = connexion();
-        $req = "SELECT description, distance, duree , denivele, Type_activite as activite, date_format(date_parcours,'%d/%m/%Y') as date_parcours, Ville_depart as ville,meteo FROM `fichier` where Id_Parcours = $id_parcours";
+        $req = "SELECT description, distance, duree , denivele, Type_activite as activite, date_format(date_parcours,'%d/%m/%Y') as date_parcours, Ville_depart as ville, meteo, home_trainer as hometrainer, groupe FROM `fichier` where Id_Parcours = $id_parcours";
         $res = $linkpdo->prepare($req);
         $res->execute();
 
         while($data = $res->fetch()){
             $meteo = "";
+            $hometrainer = "";
+            $groupe ="";
 
             if($data['meteo'] == "pluie"){
                 $meteo .= "
@@ -94,7 +96,55 @@
                 <label for=\"sun\"><i class=\"fas fa-sun\"></i></i></label>
                 <input type=\"radio\" name=\"meteo\" id=\"sun\" class=\"text-purple-400 focus:ring-1 focus:ring-purple-400\">
                 " ;
+            }            
+            
+            if(!isset($data['hometrainer'])){
+                $hometrainer = "
+                <label for=\"oui\"><i class=\"fas fa-check-circle\"></i></label>
+                <input type=\"radio\" name=\"ht\" id=\"oui\" class=\"text-purple-400 focus:ring-1 focus:ring-purple-400\">
+                <label for=\"non\"><i class=\"fas fa-times-circle\"></i></i></label>
+                <input type=\"radio\" name=\"ht\" id=\"non\" class=\"text-purple-400 focus:ring-1 focus:ring-purple-400\">
+                ";
+            }elseif($data['hometrainer'] == 1){
+                $hometrainer = "
+                <label for=\"oui\"><i class=\"fas fa-check-circle\"></i></label>
+                <input type=\"radio\" name=\"ht\" id=\"oui\" class=\"text-purple-400 focus:ring-1 focus:ring-purple-400\" checked>
+                <label for=\"non\"><i class=\"fas fa-times-circle\"></i></i></label>
+                <input type=\"radio\" name=\"ht\" id=\"non\" class=\"text-purple-400 focus:ring-1 focus:ring-purple-400\">
+                ";
+            } elseif($data['hometrainer'] == 0) {
+                $hometrainer = "
+                <label for=\"oui\"><i class=\"fas fa-check-circle\"></i></label>
+                <input type=\"radio\" name=\"ht\" id=\"oui\" class=\"text-purple-400 focus:ring-1 focus:ring-purple-400\">
+                <label for=\"non\"><i class=\"fas fa-times-circle\"></i></i></label>
+                <input type=\"radio\" name=\"ht\" id=\"non\" class=\"text-purple-400 focus:ring-1 focus:ring-purple-400\" checked>
+                ";
             }
+
+
+            if(!isset($data['groupe'])){
+                $groupe = "   
+                <label for=\"seul\"><i class=\"fas fa-user\"></i></label>
+                <input type=\"radio\" name=\"group\" id=\"seul\" class=\"text-purple-400 focus:ring-1 focus:ring-purple-400\">
+                <label for=\"groupe\"><i class=\"fas fa-users\"></i></label>
+                <input type=\"radio\" name=\"group\" id=\"groupe\" class=\"text-purple-400 focus:ring-1 focus:ring-purple-400\">
+                ";
+            }elseif($data['groupe'] == 1){
+                $groupe = "   
+                <label for=\"seul\"><i class=\"fas fa-user\"></i></label>
+                <input type=\"radio\" name=\"group\" id=\"seul\" class=\"text-purple-400 focus:ring-1 focus:ring-purple-400\">
+                <label for=\"groupe\"><i class=\"fas fa-users\"></i></label>
+                <input type=\"radio\" name=\"group\" id=\"groupe\" class=\"text-purple-400 focus:ring-1 focus:ring-purple-400\" checked>
+                ";
+            } elseif($data['groupe'] == 0) {
+                $groupe = "   
+                <label for=\"seul\"><i class=\"fas fa-user\"></i></label>
+                <input type=\"radio\" name=\"group\" id=\"seul\" class=\"text-purple-400 focus:ring-1 focus:ring-purple-400\" checked>
+                <label for=\"groupe\"><i class=\"fas fa-users\"></i></label>
+                <input type=\"radio\" name=\"group\" id=\"groupe\" class=\"text-purple-400 focus:ring-1 focus:ring-purple-400\" >
+                ";
+            }
+
 
             $onglets .= 
             "
@@ -183,10 +233,7 @@
                                             <label for=\"temps\">Home Trainer</label>
                                         </div>
                                         <div class=\"flex justify-around items-center py-4 mt-2 border-gray-300 border-2 rounded-md\">
-                                            <label for=\"oui\"><i class=\"fas fa-check-circle\"></i></label>
-                                            <input type=\"radio\" name=\"ht\" id=\"oui\" class=\"text-purple-400 focus:ring-1 focus:ring-purple-400\">
-                                            <label for=\"non\"><i class=\"fas fa-times-circle\"></i></i></label>
-                                            <input type=\"radio\" name=\"ht\" id=\"non\" class=\"text-purple-400 focus:ring-1 focus:ring-purple-400\">
+                                            ".$hometrainer."
                                         </div>
                                     </div>
             
@@ -209,10 +256,7 @@
                                     <label for=\"group\">Seul ou en Groupe</label>
                                 </div>
                                 <div class=\"flex justify-around items-center py-4 mt-2 border-gray-300 border-2 rounded-md\">
-                                    <label for=\"seul\"><i class=\"fas fa-user\"></i></label>
-                                    <input type=\"radio\" name=\"group\" id=\"seul\" class=\"text-purple-400 focus:ring-1 focus:ring-purple-400\">
-                                    <label for=\"groupe\"><i class=\"fas fa-users\"></i></label>
-                                    <input type=\"radio\" name=\"group\" id=\"groupe\" class=\"text-purple-400 focus:ring-1 focus:ring-purple-400\">
+                                    ".$groupe."
                                 </div>
                             </div>
             
