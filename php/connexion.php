@@ -1,8 +1,6 @@
 <?php
  session_start();
  require("connexionDB.php");
- $echec_connexion = false;
- ;
 
  if (isset($_SESSION['login']))
     header("location:../public/index.html");
@@ -19,19 +17,22 @@
 
             if(md5($connexion['password']) == md5($_POST['password'])){
                 $_SESSION['login']=$_POST['login'];
-                header("location:../public/index.html");
+                $connexion = true;
+                header('location:../public/index.html');
             }else{
-                $echec_connexion = true;
-                header("location:../public/html/login.html");
+                $connexion="password";
+                header('location:../public/html/login.html?error='.$connexion);
                 //Le mot de passe n'est pas correct
             }
 
             if($connexion.isnull()){
-                header("location:../public/html/login.html");
+                $connexion="login";
+                header('location:../public/html/login.html?error='.$connexion);
                 //Le login existe pas dans la table
             }
         }
-
-        header("location:../public/html/login.html"); //Un champ ou les deux champs sont/est vide
+    }else{
+        $connexion = "champ";
+        header('location:../public/html/login.html?error='.$connexion); //Un champ ou les deux champs sont/est vide
     }
 ?>

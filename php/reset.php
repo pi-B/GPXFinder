@@ -1,6 +1,8 @@
-<?php
+<?php 
 require("connexionDB.php");
-
+require("envoimail/Exception.php");
+require("envoimail/PHPMailer.php");
+require("envoimail/SMTP.php");
 if (!empty($_POST['email'])){
     $email_recup = htmlspecialchars($_POST['email']);
     $linkpdo = connexion();
@@ -19,13 +21,29 @@ if (!empty($_POST['email'])){
                 $recup_code .= mt_rand(0,9);
             }
             $recuper_insert = $linkpdo->prepare('Update utilisateur set tokeninit = :token where mail = :mail');
-            $recuper_insert->execute((array('token' => $recup_code,
-                                            'mail' => $email_recup)));
+            $recuper_insert->execute(array('token' => $recup_code,
+                                            'mail' => $email_recup));
+            try {
+            $mail = new PHPMailer\PHPMailer\PHPMailer();
 
-            $header="MIME-Version: 1.0\r\n";
-            $header.='From: GPX_FINDER<agence.2bcl@gmail.com>'."\n";
-            $header.='Content-Type:test/html; charset="utf-8"'."\n";
-            $header.='Content-Transfer-Encoding: 8bit';
+            $mail->isSMTP();
+            $mail->Host = "smtp.gmail.com";
+            $mail->SMTPAuth = true;
+            $mail->Username = "samuelbertin.contact@gmail.com";
+            $mail->Password = "dsusuxdfkentjqqi";
+            $mail->SMTPSecure = "tls";
+            $mail->Port = 587;
+            
+            //Charset
+            $mail->CharSet = 'UTF-8';
+            $mail->isHtml(true);
+            //destinataire
+            $mail->setFrom('agence.2bcl@gmail.com', 'Agence 2Bcl');
+            $mail->addAddress($email_recup, $login);
+
+            //objet du mail
+            $mail->Subject = 'Récupération du mot de passe - GPX_FINDER';
+
             $message = '
             <html>
             <head>
@@ -58,11 +76,16 @@ if (!empty($_POST['email'])){
             </html>
             ';
 
-            if (mail($email_recup, "Récupération de mot de passe - GPX_Finder", $message, $header)){
-                echo"mail envoyé";
+            //Contenu du mail
+            $mail->Body = $message;
+
+            //envoi
+            $mail->send();
+            }catch(Exception $e){
+                echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
             }
-            
-                //header("Location:")
+            //envoi vers la page de changement de mot de passe
+            header("Location:../public/html/token.html");
         }else{
             $erreur = "Cette adresse mail ne correspond à aucun utilisateur";
         }
