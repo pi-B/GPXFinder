@@ -1,4 +1,5 @@
-<?php
+<?php    
+
     require('../../php/PointsGPX.php');
     require('../../php/connexionDB.php');
     
@@ -12,8 +13,8 @@
         if(isset($_SESSION["$statistique"]) and !empty($_SESSION["$statistique"])){
            switch(array_search($statistique,$tableau_stat)){
                 case 0: 
-                return  "placeholder=\"".round($_SESSION["$statistique"],2)." km\"";
-                break;
+                    return  "placeholder=\"".round($_SESSION["$statistique"],2)." km\"";
+                    break;
 
                 default:
                     return "placeholder=\"".(string)$_SESSION["$statistique"]."\"";
@@ -53,6 +54,7 @@
         }
     }
 
+    var_dump($_SESSION);
 ?>
 
 <!DOCTYPE html>

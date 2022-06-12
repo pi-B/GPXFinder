@@ -78,32 +78,68 @@ function calculateShortDistance($sourceLat,$sourceLong, $destinationLat,$destina
 	 return $c;
  }
 
+$calcul_temps= True;
+$calcul_ele= True;
+
 $tab_points = new ArrayObject();
 $distance_course = 0;
 $elevation_max = 0;
 $denivele_positif = 0;
 
-if (file_exists('fichiersGPX/Home_trainer_Watopia.gpx')){ // Verifier qu'un fichier a été ajouté et que c'est un .GPX
+if (file_exists('fichiersGPX/Circuit_de_Baluçon.gpx')){ // Verifier qu'un fichier a été ajouté et que c'est un .GPX
 	echo 'J\'ai trouvé le fichier <br>';
-	$fichier_gpx = simplexml_load_file('fichiersGPX/Course_pied_Flourens.gpx'); // A remplacer par le nom du fichier sauvegardé
+	$fichier_gpx = simplexml_load_file('fichiersGPX/Circuit_de_Baluçon.gpx'); // A remplacer par le nom du fichier sauvegardé
 } else {
 	exit('Erreur dans le téléchargement du fichier');
 }
 
 $date_course = $fichier_gpx->metadata->time;
 
-echo $fichier_gpx->metadata->time."sale pute<br>";
-foreach ($fichier_gpx->trk->trkseg as $tracksegment){
-	foreach($tracksegment->trkpt as $trackpoint){
-		$point = new PointsGPX($trackpoint->time,$trackpoint->attributes()->lat,$trackpoint->attributes()->lon,$trackpoint->ele); //besoin de mettre attributes() pour récupérer lon et lat
+echo $fichier_gpx->metadata->time."<br>";
 
-		$tab_points->append($point);
+foreach($fichier_gpx->children() as $child){
+	$name = $child->getName();
+	switch($name){
+		case "trk":
+			foreach ($child->trkseg as $tracksegment){
+				foreach($tracksegment->trkpt as $trackpoint){
+					
+					$point = new PointsGPX($trackpoint->attributes()->lat,$trackpoint->attributes()->lon); //besoin de mettre attributes() pour récupérer lon et lat
+					
+					if(!empty($trackpoint->time)){
+						$point->addTime($trackpoint->time);
+					}else{
+
+					}
+					if(!empty($trackpoint->ele)){
+						$point->addEle($trackpoint->ele);
+					}
+
+					$tab_points->append($point);
+			
+				}
+			}
+			break;
 		
-		/* Pour le moment on ne recupera pas les extensions, on ne veut pas les utiliser sur l'application
-		et on permettra de récupérer le fichier GPX directement en le sauvegardant sur le serveur */
+		case "rte":
+			foreach($child->rtept as $routepoint){
+				$point = new PointsGPX($routepoint->attributes()->lat,$routepoint->attributes()->lon); //besoin de mettre attributes() pour récupérer lon et lat
+				
+				if(!empty($routepoint->time)){
+					$point->addTime($routepoint->time);
+				}
+				if(!empty($routepoint->ele)){
+					$point->addEle($routepoint->ele);
+				}
 
+				$tab_points->append($point);
+			}
+			break;
 	}
+
 }
+
+
 
 
 //ajouterPointDB($tab_points);
