@@ -46,7 +46,7 @@
             if(!isset($_POST['ht'])){
                 $hometrainer = NULL;
             } else{
-                $hometrainer = $_POST['ht'];
+                $hometrainer = 1;
             }
 
             if(!isset($_POST['meteo'])){
@@ -58,7 +58,7 @@
             if(!isset($_POST['group'])){
                 $groupe = NULL;
             } else{
-                $groupe = $_POST['group'];
+                $groupe = 1 ;
             }
 
             // creation du fichier dans le repertoire juste créé avec toutes les variables de cette sortie
@@ -81,9 +81,6 @@
                 )
             )){
                 echo "Fichier bien cree <br>";
-                echo "Erreur : <br><pre>";
-				echo $preparation_query->debugDumpParams();
-				echo "</pre><br><br>";
             } else {
                 echo "Erreur : <br><pre>";
 				echo $preparation_query->debugDumpParams();
@@ -91,6 +88,13 @@
                 var_dump($_POST);
             }
             
+            $query = "select LAST_INSERT_ID()";     // permet de récupérer la clé primaire de la derniere ligne insérée une connexion
+            $preparation_query = $linkpdo->prepare($query);
+            $preparation_query->execute(); 
+            $cle_primaire = $preparation_query->fetch();
+
+            $cle_primaire = $cle_primaire[0];
+
             if(!empty($liste_points)){
                 
                 foreach($liste_points as $point){
@@ -107,6 +111,8 @@
                     )))
                     {
                         echo "Point enregistré <br><br>";
+                        //header('location:../public/index.html')
+
                     } else {	
                         // echo "Erreur : <br>";
                         // echo "<pre>".$preparation_query->debugDumpParams()."</pre>";
@@ -120,6 +126,5 @@
         }
         var_dump($_POST);
         ajouterPointDB();
-        header('location:../public/index.html')
 
 ?>
