@@ -22,8 +22,16 @@
                 header("location:../public/index.html");
             }else{
                 $echec_connexion = true;
-                echo "connexion échoué";
+                header("location:../public/html/login.html");
+                //Le mot de passe n'est pas correct
+            }
+
+            if($connexion.isnull()){
+                header("location:../public/html/login.html");
+                //Le login existe pas dans la table
             }
         }
+
+        header("location:../public/html/login.html"); //Un champ ou les deux champs sont/est vide
     }
 ?>

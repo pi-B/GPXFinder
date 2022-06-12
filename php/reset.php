@@ -57,8 +57,11 @@ if (!empty($_POST['email'])){
             </body>
             </html>
             ';
-            mail($email_recup, "Récupération de mot de passe - GPX_Finder", $message, $header);
-            echo"mail envoyé";
+
+            if (mail($email_recup, "Récupération de mot de passe - GPX_Finder", $message, $header)){
+                echo"mail envoyé";
+            }
+            
                 //header("Location:")
         }else{
             $erreur = "Cette adresse mail ne correspond à aucun utilisateur";
