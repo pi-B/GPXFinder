@@ -6,7 +6,6 @@ session_start();
 $_SESSION['erreurs'] = array();
 
 verifVariables();
-var_dump($_SESSION['erreurs']);
 
 if (isset($_POST['creer'])) {
     header('Location: ajout_points_nouveau_parcours.php');

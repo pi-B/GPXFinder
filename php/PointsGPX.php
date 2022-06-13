@@ -18,7 +18,7 @@
             $str = "";
             $str = str_replace('T',' ',$time);
             $str= str_replace('Z','',$str);
-
+            
             return $str;
 
         }
@@ -27,14 +27,23 @@
             $this->time_code=$this->standardiseTime($time);
         }
 
+        public function getTime(): string
+        {
+            if(isset($this->time_code)){
+                return $this->time_code;
+            } else {
+                return '0';
+            }
+        }
+
         public function addEle($ele){
             $this->elevation=$ele;
         }
 
-        public function getTime(): string
+        public function getEle(): string
         {
-            if(isset($time_code)){
-                return $this->time_code;
+            if(isset($this->elevation)){
+                return $this->elevation;
             } else {
                 return '0';
             }
@@ -50,14 +59,6 @@
             return $this->latitude;
         }
 
-        public function getEle(): string
-        {
-            if(isset($this->elevation)){
-                return $this->elevation;
-            } else {
-                return '0';
-            }
-        }
         public function toString(): string
         {
             $string = $this->getTime()." Lat: ".$this->getLat()." Long: ".$this->getLong()."<br>Ele :".$this->getEle();

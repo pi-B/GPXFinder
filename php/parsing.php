@@ -128,7 +128,6 @@
     $_SESSION['duree'] = $difference;
     $_SESSION['tableauPoints'] = $tab_points;
 
-    
     header('location:../public/html/add.html');
 
 ?>
