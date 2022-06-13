@@ -74,12 +74,13 @@
             }
 
             // creation du fichier dans le repertoire juste créé avec toutes les variables de cette sortie
-            $query = "insert into FICHIER(Id_Parcours,Description,Distance,Date_parcours,Ville_depart,Duree,Type_activite,Meteo,Denivele,home_trainer,groupe) 
-            values (:id,:description,:distance,:date,:ville,:duree,:activite,:meteo,:denivele,:home_trainer,:groupe)";
+            $query = "insert into FICHIER(Id_Parcours,Nom,Description,Distance,Date_parcours,Ville_depart,Duree,Type_activite,Meteo,Denivele,home_trainer,groupe) 
+            values (:id,:nom,:description,:distance,:date,:ville,:duree,:activite,:meteo,:denivele,:home_trainer,:groupe)";
             $preparation_query = $linkpdo->prepare($query);
             if($preparation_query->execute(
                 array(
                     'id' => $id_parcours,
+                    ':nom' => $_SESSION['nom'],
                     'description' => $_SESSION['desc'],
                     'distance'=> round($_SESSION['distance'],2),
                     'date' =>  $_SESSION['date'],
