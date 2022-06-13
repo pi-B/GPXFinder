@@ -8,11 +8,11 @@ if($_SESSION['token'] == false){
 require("../../php/connexionDB.php");
 
 $linkpdo=connexion();
-$req = $linkpdo->prepare('select login from Utilisateur where token like :token');
+$req = $linkpdo->prepare('select login from Utilisateur where tokeninit like :token');
 
 $req -> execute(array('token' => $_GET['token']));
 $login = $req -> fetch();
-echo"$login";
+echo"$login[0]";
 ?>
 <!DOCTYPE html>
 <html lang="en">
