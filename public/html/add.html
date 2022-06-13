@@ -6,14 +6,11 @@
     session_start();
     ob_start();
 
-
-
     function placeholder($statistique){
         $tableau_stat = array(0 => 'distance', 1 => 'temps', 2 => 'denivele', 3 => 'date', 4 => 'nom', 5 => 'duree');
         if(isset($_SESSION["$statistique"]) and !empty($_SESSION["$statistique"])){
            switch(array_search($statistique,$tableau_stat)){
                 case 0: 
-
                 return  "value=\"".round($_SESSION["$statistique"],2)." km\"";
                 break;
 
