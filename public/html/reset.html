@@ -20,7 +20,12 @@
             <h2 class="my-4 font-semibold text-lg">Connexion : </h2>
             <form action="../../php/reset.php" method="post">
                 <p>Veuillez saisir votre adresse e-mail pour recevoir le lien de réinitialisation du mot de passe :</p><br>
-                <span class="erreur text-red-500 text-sm">Adresse incorrecte / inexistante </span><br>
+                <?php
+                if(isset($_GET['error'])){
+                    echo'<span class="erreur text-red-500 text-sm">Adresse incorrecte / inexistante </span><br>';
+                }
+                
+                ?>
                 <input type="text" name="email" placeholder="monadresse@email.fr" class="border-2 border-gray-300 p-4 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-purple-400 mb-4"><br>
                 <button type="submit" class="bg-purple-400 text-white py-3 px-7 rounded-md text-center">Réinitialisation</button>
             </form>

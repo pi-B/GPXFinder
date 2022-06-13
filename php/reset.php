@@ -90,7 +90,10 @@ if (!empty($_POST['email'])){
             $erreur = "Cette adresse mail ne correspond à aucun utilisateur";
         }
     }else{
-        $erreur = "Veuillez entrer votre adresse mail";
+        $erreur = "Veuillez entrer une adresse mail valide";
     }
+}else{
+    $erreur = "Veuillez entrer une adresse mail valide";
 }
+header("Location:../public/html/reset.html?error=$erreur");
 ?>
