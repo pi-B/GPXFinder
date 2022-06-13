@@ -63,61 +63,61 @@
             if($data['meteo'] == "pluie"){
                 $meteo .= "
                 <label for=\"rain\"><i class=\"fas fa-cloud-rain\"></i></label>
-                <input type=\"radio\" name=\"meteo\" id=\"rain\" class=\"text-purple-400 focus:ring-1 focus:ring-purple-400\" checked>
+                <input type=\"radio\" name=\"meteo\" id=\"rain\" class=\"text-purple-400 focus:ring-1 focus:ring-purple-400\" checked disabled=true>
                 <label for=\"clouds\"><i class=\"fas fa-cloud-sun\"></i></label>
-                <input type=\"radio\" name=\"meteo\" id=\"clouds\" class=\"text-purple-400 focus:ring-1 focus:ring-purple-400\">
+                <input type=\"radio\" name=\"meteo\" id=\"clouds\" class=\"text-purple-400 focus:ring-1 focus:ring-purple-400\" disabled=true>
                 <label for=\"sun\"><i class=\"fas fa-sun\"></i></i></label>
-                <input type=\"radio\" name=\"meteo\" id=\"sun\" class=\"text-purple-400 focus:ring-1 focus:ring-purple-400\">
+                <input type=\"radio\" name=\"meteo\" id=\"sun\" class=\"text-purple-400 focus:ring-1 focus:ring-purple-400\" disabled=true>
                 " ;
             } elseif($data['meteo'] == "nuage"){
                 $meteo .= "
                 <label for=\"rain\"><i class=\"fas fa-cloud-rain\"></i></label>
-                <input type=\"radio\" name=\"meteo\" id=\"rain\" class=\"text-purple-400 focus:ring-1 focus:ring-purple-400\">
+                <input type=\"radio\" name=\"meteo\" id=\"rain\" class=\"text-purple-400 focus:ring-1 focus:ring-purple-400\" disabled=true>
                 <label for=\"clouds\"><i class=\"fas fa-cloud-sun\"></i></label>
-                <input type=\"radio\" name=\"meteo\" id=\"clouds\" class=\"text-purple-400 focus:ring-1 focus:ring-purple-400\" checked>
+                <input type=\"radio\" name=\"meteo\" id=\"clouds\" class=\"text-purple-400 focus:ring-1 focus:ring-purple-400\" checked disabled=true>
                 <label for=\"sun\"><i class=\"fas fa-sun\"></i></i></label>
-                <input type=\"radio\" name=\"meteo\" id=\"sun\" class=\"text-purple-400 focus:ring-1 focus:ring-purple-400\">
+                <input type=\"radio\" name=\"meteo\" id=\"sun\" class=\"text-purple-400 focus:ring-1 focus:ring-purple-400\" disabled=true>
                 " ;
             } elseif($data['meteo'] == "soleil"){
                 $meteo .= "
                 <label for=\"rain\"><i class=\"fas fa-cloud-rain\"></i></label>
-                <input type=\"radio\" name=\"meteo\" id=\"rain\" class=\"text-purple-400 focus:ring-1 focus:ring-purple-400\">
+                <input type=\"radio\" name=\"meteo\" id=\"rain\" class=\"text-purple-400 focus:ring-1 focus:ring-purple-400\" disabled=true>
                 <label for=\"clouds\"><i class=\"fas fa-cloud-sun\"></i></label>
-                <input type=\"radio\" name=\"meteo\" id=\"clouds\" class=\"text-purple-400 focus:ring-1 focus:ring-purple-400\">
+                <input type=\"radio\" name=\"meteo\" id=\"clouds\" class=\"text-purple-400 focus:ring-1 focus:ring-purple-400\" disabled=true>
                 <label for=\"sun\"><i class=\"fas fa-sun\"></i></i></label>
-                <input type=\"radio\" name=\"meteo\" id=\"sun\" class=\"text-purple-400 focus:ring-1 focus:ring-purple-400\" checked>
+                <input type=\"radio\" name=\"meteo\" id=\"sun\" class=\"text-purple-400 focus:ring-1 focus:ring-purple-400\" checked disabled=true>
                 " ;
             } else {
                 $meteo .= "
                 <label for=\"rain\"><i class=\"fas fa-cloud-rain\"></i></label>
-                <input type=\"radio\" name=\"meteo\" id=\"rain\" class=\"text-purple-400 focus:ring-1 focus:ring-purple-400\">
+                <input type=\"radio\" name=\"meteo\" id=\"rain\" class=\"text-purple-400 focus:ring-1 focus:ring-purple-400\" disabled=true>
                 <label for=\"clouds\"><i class=\"fas fa-cloud-sun\"></i></label>
-                <input type=\"radio\" name=\"meteo\" id=\"clouds\" class=\"text-purple-400 focus:ring-1 focus:ring-purple-400\">
+                <input type=\"radio\" name=\"meteo\" id=\"clouds\" class=\"text-purple-400 focus:ring-1 focus:ring-purple-400\" disabled=true>
                 <label for=\"sun\"><i class=\"fas fa-sun\"></i></i></label>
-                <input type=\"radio\" name=\"meteo\" id=\"sun\" class=\"text-purple-400 focus:ring-1 focus:ring-purple-400\">
+                <input type=\"radio\" name=\"meteo\" id=\"sun\" class=\"text-purple-400 focus:ring-1 focus:ring-purple-400\" disabled=true>
                 " ;
             }            
             
             if(!isset($data['hometrainer'])){
                 $hometrainer = "
                 <label for=\"oui\"><i class=\"fas fa-check-circle\"></i></label>
-                <input type=\"radio\" name=\"ht\" id=\"oui\" class=\"text-purple-400 focus:ring-1 focus:ring-purple-400\">
+                <input type=\"radio\" name=\"ht\" id=\"oui\" class=\"text-purple-400 focus:ring-1 focus:ring-purple-400\" disabled=true>
                 <label for=\"non\"><i class=\"fas fa-times-circle\"></i></i></label>
-                <input type=\"radio\" name=\"ht\" id=\"non\" class=\"text-purple-400 focus:ring-1 focus:ring-purple-400\">
+                <input type=\"radio\" name=\"ht\" id=\"non\" class=\"text-purple-400 focus:ring-1 focus:ring-purple-400\" disabled=true>
                 ";
             }elseif($data['hometrainer'] == 1){
                 $hometrainer = "
                 <label for=\"oui\"><i class=\"fas fa-check-circle\"></i></label>
-                <input type=\"radio\" name=\"ht\" id=\"oui\" class=\"text-purple-400 focus:ring-1 focus:ring-purple-400\" checked>
+                <input type=\"radio\" name=\"ht\" id=\"oui\" class=\"text-purple-400 focus:ring-1 focus:ring-purple-400\" checked disabled=true>
                 <label for=\"non\"><i class=\"fas fa-times-circle\"></i></i></label>
-                <input type=\"radio\" name=\"ht\" id=\"non\" class=\"text-purple-400 focus:ring-1 focus:ring-purple-400\">
+                <input type=\"radio\" name=\"ht\" id=\"non\" class=\"text-purple-400 focus:ring-1 focus:ring-purple-400\" disabled=true>
                 ";
             } elseif($data['hometrainer'] == 0) {
                 $hometrainer = "
                 <label for=\"oui\"><i class=\"fas fa-check-circle\"></i></label>
-                <input type=\"radio\" name=\"ht\" id=\"oui\" class=\"text-purple-400 focus:ring-1 focus:ring-purple-400\">
+                <input type=\"radio\" name=\"ht\" id=\"oui\" class=\"text-purple-400 focus:ring-1 focus:ring-purple-400\" disabled=true>
                 <label for=\"non\"><i class=\"fas fa-times-circle\"></i></i></label>
-                <input type=\"radio\" name=\"ht\" id=\"non\" class=\"text-purple-400 focus:ring-1 focus:ring-purple-400\" checked>
+                <input type=\"radio\" name=\"ht\" id=\"non\" class=\"text-purple-400 focus:ring-1 focus:ring-purple-400\" checked disabled=true>
                 ";
             }
 
@@ -125,23 +125,23 @@
             if(!isset($data['groupe'])){
                 $groupe = "   
                 <label for=\"seul\"><i class=\"fas fa-user\"></i></label>
-                <input type=\"radio\" name=\"group\" id=\"seul\" class=\"text-purple-400 focus:ring-1 focus:ring-purple-400\">
+                <input type=\"radio\" name=\"group\" id=\"seul\" class=\"text-purple-400 focus:ring-1 focus:ring-purple-400\" disabled=true>
                 <label for=\"groupe\"><i class=\"fas fa-users\"></i></label>
-                <input type=\"radio\" name=\"group\" id=\"groupe\" class=\"text-purple-400 focus:ring-1 focus:ring-purple-400\">
+                <input type=\"radio\" name=\"group\" id=\"groupe\" class=\"text-purple-400 focus:ring-1 focus:ring-purple-400\" disabled=true>
                 ";
             }elseif($data['groupe'] == 1){
                 $groupe = "   
                 <label for=\"seul\"><i class=\"fas fa-user\"></i></label>
-                <input type=\"radio\" name=\"group\" id=\"seul\" class=\"text-purple-400 focus:ring-1 focus:ring-purple-400\">
+                <input type=\"radio\" name=\"group\" id=\"seul\" class=\"text-purple-400 focus:ring-1 focus:ring-purple-400\" disabled=true>
                 <label for=\"groupe\"><i class=\"fas fa-users\"></i></label>
-                <input type=\"radio\" name=\"group\" id=\"groupe\" class=\"text-purple-400 focus:ring-1 focus:ring-purple-400\" checked>
+                <input type=\"radio\" name=\"group\" id=\"groupe\" class=\"text-purple-400 focus:ring-1 focus:ring-purple-400\" checked disabled=true>
                 ";
             } elseif($data['groupe'] == 0) {
                 $groupe = "   
                 <label for=\"seul\"><i class=\"fas fa-user\"></i></label>
-                <input type=\"radio\" name=\"group\" id=\"seul\" class=\"text-purple-400 focus:ring-1 focus:ring-purple-400\" checked>
+                <input type=\"radio\" name=\"group\" id=\"seul\" class=\"text-purple-400 focus:ring-1 focus:ring-purple-400\" checked disabled=true>
                 <label for=\"groupe\"><i class=\"fas fa-users\"></i></label>
-                <input type=\"radio\" name=\"group\" id=\"groupe\" class=\"text-purple-400 focus:ring-1 focus:ring-purple-400\" >
+                <input type=\"radio\" name=\"group\" id=\"groupe\" class=\"text-purple-400 focus:ring-1 focus:ring-purple-400\"  disabled=true>
                 ";
             }
 
@@ -157,9 +157,9 @@
                             <div class=\"flex flex-col gap-4 xl:flex-row\">
                                 <div class=\"flex flex-col gap-8 nom_desc\">
                                     <input readonly type=\"text\" name=\"nom\" value=\"Nom de la trace\" 
-                                    class=\"border-2 border-gray-300 p-4 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-purple-400\">
+                                    class=\"border-2 border-gray-300 p-4 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-purple-400\" readonly>
                                     <textarea name=\"desc\" id=\"desc\" cols=\"70\" rows=\"4\" value=\"\"
-                                    class=\"border-2 border-gray-300 p-4 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-purple-400\">".$data['description']."</textarea>
+                                    class=\"border-2 border-gray-300 p-4 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-purple-400\" readonly>".$data['description']."</textarea>
                                 </div>
                                 <div class=\"ajouter_image border-2 p-8 w-full\">
                                     <h3 class=\"mb-3 text-lg font-semibold\">Image</h3>
@@ -180,7 +180,7 @@
                                             <label for=\"distance\">Distance</label>
                                         </div>
                                         <input readonly type=\"text\" name=\"distance\" id=\"distance\" value=\"".$data['distance']."\"
-                                        class=\"border-2 border-gray-300 p-4 rounded-md shadow-sm w-full focus:outline-none focus:ring-1 focus:ring-purple-400\">
+                                        class=\"border-2 border-gray-300 p-4 rounded-md shadow-sm w-full focus:outline-none focus:ring-1 focus:ring-purple-400\" readonly>
                                     </div>
             
                                     <div class=\"input_text\">
@@ -188,7 +188,7 @@
                                             <label for=\"temps\">Temps</label>
                                         </div>
                                         <input disabled type=\"text\" name=\"temps\" id=\"temps\" value=\"".$data['duree']."\"
-                                        class=\"border-2  border-gray-300 p-4 rounded-md shadow-sm w-full focus:outline-none focus:ring-1 focus:ring-purple-400\">
+                                        class=\"border-2  border-gray-300 p-4 rounded-md shadow-sm w-full focus:outline-none focus:ring-1 focus:ring-purple-400\" readonly>
                                     </div>
             
                                     <div class=\"input_text\">
@@ -196,14 +196,14 @@
                                             <label for=\"denivele\">Dénivelé</label>
                                         </div>
                                         <input disabled type=\"text\" name=\"denivele\" id=\"denivele\" value=\"".$data['denivele']."\"
-                                        class=\"border-2 border-gray-300 p-4 rounded-md shadow-sm w-full focus:outline-none focus:ring-1 focus:ring-purple-400\">
+                                        class=\"border-2 border-gray-300 p-4 rounded-md shadow-sm w-full focus:outline-none focus:ring-1 focus:ring-purple-400\" readonly>
                                     </div>
             
                                     <div class=\"input_text\">
                                         <div class=\"label_error flex flex-row gap-8 mb-2\">
                                             <label for=\"denivele\">Type d'activité</label>
                                         </div>
-                                        <input type=\"text\" name=\"activite\" id=\"activite\" value=\"".$data['activite']."\" class=\"border-2 border-gray-300 p-4 rounded-md shadow-sm w-full focus:outline-none focus:ring-1 focus:ring-purple-400\">
+                                        <input type=\"text\" name=\"activite\" id=\"activite\" value=\"".$data['activite']."\" class=\"border-2 border-gray-300 p-4 rounded-md shadow-sm w-full focus:outline-none focus:ring-1 focus:ring-purple-400\" readonly>
             
                                             
                                     </div>
@@ -218,21 +218,21 @@
                                             <label for=\"distance\">Date</label>
                                         </div>
                                         <input type=\"text\" name=\"date\" id=\"date\" value=\"".$data['date_parcours']."\"
-                                        class=\"border-2 border-gray-300 p-4 rounded-md shadow-sm w-full focus:outline-none focus:ring-1 focus:ring-purple-400\">
+                                        class=\"border-2 border-gray-300 p-4 rounded-md shadow-sm w-full focus:outline-none focus:ring-1 focus:ring-purple-400\" readonly>
                                     </div>
             
                                     <div class=\"input_text\">
                                         <div class=\"label_error flex flex-row gap-8 mb-2\">
                                             <label for=\"denivele\">Ville Départ</label>
                                         </div>
-                                        <input type=\"text\"  name=\"ville\" id=\"ville\" value=\"".$data['ville']."\" class=\"border-2 border-gray-300 p-4 rounded-md shadow-sm w-full focus:outline-none focus:ring-1 focus:ring-purple-400\">                  
+                                        <input type=\"text\"  name=\"ville\" id=\"ville\" value=\"".$data['ville']."\" class=\"border-2 border-gray-300 p-4 rounded-md shadow-sm w-full focus:outline-none focus:ring-1 focus:ring-purple-400\" readonly>                  
                                     </div>
             
                                     <div class=\"input_text\">
                                         <div class=\"label_error flex flex-row gap-8 mb-2\">
                                             <label for=\"temps\">Home Trainer</label>
                                         </div>
-                                        <div class=\"flex justify-around items-center py-4 mt-2 border-gray-300 border-2 rounded-md\">
+                                        <div class=\"flex justify-around items-center py-4 mt-2 border-gray-300 border-2 rounded-md\" readonly>
                                             ".$hometrainer."
                                         </div>
                                     </div>
@@ -241,7 +241,7 @@
                                         <div class=\"label_error flex flex-row gap-8 mb-2\">
                                             <label for=\"temps\">Météo</label>
                                         </div>
-                                        <div class=\"flex justify-around items-center py-4 mt-2 border-gray-300 border-2 rounded-md\">
+                                        <div class=\"flex justify-around items-center py-4 mt-2 border-gray-300 border-2 rounded-md\" readonly>
                                             ".$meteo."
                                         </div>
                                     </div>
