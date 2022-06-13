@@ -90,7 +90,7 @@
 
     if(isset($fichier_gpx->metadata->time)){
         $date_course = (string)$fichier_gpx->metadata->time;
-        $date_course = date("Y-m-m",strtotime($date_course));
+        $date_course = date("Y-m-d",strtotime($date_course));
     } else {
         $date_course = NULL;
     }
@@ -130,9 +130,8 @@
     $_SESSION['duree'] = $difference;
     $_SESSION['tableauPoints'] = $tab_points;
 
-    var_dump($_SESSION);
     
-//    header('location:../public/html/add.html');
+    header('location:../public/html/add.html');
 
 ?>
 <!DOCTYPE html>
