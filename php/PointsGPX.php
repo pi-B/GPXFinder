@@ -6,11 +6,11 @@
         public $latitude;
         public $elevation;
         
-        public function __construct($time, $lat,$lon,$ele){
-            $this->time_code=$this->standardiseTime($time);
+        public function __construct($lat,$lon){
+           
             $this->longitude=$lon;
             $this->latitude=$lat;
-            $this->elevation=$ele;
+            
         }
 
         public function standardiseTime($time): string
@@ -18,13 +18,35 @@
             $str = "";
             $str = str_replace('T',' ',$time);
             $str= str_replace('Z','',$str);
-
+            
             return $str;
 
         }
+
+        public function addTime($time){
+            $this->time_code=$this->standardiseTime($time);
+        }
+
         public function getTime(): string
         {
-            return $this->time_code;
+            if(isset($this->time_code)){
+                return $this->time_code;
+            } else {
+                return '0';
+            }
+        }
+
+        public function addEle($ele){
+            $this->elevation=$ele;
+        }
+
+        public function getEle(): string
+        {
+            if(isset($this->elevation)){
+                return $this->elevation;
+            } else {
+                return '0';
+            }
         }
 
         public function getLong(): string
@@ -35,11 +57,6 @@
         public function getLat(): string
         {
             return $this->latitude;
-        }
-
-        public function getEle(): string
-        {
-            return $this->elevation;
         }
 
         public function toString(): string
