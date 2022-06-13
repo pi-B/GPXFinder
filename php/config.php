@@ -1,6 +1,6 @@
 <?php
 $host='localhost';
-$db='test_parsing';
+$db='ptut_v3';
 $user='root';
 $pwd='';
 ?>

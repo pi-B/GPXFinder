@@ -1,4 +1,5 @@
-<?php
+<?php    
+
     require('../../php/PointsGPX.php');
     require('../../php/connexionDB.php');
     
@@ -12,6 +13,7 @@
         if(isset($_SESSION["$statistique"]) and !empty($_SESSION["$statistique"])){
            switch(array_search($statistique,$tableau_stat)){
                 case 0: 
+
                 return  "value=\"".round($_SESSION["$statistique"],2)." km\"";
                 break;
 
@@ -138,7 +140,7 @@
                                 <label for="temps">Temps</label>
                                 <span class="erreur text-red-500 text-sm">Temps non calculée</span>
                             </div>
-                            <input  type="text" name="duree" id="temps"<?php echo placeholder("duree"); ?>
+                            <input  type="time" step="1" name="duree" id="temps"<?php echo placeholder("duree"); ?>
                             class="border-2  border-gray-300 p-4 rounded-md shadow-sm w-full focus:outline-none focus:ring-1 focus:ring-purple-400">
                         </div>
 
