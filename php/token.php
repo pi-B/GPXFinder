@@ -15,6 +15,7 @@
         $req -> execute(array('mail' =>$mail));
 
         $reset = $req ->fetch();
+        $_SESSION['mailtoken'] = $_POST["email"];
         if($_POST['token'] == $reset[0]){
             
             header('Location:../public/html/changementMDP.html?token='.$reset[0]);

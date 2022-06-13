@@ -12,7 +12,7 @@ $req = $linkpdo->prepare('select login from Utilisateur where tokeninit like :to
 
 $req -> execute(array('token' => $_GET['token']));
 $login = $req -> fetch();
-echo"$login[0]";
+var_dump($login[0]);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -33,7 +33,7 @@ echo"$login[0]";
     <!-- Connexion -->
     <section class="relative flex h-screen justify-center items-center bg-purple-400">
         <div class="container max-w-sm rounded-md p-4 bg-white">
-            <h2 class="my-4 font-semibold text-lg"><?php echo"Bonjour ".$login;?></h2>
+            <h2 class="my-4 font-semibold text-lg"><?php echo"Bonjour ".$login[0];?></h2>
             <form action="../../php/changementMDP.php" method="post">
                 <p>Veuillez saisir votre nouveau mot de passe :</p><br>
 

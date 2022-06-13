@@ -8,11 +8,12 @@
 
     if(!empty($_POST['newpassword'])){
         $linkpdo=connexion();
-        $token = $_SESSION['token'];
-        $req = $linkpdo->prepare('Update utilisateur set Password = :password where tokeninit = :token');
+        $mail = $_SESSION['mailtoken'];
+        $req = $linkpdo->prepare('Update utilisateur set Password = :password where mail = :mail');
 
         $req->execute(array('password' => $_POST['newpassword'],
-                            'token' => $token));
+                            'mail' => $mail));
+        
 
         header('Location:../public/index.html');
     }else{
