@@ -5,20 +5,22 @@
     session_start();
     ob_start();
 
+
+
     function placeholder($statistique){
         $tableau_stat = array(0 => 'distance', 1 => 'temps', 2 => 'denivele', 3 => 'date', 4 => 'nom', 5 => 'duree');
         if(isset($_SESSION["$statistique"]) and !empty($_SESSION["$statistique"])){
            switch(array_search($statistique,$tableau_stat)){
                 case 0: 
-                return  "placeholder=\"".round($_SESSION["$statistique"],2)." km\"";
+                return  "value=\"".round($_SESSION["$statistique"],2)." km\"";
                 break;
 
                 default:
-                    return "placeholder=\"".(string)$_SESSION["$statistique"]."\"";
+                    return "value=\"".(string)$_SESSION["$statistique"]."\"";
                     break;
            }
         } else {
-            return "placeholder=\"\"";
+            return "value=\"\"";
         }
     }
 
@@ -92,20 +94,26 @@
         <!-- Formulaire -->
         <div class="container">
 
-            <form action="../../php/ajout_points_nouveau_parcours.php" method="post">
+            <form action="../../php/submitparcours.php" method="post">
 
                 <!-- Donnees generales (Titre + Desc + Image) -->
                 <div class="flex flex-col gap-4 xl:flex-row">
+
                     <div class="flex flex-col gap-8 nom_desc">
+
                         <input type="text" name="nom" placeholder="Nom de la trace" 
                         class="border-2 border-gray-300 p-4 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-purple-400">
+
                         <textarea name="desc" id="desc" cols="70" rows="4" placeholder="Description de la trace"
                         class="border-2 border-gray-300 p-4 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-purple-400"></textarea>
+
                     </div>
+
                     <div class="ajouter_image border-2 p-8 w-full">
                         <h3 class="mb-3 text-lg font-semibold">Image</h3>
                         <input type="file" name="add_image" id="add_image">
                     </div>
+
                 </div>
 
                 <!-- Données Avancées -->
@@ -121,7 +129,7 @@
                                 <label for="distance">Distance</label>
                                 <?php if (!isset($_SESSION['distance'])){echo " <span class=\"erreur text-red-500 text-sm\">Distance non calculée</span>"; } ?>
                             </div>
-                            <input  type="text" name="distance" id="distance" <?php echo placeholder("distance"); ?>
+                            <input type="text" name="distance" id="distance" <?php echo placeholder("distance"); ?>
                             class="border-2 border-gray-300 p-4 rounded-md shadow-sm w-full focus:outline-none focus:ring-1 focus:ring-purple-400">
                         </div>
 
@@ -168,16 +176,16 @@
 
                         <div class="input_text">
                             <div class="label_error flex flex-row gap-8 mb-2">
-                                <label for="distance">Date</label>
+                                <label for="date">Date</label>
                                 <span class="erreur text-red-500 text-sm">Date invalide</span>
                             </div>
-                            <input type="date" name="date" id="date" 
+                            <input type="date" name="date" id="date" value="<?php echo $_SESSION['date']; ?>"
                             class="border-2 border-gray-300 p-4 rounded-md shadow-sm w-full focus:outline-none focus:ring-1 focus:ring-purple-400">
                         </div>
 
                         <div class="input_text">
                             <div class="label_error flex flex-row gap-8 mb-2">
-                                <label for="denivele">Ville Départ</label>
+                                <label for="ville">Ville Départ</label>
                                 <span class="erreur text-red-500 text-sm"></span>
                             </div>
                             <input type="text" list="villes" name="ville" id="ville" class="border-2 border-gray-300 p-4 rounded-md shadow-sm w-full focus:outline-none focus:ring-1 focus:ring-purple-400">
@@ -262,8 +270,8 @@
                 <div class="flex flex-col md:flex-row gap-3 justify-around mb-8">
                     <a href="../index.html" class="bg-red-400 text-white py-3 px-7 rounded-md text-center">Retour</a>
                     <button type="reset" class="bg-gray-400 text-white py-3 px-7 rounded-md text-center">Tout Effacer</button>
-                    <button type="submit" class="bg-purple-400 text-white py-3 px-7 rounded-md text-center">Créer Parcours</button>
-                    <a href="./addTo.html" class="bg-purple-400 text-white py-3 px-7 rounded-md text-center">Ajouter à un Parcours</a>
+                    <button type="submit" class="bg-purple-400 text-white py-3 px-7 rounded-md text-center" name="creer">Créer Parcours</button>
+                    <button type="submit" class="bg-purple-400 text-white py-3 px-7 rounded-md text-center" name="ajouter">Ajouter à un Parcours</a>
                 </div>
 
             </form>

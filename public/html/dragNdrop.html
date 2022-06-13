@@ -62,7 +62,7 @@ function calculateShortDistance($sourceLat,$sourceLong, $destinationLat,$destina
     
     if(isset($fichier_gpx->metadata->time)){
       $date_course = (string)$fichier_gpx->metadata->time;
-      $date_course = date("Y-m-m h:m:s",strtotime($date_course));
+      $date_course = date("Y-m-m",strtotime($date_course));
     }
 
 

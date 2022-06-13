@@ -1,3 +1,38 @@
+<?php 
+
+    require '../../php/config.php';
+    require '../../php/connexionDB.php';
+
+    session_start();
+
+    function idDuDernierFichier() {
+        //recuperer l'id du fichier qui vient d'etre ajouté a la base de données 
+        $sql = "SELECT Id_Fichier FROM fichier ORDER BY Id_Fichier DESC LIMIT 1";
+        $linkpdo = connexion();
+        $result = $linkpdo->prepare($sql);
+        $result->execute();
+        $id_fichier = $result->fetchColumn();
+        return $id_fichier;
+    }
+
+    function listeDesParcours() {
+        //Selectionner tous les parcours de la base de Données  pour les afficher dans la liste déroulante
+        $sql = "SELECT * FROM repertoire WHERE Nom IS NOT NULL";
+        $linkpdo = connexion();
+        $result = $linkpdo->prepare($sql);
+        $result->execute();
+
+        //Mettre les résultats de la requete dans une option d'une select dans le formulaire
+
+        while($row = $result->fetch(PDO::FETCH_ASSOC)){
+            echo '<option value="'.$row['Id_Parcours'].'">'.$row['Nom'].'</option>';
+        }
+    }
+
+    
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -32,13 +67,11 @@
     <h1 class="text-2xl font-bold text-center my-8">Ajouter au parcours :</h1>
 
     <div class="container">
-        <form action="addToPost.php">
+        <form action="../../php/ajouterFichier.php" method="post">
             <div class="flex flex-col gap-4">
                 <label for="parcours">Ajouter à :</label>
                 <select name="parcours" id="parcours">
-                    <option value="1">Parcours 1</option>
-                    <option value="2">Parcours 2</option>
-                    <option value="3">Parcours 3</option>
+                    <?php listeDesParcours(); ?>
                 </select>
             </div>
     
