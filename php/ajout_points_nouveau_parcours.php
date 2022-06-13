@@ -44,7 +44,14 @@
             if(!isset($_SESSION['ht'])){
                 $hometrainer = NULL;
             } else{
-                $hometrainer = $_SESSION['ht'];
+                switch($_SESSION['ht']){
+                    case 'oui':
+                        $hometrainer = 1;
+                        break;
+                    case 'non':
+                        $hometrainer = 0;
+                        break;
+                }
             }
 
             if(!isset($_SESSION['meteo'])){
@@ -56,7 +63,14 @@
             if(!isset($_SESSION['group'])){
                 $groupe = NULL;
             } else{
-                $groupe = $_SESSION['group'] ;
+                switch($_SESSION['group']){
+                    case 'groupe':
+                        $groupe = 1;
+                        break;
+                    case 'seul':
+                        $groupe = 0;
+                        break;   
+                }       
             }
 
             // creation du fichier dans le repertoire juste créé avec toutes les variables de cette sortie
@@ -74,7 +88,7 @@
                     'activite' => $_SESSION['activite'],
                     'meteo' => $meteo,
                     'denivele' => $_SESSION["denivele"],
-                    'home_trainer' => $_SESSION['ht'],
+                    'home_trainer' => $hometrainer,
                     'groupe' => $groupe
                 )
             )){
