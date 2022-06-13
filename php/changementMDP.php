@@ -7,13 +7,14 @@
  header("location:../public/index.html");
 
     if(!empty($_POST['newpassword'])){
-
         $linkpdo=connexion();
-
-        $req = $linkpdo->prepare('Update utilisateur set Password = :password where Mail = :mail');
+        $token = $_SESSION['token'];
+        $req = $linkpdo->prepare('Update utilisateur set Password = :password where tokeninit = :token');
 
         $req->execute(array('password' => $_POST['newpassword'],
-                            'mail' => $_SESSION['email']));
+                            'token' => $token));
 
         header('Location:../public/index.html');
+    }else{
+        header('Location:../public/html/changementMDP.html?error=mdp');
     }

@@ -9,16 +9,16 @@
 
         $linkpdo= connexion();
 
-        $mail = $_SESSION['email'];
+        $mail = $_POST['email'];
+        echo"$mail";
         $req =$linkpdo->prepare('Select tokeninit from Utilisateur where mail = :mail');
 
         $req -> execute(array('mail' =>$mail));
 
         $reset = $req ->fetch();
-
-        if($_POST['login'] == $reset){
-            $_SESSION['token']=true;
-            header('Location:../public/html/changementMDP.html');
+        echo"$reset";
+        if($_POST['token'] == $reset){
+            header("Location:../public/html/changementMDP.html?token=$reset");
         }else{
             header('Location:../public/html/token.html?error=token');
         }

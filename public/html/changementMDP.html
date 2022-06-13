@@ -8,11 +8,11 @@ if($_SESSION['token'] == false){
 require("../../php/connexionDB.php");
 
 $linkpdo=connexion();
-$mail = $_SESSION['email'];
-$req = $linkpdo->prepare('select login, from Utilisateur where mail like :mail');
+$req = $linkpdo->prepare('select login from Utilisateur where token like :token');
 
-$req -> execute(array('mail' =>$mail));
+$req -> execute(array('token' => $_GET['token']));
 $login = $req -> fetch();
+echo"$login";
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -33,7 +33,7 @@ $login = $req -> fetch();
     <!-- Connexion -->
     <section class="relative flex h-screen justify-center items-center bg-purple-400">
         <div class="container max-w-sm rounded-md p-4 bg-white">
-            <h2 class="my-4 font-semibold text-lg"><?php echo'Bonjour '.$login;?></h2>
+            <h2 class="my-4 font-semibold text-lg"><?php echo"Bonjour ".$login;?></h2>
             <form action="../../php/changementMDP.php" method="post">
                 <p>Veuillez saisir votre nouveau mot de passe :</p><br>
 

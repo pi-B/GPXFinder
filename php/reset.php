@@ -85,7 +85,7 @@ if (!empty($_POST['email'])){
                 echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
             }
             //envoi vers la page de changement de mot de passe
-            header("Location:../public/html/token.html");
+            header("Location:../public/html/token.html?email=$email_recup");
         }else{
             $erreur = "Cette adresse mail ne correspond à aucun utilisateur";
         }
@@ -93,3 +93,4 @@ if (!empty($_POST['email'])){
         $erreur = "Veuillez entrer votre adresse mail";
     }
 }
+?>
