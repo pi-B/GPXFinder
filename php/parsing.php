@@ -31,9 +31,6 @@
       return $c;
     }
 
-    if(isset($_GET['sendcode'])){
-        header('location:../public/html/add.html');
-    }
 
     $tab_points = new ArrayObject();
     $distance_course = 0;
@@ -61,7 +58,7 @@
     
                 }
                 if(!empty($trackpoint->ele)){
-                $point->addEle((string)$trackpoint->ele);
+                    $point->addEle((string)$trackpoint->ele);
                 }
     
                 $tab_points->append($point);
@@ -109,6 +106,7 @@
 
 
     foreach ($tab_points as $k => $point){
+
         if($point->getEle() > $elevation_max){
         $elevation_max = $point->getEle();
         }
@@ -134,6 +132,3 @@
     header('location:../public/html/add.html');
 
 ?>
-<!DOCTYPE html>
-<a href="?sendcode=true">Didn't get a code?</a>
-</html>

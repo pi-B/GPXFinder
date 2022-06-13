@@ -34,7 +34,7 @@
         public function getTime(): string
         {
             if(isset($time_code)){
-                return $this->elevation;
+                return $this->time_code;
             } else {
                 return '0';
             }
@@ -52,8 +52,8 @@
 
         public function getEle(): string
         {
-            if(isset($elevation)){
-                return $this->$elevation;
+            if(isset($this->elevation)){
+                return $this->elevation;
             } else {
                 return '0';
             }
