@@ -20,17 +20,14 @@ ob_start();
     }
   }
 
+  unset($_SESSION['erreurs']);
+  unset($_SESSION['nom']);
+  unset($_SESSION['ville']);
+  unset($_SESSION['activite']);
+
 ?>
 
 <!DOCTYPE html>
-
-<a href="?sendcode=true">Didn't get a code?</a>
-    <?php
-    if(isset($_GET['sendcode'])){
-        session_destroy();
-    }
-    ?>
-
 <head>
   <title>GPX - Upload</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />

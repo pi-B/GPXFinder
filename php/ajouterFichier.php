@@ -4,8 +4,41 @@ require 'config.php';
 require 'connexionDB.php';
 require('PointsGPX.php');
 
+
 session_start();
 
+
+if(!isset($_SESSION['ht'])){
+    $hometrainer = NULL;
+} else{
+    switch($_SESSION['ht']){
+        case 'oui':
+            $hometrainer = 1;
+            break;
+        case 'non':
+            $hometrainer = 0;
+            break;
+    }
+}
+
+if(!isset($_SESSION['meteo'])){
+    $meteo = NULL;
+} else{
+    $meteo = $_SESSION['meteo'];
+}
+
+if(!isset($_SESSION['group'])){
+    $groupe = NULL;
+} else{
+    switch($_SESSION['group']){
+        case 'groupe':
+            $groupe = 1;
+            break;
+        case 'seul':
+            $groupe = 0;
+            break;   
+    }       
+}
 
 $description = $_SESSION['desc'];
 $distance = $_SESSION['distance'];
@@ -14,9 +47,6 @@ $denivele_parcours = $_SESSION['denivele'];
 $date_parcours = $_SESSION['date'];
 $ville_depart = $_SESSION['ville'];
 $type_activite = $_SESSION['activite'];
-$meteo = $_SESSION['meteo'];
-$hometrainer = $_SESSION['ht'];
-$groupe = $_SESSION['group'];
 $nom = $_SESSION['nom'];
 
 

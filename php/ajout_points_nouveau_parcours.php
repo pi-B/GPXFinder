@@ -44,6 +44,7 @@
             if(!isset($_SESSION['ht'])){
                 $hometrainer = NULL;
             } else{
+                $hometrainer = 0;
                 switch($_SESSION['ht']){
                     case 'oui':
                         $hometrainer = 1;
@@ -53,15 +54,15 @@
                         break;
                 }
             }
-
+            
             if(!isset($_SESSION['meteo'])){
-                $meteo = NULL;
+                $meteo = "nuage";
             } else{
                 $meteo = $_SESSION['meteo'];
             }
-
+            $groupe = 0;
             if(!isset($_SESSION['group'])){
-                $groupe = NULL;
+                
             } else{
                 switch($_SESSION['group']){
                     case 'groupe':
@@ -72,7 +73,7 @@
                         break;   
                 }       
             }
-
+            
             // creation du fichier dans le repertoire juste créé avec toutes les variables de cette sortie
             $query = "insert into FICHIER(Id_Parcours,Nom,Description,Distance,Date_parcours,Ville_depart,Duree,Type_activite,Meteo,Denivele,home_trainer,groupe) 
             values (:id,:nom,:description,:distance,:date,:ville,:duree,:activite,:meteo,:denivele,:home_trainer,:groupe)";
