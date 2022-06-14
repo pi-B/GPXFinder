@@ -53,13 +53,13 @@
                         break;
                 }
             }
-
+            
             if(!isset($_SESSION['meteo'])){
                 $meteo = NULL;
             } else{
                 $meteo = $_SESSION['meteo'];
             }
-
+            
             if(!isset($_SESSION['group'])){
                 $groupe = NULL;
             } else{
@@ -72,7 +72,7 @@
                         break;   
                 }       
             }
-
+            
             // creation du fichier dans le repertoire juste créé avec toutes les variables de cette sortie
             $query = "insert into FICHIER(Id_Parcours,Nom,Description,Distance,Date_parcours,Ville_depart,Duree,Type_activite,Meteo,Denivele,home_trainer,groupe) 
             values (:id,:nom,:description,:distance,:date,:ville,:duree,:activite,:meteo,:denivele,:home_trainer,:groupe)";

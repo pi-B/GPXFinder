@@ -3,10 +3,34 @@
     require('../../php/PointsGPX.php');
     require('../../php/connexionDB.php'); 
 
+    session_start();
+    
     
 
+    function recuperer_points_fichier($id_fichier){
+
+            $linkpdo = connexion();
+             $req = (" SELECT latitude, longitude FROM point_gpx where id_fichier =".$id_fichier);
+             $res = $linkpdo->prepare($req);
+             $res->execute();
+ 
+             $liste_points=array();
+             while($data = $res->fetch()){
+                 $temp = array();
+                 array_push($temp,$data['latitude'],$data['longitude']);
+                 array_push($liste_points,$temp);
+             }
+ 
+         //     echo "var dump des points recoltés: <br>";
+         //    echo "<pre>";
+         //     print_r($liste_points);
+         //     echo "</pre>";
+             return $liste_points;
+    }
+
     function liste_fichiers_parcours(){
-        
+
+
         $id_parcours = $_GET['parcours'];
         $liste_parcours = "";
         $compteur = 1;
@@ -46,12 +70,16 @@
     }
     
     function creer_onglets(){
+
+        $_SESSION['script_leaflet'] = '';
+
         $compteur = 1;
         $id_parcours = $_GET['parcours'];
 
         $onglets = "";
         $linkpdo = connexion();
-        $req = "SELECT description, distance, duree , denivele, Type_activite as activite, date_format(date_parcours,'%d/%m/%Y') as date_parcours, Ville_depart as ville, meteo, home_trainer as hometrainer, groupe FROM `fichier` where Id_Parcours = $id_parcours";
+        $req = "SELECT nom, description, distance, duree , denivele, Type_activite as activite, date_format(date_parcours,'%d/%m/%Y') as date_parcours, 
+        Ville_depart as ville, meteo, home_trainer as hometrainer, groupe, id_fichier FROM `fichier` where Id_Parcours = $id_parcours";
         $res = $linkpdo->prepare($req);
         $res->execute();
 
@@ -145,6 +173,24 @@
                 ";
             }
 
+            $_SESSION['script_leaflet'] .= 
+            "
+            <script>
+            var map".$compteur." = L.map('map".$compteur."').setView([43.604652, 1.444209], 2);
+    
+            const tiles".$compteur." = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {maxZoom: 12, attribution: '© OpenStreetMap'});
+            
+            tiles".$compteur.".addTo(map".$compteur.");
+
+            var latlngsphp".$compteur." = ".json_encode(recuperer_points_fichier($data['id_fichier'])).";
+            var polyline".$compteur." = L.polyline(latlngsphp".$compteur.",{color: 'red'});
+            polyline".$compteur.".addTo(map".$compteur.");
+            
+            setInterval(function() {   map".$compteur.".invalidateSize(); map".$compteur.".fitBounds(polyline".$compteur.".getBounds()); }, 100);
+
+            </script>
+ 
+            ";
 
             $onglets .= 
             "
@@ -152,21 +198,27 @@
             <div id=\"trace".$compteur."\" class=\"result container my-8\">
             
                         <form action=\"#\" method=\"post\">
-            
+                        
+
+
                             <!-- Donnees generales (Titre + Desc + Image) -->
                             <div class=\"flex flex-col gap-4 xl:flex-row\">
                                 <div class=\"flex flex-col gap-8 nom_desc\">
-                                    <input readonly type=\"text\" name=\"nom\" value=\"".nom_parcours()."\" 
+                                    <input readonly type=\"text\" name=\"nom\" value=\"".$data['nom']."\" 
                                     class=\"border-2 border-gray-300 p-4 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-purple-400\" readonly>
                                     <textarea name=\"desc\" id=\"desc\" cols=\"70\" rows=\"4\" value=\"\"
                                     class=\"border-2 border-gray-300 p-4 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-purple-400\" readonly>".$data['description']."</textarea>
                                 </div>
+ 
                                 <div class=\"ajouter_image border-2 p-8 w-full\">
-                                    <h3 class=\"mb-3 text-lg font-semibold\">Image</h3>
-                                    <div name=\"image\" id=\"image\" class=\"rounded-lg overflow-hidden h-40 bg-slate-400\"></div>
+                                    <h3 class=\"mb-3 text-lg font-semibold\">Aperçu</h3>
+                                    <div id=\"map".$compteur."\">
+                                    </div>
                                 </div>
                             </div>
-            
+
+
+
                             <!-- Données Avancées -->
                             <h2 class=\"my-4 font-semibold text-lg text-purple-600\">Données Avancées :</h2>
             
@@ -299,7 +351,28 @@
         return $onglets;
     }
 
-    liste_fichiers_parcours();
+    $id_parcours = $_GET['parcours'];
+    $_SESSION['style_leaflet'] = '';
+    $onglets = "";
+    $linkpdo = connexion();
+    $req = "SELECT count(*) as count FROM `fichier` where Id_Parcours = $id_parcours";
+    $res = $linkpdo->prepare($req);
+    $res->execute();
+    $data = $res->fetch();
+
+    for($i = 1 ; $i <= $data['count'] ; $i++ ){
+        
+        $_SESSION['style_leaflet'] .= 
+        "
+        <style>
+        #map".$i." { 
+            height: 180px;
+            width: 400px;
+            }
+        </style>
+        ";
+        }
+ //   liste_fichiers_parcours();
 
 ?>
 
@@ -315,7 +388,15 @@
     />
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous">
     <link rel="stylesheet" href="../style.css">
+    <!-- Style pour faire fonctionner Leaflet -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.8.0/dist/leaflet.css" integrity="sha512-hoalWLoI8r4UszCkZ5kL8vayOGVae1oxXe/2A4AO6J9+580uKHDO3JdHb7NzwwzK5xr/Fs0W40kiNHxM9vyTtQ==" crossorigin=""/>
     <title>GPX - Afficher</title>
+     <script src="https://unpkg.com/leaflet@1.8.0/dist/leaflet.js"
+    integrity="sha512-BB3hKbKWOc9Ez/TAwyWxNXeoV9c1v6FIeYiBieIWkpLjauysF18NzgR1MBNBXf8/KABdlkX68nAhlwcDFLGPCQ=="
+    crossorigin=""> 
+    </script> <!-- Script pour faire fonctionner Leaflet -->
+    <?php echo $_SESSION['style_leaflet']; ?> <!-- Pour chaque onglet on aura un nom de division map different donc on doit déclarer autant de style pour donner une taille aux maps -->
+
 </head>
 <body class="font-Monserrat">
 
@@ -359,7 +440,12 @@
 
     </section>
 
+   
+    <?php echo $_SESSION['script_leaflet']; ?>
+
     <script>
+        
+        
 
         var actif = document.getElementsByClassName("active");
         var divActive = actif[0].getAttribute("rel");

@@ -85,10 +85,14 @@
     crossorigin="">
     </script>
     <style>
-        #map { 
+        #map1 { 
             height: 180px;
             width: 400px;
             }
+        #map2{ 
+        height: 180px;
+        width: 400px;
+        }
     </style>
 </head>
 <body>
@@ -98,36 +102,41 @@
         </select>
         <input type='submit' >
     </form>
-    <div id="map">
+    <div id="map1">
+    </div>
+    <div id="map2">
     </div>
     <div name='recuperation_points'>
         <?php // if(isset($_POST['selection_parcours'])){var_dump(recuperer_points_fichier()); }?>
     </div>
     <script>
-        var map = L.map('map').setView([43.604652, 1.444209], 10);
+        var map = L.map('map1').setView([43.604652, 1.444209], 10);
 
         const tiles = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {maxZoom: 19, attribution: '© OpenStreetMap'});
         
         tiles.addTo(map);
         
-        var latlngs = [
-        [45.51, -122.68],
-        [37.77, -122.43],
-        [34.04, -118.2]
-        ];
         var latlngsphp = <?php echo json_encode(recuperer_points_fichier()); ?>;
-        console.log(latlngsphp);
-        console.log(latlngs);
 
-    document.write(latlngs+"<br>");
-    document.write(latlngsphp);
-    
         var polyline = L.polyline(latlngsphp,{color: 'red'});
         polyline.addTo(map);
 
         map.fitBounds(polyline.getBounds());
-
-
     </script>
+    <script> 
+        var map2 = L.map('map2').setView([43.604652, 1.444209], 10);
+
+        const tiles2 = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {maxZoom: 19, attribution: '© OpenStreetMap'});
+
+        tiles2.addTo(map2);
+
+        var latlngsphp = <?php echo json_encode(recuperer_points_fichier()); ?>;
+
+        var polyline = L.polyline(latlngsphp,{color: 'red'});
+        polyline.addTo(map2);
+
+        map2.fitBounds(polyline.getBounds());
+    </script>
+
 </body>
 </html>
