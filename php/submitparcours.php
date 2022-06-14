@@ -8,7 +8,12 @@ $_SESSION['erreurs'] = array();
 verifVariables();
 
 if (isset($_POST['creer'])) {
-    header('Location: ajout_points_nouveau_parcours.php');
+    if (empty($_SESSION['erreurs'])) {
+        header('Location: ajout_points_nouveau_parcours.php');
+    } else {
+        header('Location: ../public/html/add.html');
+    }
+    
 } else {
     if (isset($_POST['ajouter'])) {
         //si la taille du tableau $_SESSION['erreurs'] est vide, on peut ajouter le parcours
@@ -114,13 +119,13 @@ function verifVariables() {
     $_SESSION['date'] = $date_parcours;
 
     if (isset($_POST['ville']) && !empty($_POST['ville'])) {
-        $date_parcours = $_POST['ville'];
+        $ville_parcours = $_POST['ville'];
         unset($_SESSION['erreurs']['ville']);
     } else {
         //La ville ne doit pas etre vide
         $_SESSION['erreurs']['ville'] = "La ville est obligatoire";
     }
-    $_SESSION['ville'] = $date_parcours;
+    $_SESSION['ville'] = $ville_parcours;
 
     if (isset($_POST['activite']) && !empty($_POST['activite'])) {
         $activite = $_POST['activite'];
