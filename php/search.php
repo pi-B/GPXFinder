@@ -5,7 +5,7 @@
 
         $linkpdo=connexion();
 
-        $req=$linkpdo->prepare('select date_parcours, Nom, type_activite, duree, denivele, ville_depart, groupe, home_trainer, meteo from fichier order by date_parcours DESC;');
+        $req=$linkpdo->prepare('select date_parcours, Nom, type_activite, duree, denivele, ville_depart, groupe, home_trainer, meteo, id_fichier, id_parcours from fichier order by date_parcours DESC;');
 
         $req->execute();
         $nb_lignes = $req->rowCount();
@@ -34,7 +34,9 @@
                             'auteur' => ucwords('vous'),
                             'groupe' => $groupe,
                             'trainer' => $ht,
-                            'meteo' => $data[8]);
+                            'meteo' => $data[8],
+                            'id_fichier' => $data[9],
+                            'id_parcours' => $data[10]);
             
            $nb=array_push($retour,$valeurs);
            
@@ -70,6 +72,10 @@
         $retour.="/";
         $retour.=$arr2[0];
         return $retour;
+    }
+
+    function obtenir_IDParcours(){
+        
     }
 
 ?>

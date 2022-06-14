@@ -106,6 +106,8 @@
             $preparation_query->execute(); 
             $id_fichier = $preparation_query->fetch();
 
+            
+
             $id_fichier = $id_fichier[0];
 
             if(!empty($liste_points)){

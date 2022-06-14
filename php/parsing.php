@@ -40,7 +40,6 @@
 
     $duree_course = 0; // Faire soustraction
 
-
     $fichier_gpx = simplexml_load_file($_FILES['myFile']['tmp_name']);
 
     foreach($fichier_gpx->children() as $child){
