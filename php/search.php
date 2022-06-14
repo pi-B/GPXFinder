@@ -74,8 +74,4 @@
         return $retour;
     }
 
-    function obtenir_IDParcours(){
-        
-    }
-
 ?>
