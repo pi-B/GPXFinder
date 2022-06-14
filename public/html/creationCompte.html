@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link
+        rel="stylesheet"
+        href="https://unpkg.com/swiper@8/swiper-bundle.min.css"
+    />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous">
+    <link rel="stylesheet" href="../style.css">
+    <title>GPX - Création compte</title>
+</head>
+<body class="font-Monserrat">
+
+    <!-- Connexion -->
+    <section class="relative flex h-screen justify-center items-center bg-purple-400">
+        <div class="container max-w-sm rounded-md p-4 bg-white">
+            <h2 class="my-4 font-semibold text-lg">Connexion : </h2>
+            <form action="../../php/creationCompte.php" method="post">
+                <span class="erreur text-red-500 text-sm">Erreur lors de la création du compte, veuillez vérifier les informations saisies </span><br><br>';
+
+                <input type="text" name="login" placeholder="Login" class="border-2 border-gray-300 p-4 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-purple-400 mb-4"><br>
+                <input type="password" name="password" placeholder="Mot de passe" class="border-2 border-gray-300 p-4 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-purple-400 mb-4"><br>
+                <input type="text" name="email" placeholder="monadresse@email.com" class="border-2 border-gray-300 p-4 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-purple-400 mb-4"><br><br>
+                <button type="submit" class="bg-purple-400 text-white py-3 px-7 rounded-md text-center">Connexion</button>
+            </form>
+        </div>
+    </section>
+    
+
+    <script src="https://unpkg.com/swiper@8/swiper-bundle.min.js"></script>
+    <script src="../src/swiper.js"></script>
+</body>
+</html>
