@@ -62,18 +62,21 @@ require("../../php/search.php");
                     <tr class="bg-white">
                         <?php
                         $resTab = recupDonneesAffichageRecherche();
+                        var_dump($resTab);
                         for($i=0; $i<count($resTab); $i++){
                             $tab_int = $resTab[$i];
-                            var_dump($tab_int);
+                            //var_dump($tab_int);
+                            $temps=temps_beau($tab_int['temps']);
 
                         ?>
-                        <td class='p-3 text-sm text-gray-700'><?php $tab_int['date']; ?></td>
-                        <td class='p-3 text-sm text-gray-700'><?php $tab_int['nom'] ; ?></td>
-                        <td class='p-3 text-sm text-gray-700'><?php $tab_int['activite'] ; ?></td>
-                        <td class='p-3 text-sm text-gray-700'>40 <span>'</span>12 <span>"</span></td>
-                        <td class='p-3 text-sm text-gray-700'><?php $tab_int['denivele'] ; ?></td>
-                        <td class='p-3 text-sm text-gray-700'><?php $tab_int['depart'] ; ?></td>
-                        <td class='p-3 text-sm text-gray-700'><?php $tab_int['auteur'] ; ?></td>
+
+                        <td class='p-3 text-sm text-gray-700'><?php echo $tab_int['date']; ?></td>
+                        <td class='p-3 text-sm text-gray-700'><?php echo $tab_int['nom'] ; ?></td>
+                        <td class='p-3 text-sm text-gray-700'><?php echo $tab_int['activite'] ; ?></td>
+                        <td class='p-3 text-sm text-gray-700'><?php echo $temps ; ?></td>
+                        <td class='p-3 text-sm text-gray-700'><?php echo $tab_int['denivele'] ; ?></td>
+                        <td class='p-3 text-sm text-gray-700'><?php echo $tab_int['depart'] ; ?></td>
+                        <td class='p-3 text-sm text-gray-700'><?php echo $tab_int['auteur'] ; ?></td>
                         <td class='p-3 text-sm text-gray-700'><span class='p-1.5 bg-red-400 text-red-800 rounded-md uppercase tracking-wider bg-opacity-30'>Non</span></td>
                         <td class='p-3 text-sm text-gray-700'><span class='p-1.5 bg-red-400 text-red-800 rounded-md uppercase tracking-wider bg-opacity-30'>Non</span></td>
                         <td class='p-3 text-sm text-gray-700'><i class='fas fa-cloud-sun'></i></td>

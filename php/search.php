@@ -12,18 +12,9 @@
         //$cpt=0;
         $retour=array();
         //echo"<table>";
-        while($data = $req -> fetch()){
+        while($data = $req->fetch()){
             //$cpt++;
-            $req2 = $linkpdo->prepare('select nom from activite where value = :value');
-
-            $req2->execute(array('value'=> $data[2]));
-
-            $activite = $req2 ->fetch();
-
-            $req3 = $linkpdo->prepare('select nom from meteo where value = :value');
-
-            $req3->execute(array('value' => $data[8]));
-            $meteo=$req3->fetch();
+            
 
             switch($data[6]){
                 case 0: $groupe = "non";
@@ -49,14 +40,14 @@
             */
             $valeurs = array('date' => $data[0],
                             'nom' => $data[1],
-                            'activite' => $activite[0],
+                            'activite' => $data[2],
                             'temps' =>$data[3],
                             'denivele' =>$data[4],
                             'depart' => $data[5],
                             'auteur' => "vous",
                             'groupe' => $groupe,
                             'trainer' => $ht,
-                            'meteo' => $meteo[0]);
+                            'meteo' => $data[8]);
             
            $nb=array_push($retour,$valeurs);
            //echo"$nb";
@@ -101,7 +92,22 @@
 
                          
     }
-    */
     
+    $tab = recupDonneesAffichageRecherche();
+
+    for($i=0; $i<count($tab); $i++){
+        $tab_int = $tab[$i];
+
+        var_dump($tab_int);
+    }
+    */
+    function temps_beau($temps){
+        $arr=str_split($temps, 3);
+        $retour="";
+        $retour.=str_replace(':','h',$arr[0]);
+        $retour.=str_replace(':','m',$arr[1]);
+        $retour.=str_replace(':','s',$arr[2]);
+        return $retour;
+    }
 
 ?>
