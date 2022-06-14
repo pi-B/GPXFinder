@@ -100,12 +100,10 @@ require("../../php/search.php");
                                 break;
                             }
                             ?>
-                        </tr>
+                        </tr>  
                         <?php
-                        
-                        }
-                        ?>
-                        
+                    }
+                    ?>  
                 </tbody>
             </table>
         </div>
@@ -115,24 +113,30 @@ require("../../php/search.php");
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-8 lg:hidden my-8">
 
             <!-- Carte -->
+            <?php
+            for($i=0; $i<count($resTab); $i++){
+                $tab_int = $resTab[$i];
+                $temps=temps_beau($tab_int['temps']);
+                $denivele=denivele_beau($tab_int['denivele']);
+            ?>
             <div class="shadow-md rounded-lg border-2 p-4 border-gray-300 text-sm">
                 <div class="">
                     <div class="flex items-center gap-4">
-                        <div class="font-semibold">Jogging Matinal</div>
-                        <div class="text-xs font-semibold text-purple-800">25/01/2022</div>
+                        <div class="font-semibold"><?php echo $tab_int['nom'] ; ?></div>
+                        <div class="text-xs font-semibold text-purple-800"><?php echo $tab_int['date']; ?></div>
                     </div>
-                    <div class="text-sm font-semibold">Running</div>
+                    <div class="text-sm font-semibold"><?php echo $tab_int['activite'] ; ?></div>
                 </div>
                 <div class="flex flex-col">
                     <div class="mt-2">
                         <div class="flex items-center gap-16">
                             <div class="flex flex-col gap-2">
                                 <div class="text-sm">Temps :</div>
-                                <span class="py-1.5 px-2.5 text-center text-sm  text-white bg-purple-400 bg-opacity-80 rounded-lg w-24">40 <span>'</span>12 <span>"</span></span> 
+                                <span class="py-1.5 px-2.5 text-center text-sm  text-white bg-purple-400 bg-opacity-80 rounded-lg w-24"><?php echo $temps ; ?></span> 
                             </div>
                             <div class="flex flex-col gap-2">
-                                <div>Denivelé (m) :</div>
-                                <span class="py-1.5 px-2.5 text-center text-sm  text-white bg-purple-400 bg-opacity-80 rounded-lg w-24">15 <span>m</span></span> 
+                                <div>Denivelé (km) :</div>
+                                <span class="py-1.5 px-2.5 text-center text-sm  text-white bg-purple-400 bg-opacity-80 rounded-lg w-24"><?php echo $denivele ; ?></span> 
                             </div>
                         </div>
                     </div>
@@ -140,103 +144,34 @@ require("../../php/search.php");
                         <div class="flex items-center gap-24 ">
                             <div class="flex flex-col gap-2 items-center">
                                 <div>Départ :</div>
-                                <span class="py-1.5 px-2.5 text-sm  text-gray-800 bg-gray-200 bg-opacity-80 rounded-lg">Maison</span> 
+                                <span class="py-1.5 px-2.5 text-sm  text-gray-800 bg-gray-200 bg-opacity-80 rounded-lg"><?php echo $tab_int['depart'] ; ?></span> 
                             </div>
                             <div class="flex flex-col gap-2 items-center">
                                 <div>Auteur :</div>
-                                <span class="py-1.5 px-2.5 text-sm  text-gray-800 bg-gray-200 bg-opacity-80 rounded-lg">Vous</span>
+                                <span class="py-1.5 px-2.5 text-sm  text-gray-800 bg-gray-200 bg-opacity-80 rounded-lg"><?php echo $tab_int['auteur'] ; ?></span>
                             </div>
                         </div>
+                     
                     </div>
                     <div class="mt-4 flex gap-24">
-                        <span class="p-1.5 bg-red-400 text-red-800 rounded-md uppercase tracking-wider bg-opacity-30 text-xs">TRAINER</span>
-                        <span class="p-1.5 bg-red-400 text-red-800 rounded-md uppercase tracking-wider bg-opacity-30 text-xs">GROUPE</span>
+                        <?php
+                        if($tab_int['trainer']=='non'){
+                            echo"<span class='p-1.5 bg-red-400 text-red-800 rounded-md uppercase tracking-wider bg-opacity-30 text-xs'>";
+                            }else{
+                            echo"<span class='p-1.5 bg-green-400 text-green-800 rounded-md uppercase tracking-wider bg-opacity-30 text-xs'>";
+                        }?>TRAINER</span>
+                        <?php
+                        if($tab_int['groupe']=='non'){
+                            echo"<span class='p-1.5 bg-red-400 text-red-800 rounded-md uppercase tracking-wider bg-opacity-30 text-xs'>";
+                            }else{
+                                echo"<span class='p-1.5 bg-green-400 text-green-800 rounded-md uppercase tracking-wider bg-opacity-30 text-xs'>";
+                            }?>GROUPE</span>
                     </div>
                 </div>
             </div>
-
-            <!-- Carte -->
-            <div class="shadow-md rounded-lg border-2 p-4 border-gray-300 text-sm">
-                <div class="">
-                    <div class="flex items-center gap-4">
-                        <div class="font-semibold">Ballade en Famille</div>
-                        <div class="text-xs font-semibold text-purple-800">25/01/2022</div>
-                    </div>
-                    <div class="text-sm font-semibold">Marche</div>
-                </div>
-                <div class="flex flex-col">
-                    <div class="mt-2">
-                        <div class="flex items-center gap-16">
-                            <div class="flex flex-col gap-2 ">
-                                <div class="text-sm">Temps :</div>
-                                <span class="py-1.5 px-2.5 text-center text-sm  text-white bg-purple-400 bg-opacity-80 rounded-lg w-24">25 <span>'</span>12 <span>"</span></span> 
-                            </div>
-                            <div class="flex flex-col gap-2">
-                                <div>Denivelé (m) :</div>
-                                <span class=" py-1.5 px-2.5 text-center text-sm  text-white bg-purple-400 bg-opacity-80 rounded-lg w-24">15 <span>m</span></span> 
-                            </div>
-                        </div>
-                    </div>
-                    <div class="mt-2">
-                        <div class="flex items-center gap-24 ">
-                            <div class="flex flex-col gap-2 items-center">
-                                <div>Départ :</div>
-                                <span class="py-1.5 px-2.5 text-sm  text-gray-800 bg-gray-200 bg-opacity-80 rounded-lg">Maison</span> 
-                            </div>
-                            <div class="flex flex-col gap-2 items-center">
-                                <div>Auteur :</div>
-                                <span class="py-1.5 px-2.5 text-sm  text-gray-800 bg-gray-200 bg-opacity-80 rounded-lg">Vous</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="mt-4 flex gap-24">
-                        <span class="p-1.5 bg-red-400 text-red-800 rounded-md uppercase tracking-wider bg-opacity-30 text-xs">TRAINER</span>
-                        <span class="p-1.5 bg-green-400 text-green-800 rounded-md uppercase tracking-wider bg-opacity-30 text-xs">GROUPE</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Carte -->
-            <div class="shadow-md rounded-lg border-2 p-4 border-gray-300 text-sm">
-                <div class="">
-                    <div class="flex items-center gap-4">
-                        <div class="font-semibold">Jogging Matinal</div>
-                        <div class="text-xs font-semibold text-purple-800">24/01/2022</div>
-                    </div>
-                    <div class="text-sm font-semibold">Running</div>
-                </div>
-                <div class="flex flex-col">
-                    <div class="mt-2">
-                        <div class="flex items-center gap-16">
-                            <div class="flex flex-col gap-2">
-                                <div class="text-sm">Temps :</div>
-                                <span class="py-1.5 px-2.5 text-center text-sm  text-white bg-purple-400 bg-opacity-80 rounded-lg w-24">40 <span>'</span>12 <span>"</span></span> 
-                            </div>
-                            <div class="flex flex-col gap-2">
-                                <div>Denivelé (m) :</div>
-                                <span class="py-1.5 px-2.5 text-center text-sm  text-white bg-purple-400 bg-opacity-80 rounded-lg w-24">15 <span>m</span></span> 
-                            </div>
-                        </div>
-                    </div>
-                    <div class="mt-2">
-                        <div class="flex items-center gap-24 ">
-                            <div class="flex flex-col gap-2 items-center">
-                                <div>Départ :</div>
-                                <span class="py-1.5 px-2.5 text-sm  text-gray-800 bg-gray-200 bg-opacity-80 rounded-lg">Maison</span> 
-                            </div>
-                            <div class="flex flex-col gap-2 items-center">
-                                <div>Auteur :</div>
-                                <span class="py-1.5 px-2.5 text-sm  text-gray-800 bg-gray-200 bg-opacity-80 rounded-lg">Vous</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="mt-4 flex gap-24">
-                        <span class="p-1.5 bg-red-400 text-red-800 rounded-md uppercase tracking-wider bg-opacity-30 text-xs">TRAINER</span>
-                        <span class="p-1.5 bg-red-400 text-red-800 rounded-md uppercase tracking-wider bg-opacity-30 text-xs">GROUPE</span>
-                    </div>
-                </div>
-            </div>
-            
+            <?php
+        }
+        ?> 
         </div>
 
     </div>
