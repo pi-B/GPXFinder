@@ -62,6 +62,31 @@
         }
     }
 
+    function returnOptionsActivite(){
+        $result = "";
+        $linkpdo = connexion();
+        $query = "select * from ACTIVITE";
+        $preparation_query = $linkpdo->prepare($query);
+        $preparation_query->execute();
+        while ($row = $preparation_query->fetch(PDO::FETCH_ASSOC)) {
+            $result .= "<option value=\"".$row['Nom']."\">";
+        }
+        return $result;
+    }
+
+    function returnOptionsVille(){
+        $result = "";
+        $linkpdo = connexion();
+        $query = "select * from VILLE";
+        $preparation_query = $linkpdo->prepare($query);
+        $preparation_query->execute();
+        while ($row = $preparation_query->fetch(PDO::FETCH_ASSOC)) {
+            $result .= "<option value=\"".$row['Nom']."\">";
+        }
+        return $result;
+    }
+
+
 ?>
 
 <!DOCTYPE html>
@@ -110,7 +135,7 @@
 
                     <div class="flex flex-col gap-8 nom_desc">
 
-                        <span class="erreur text-sm text-red-500"><?php echo returnError('nom'); ?></span>
+                        <span class='erreur text-sm text-red-500'><?php echo returnError('nom'); ?></span>
                         <input type="text" name="nom" placeholder="Nom de la trace" value="<?php if (isset($_SESSION['nom'])) {echo $_SESSION['nom'];}?>"
                         class="border-2 border-gray-300 p-4 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-purple-400">
 
@@ -168,15 +193,10 @@
                             </div>
                             <input type="text" list="activites" name="activite" id="activite" class="border-2 border-gray-300 p-4 rounded-md shadow-sm w-full focus:outline-none focus:ring-1 focus:ring-purple-400" <?php if (isset($_SESSION['activite'])) {echo $_SESSION['activite'];}?>">
                                 <datalist id="activites">
-                                    <option value="VTT"></option>
-                                    <option value="Course à pieds"></option>
-                                    <option value="Randonée pedestre"></option>
-                                    <option value="Natation"></option>
-                                    <option value="Vélo de route"></option>
-                                    <option value="Kayak"></option>
+                                    <option value="Non Renseignée">
+                                    <?php echo returnOptionsActivite()?>
                                 </datalist>
-                            </input>
-                                
+                            </input> 
                         </div>
 
                         
@@ -200,12 +220,8 @@
                             </div>
                             <input type="text" list="villes" name="ville" id="ville" class="border-2 border-gray-300 p-4 rounded-md shadow-sm w-full focus:outline-none focus:ring-1 focus:ring-purple-400" value="<?php if (isset($_SESSION['ville'])) {echo $_SESSION['ville'];}?>">
                                 <datalist id="villes">
-                                    <option value="Toulouse"></option>
-                                    <option value="Blagnac"></option>
-                                    <option value="Albi"></option>
-                                    <option value="Auch"></option>
-                                    <option value="Saint-Orens"></option>
-                                    <option value="Villefranche"></option>
+                                <option value="Non Renseignée">
+                                    <?php echo returnOptionsVille()?>
                                 </datalist>
                             </input>
                                 
