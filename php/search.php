@@ -1,7 +1,7 @@
 <?php
     require("connexionDB.php");
 
-    function récupDonnéesAffichageRecherche(){
+    function recupDonneesAffichageRecherche(){
 
         $linkpdo=connexion();
 
@@ -63,15 +63,45 @@
         }
         //echo"</table>";
         return $retour;
+        
     }
-
+/*
     function traitementTableauDonnées(array $tab){
-        for($i=0; $i<count($tab); $i++){
+        
             $tab_int = $tab[$i];
-            var_dump($tab_int);
-            //echo"$tab_int['depart']";
+        
+         $resTab = recupDonneesAffichageRecherche();
+                            
+                            for($i=0; $i<count($resTab); $i++){
+                                $tab_int = $resTab[$i] ;
+                                //echo
+                                "<td class='p-3 text-sm text-gray-700'>$tab_int['date']</td>\n
+                                <td class='p-3 text-sm text-gray-700'>$tab_int['nom']</td>\n
+                                <td class='p-3 text-sm text-gray-700'>$tab_int['activite']</td>\n
+                                <td class='p-3 text-sm text-gray-700'>40 <span>'</span>12 <span></span></td>\n
+                                <td class='p-3 text-sm text-gray-700'>$tab_int['denivele'] <span>m</span></td>\n
+                                <td class='p-3 text-sm text-gray-700'>$tab_int['depart']</td>\n
+                                <td class='p-3 text-sm text-gray-700'>$tab_int['auteur']</td>\n
+                                <td class='p-3 text-sm text-gray-700'><span class='p-1.5 bg-red-400 text-red-800 rounded-md uppercase tracking-wider bg-opacity-30'>Non</span></td>\n
+                                <td class='p-3 text-sm text-gray-700'><span class='p-1.5 bg-red-400 text-red-800 rounded-md uppercase tracking-wider bg-opacity-30'>Non</span></td>\n
+                                <td class='p-3 text-sm text-gray-700'><i class='fas fa-cloud-sun'></i></td>";
+
+
+                        <td class='p-3 text-sm text-gray-700'><?php echo"$tab_int['date']" ; ?></td>
+                        <td class='p-3 text-sm text-gray-700'><?php echo"$tab_int['nom']" ; ?></td>
+                        <td class='p-3 text-sm text-gray-700'><?php echo"$tab_int['activite']" ; ?></td>
+                        <td class='p-3 text-sm text-gray-700'>40 <span>'</span>12 <span>"</span></td>
+                        <td class='p-3 text-sm text-gray-700'><?php echo"$tab_int['denivele']" ; ?></td>
+                        <td class='p-3 text-sm text-gray-700'><?php echo"$tab_int['depart']" ; ?></td>
+                        <td class='p-3 text-sm text-gray-700'><?php echo"$tab_int['auteur']" ; ?></td>
+                        <td class='p-3 text-sm text-gray-700'><span class='p-1.5 bg-red-400 text-red-800 rounded-md uppercase tracking-wider bg-opacity-30'>Non</span></td>
+                        <td class='p-3 text-sm text-gray-700'><span class='p-1.5 bg-red-400 text-red-800 rounded-md uppercase tracking-wider bg-opacity-30'>Non</span></td>
+                        <td class='p-3 text-sm text-gray-700'><i class='fas fa-cloud-sun'></i></td>
         }
+
+                         
     }
+    */
     
 
 ?>
