@@ -44,7 +44,7 @@
                             'temps' =>$data[3],
                             'denivele' =>$data[4],
                             'depart' => $data[5],
-                            'auteur' => "vous",
+                            'auteur' => ucwords('vous'),
                             'groupe' => $groupe,
                             'trainer' => $ht,
                             'meteo' => $data[8]);
@@ -106,7 +106,14 @@
         $retour="";
         $retour.=str_replace(':','h',$arr[0]);
         $retour.=str_replace(':','m',$arr[1]);
-        $retour.=str_replace(':','s',$arr[2]);
+        $retour.=$arr[2];
+        $retour.='s';
+        return $retour;
+    }
+
+    function denivele_beau($denivele){
+        $retour= str_replace('.',',', $denivele);
+        $retour.=' km';
         return $retour;
     }
 
