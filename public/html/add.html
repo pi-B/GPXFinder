@@ -52,6 +52,16 @@
         }
     }
 
+    function returnError($errorType) {
+        if (isset($_SESSION['erreurs'])) {
+            if(isset($_SESSION['erreurs'][$errorType])){
+                return $_SESSION['erreurs'][$errorType];
+            } else {
+                return "";
+            }
+        }
+    }
+
 ?>
 
 <!DOCTYPE html>
@@ -100,7 +110,8 @@
 
                     <div class="flex flex-col gap-8 nom_desc">
 
-                        <input type="text" name="nom" placeholder="Nom de la trace" 
+                        <span class="erreur text-sm text-red-500"><?php echo returnError('nom'); ?></span>
+                        <input type="text" name="nom" placeholder="Nom de la trace" value="<?php if (isset($_SESSION['nom'])) {echo $_SESSION['nom'];}?>"
                         class="border-2 border-gray-300 p-4 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-purple-400">
 
                         <textarea name="desc" id="desc" cols="70" rows="4" placeholder="Description de la trace"
@@ -126,7 +137,7 @@
                         <div class="input_text">
                             <div class="label_error flex flex-row gap-8 mb-2">
                                 <label for="distance">Distance</label>
-                                <?php if (!isset($_SESSION['distance'])){echo " <span class=\"erreur text-red-500 text-sm\">Distance non calculée</span>"; } ?>
+                                <span class="erreur text-sm text-red-500"><?php echo returnError('distance'); ?></span>
                             </div>
                             <input type="text" name="distance" id="distance" <?php echo placeholder("distance"); ?>
                             class="border-2 border-gray-300 p-4 rounded-md shadow-sm w-full focus:outline-none focus:ring-1 focus:ring-purple-400">
@@ -135,7 +146,7 @@
                         <div class="input_text">
                             <div class="label_error flex flex-row gap-8 mb-2">
                                 <label for="temps">Temps</label>
-                                <span class="erreur text-red-500 text-sm">Temps non calculée</span>
+                                <span class="erreur text-sm text-red-500"><?php echo returnError('duree'); ?></span>
                             </div>
                             <input  type="time" step="1" name="duree" id="temps"<?php echo placeholder("duree"); ?>
                             class="border-2  border-gray-300 p-4 rounded-md shadow-sm w-full focus:outline-none focus:ring-1 focus:ring-purple-400">
@@ -144,7 +155,7 @@
                         <div class="input_text">
                             <div class="label_error flex flex-row gap-8 mb-2">
                                 <label for="denivele">Dénivelé</label>
-                                <?php if (!isset($_SESSION['denivele'])){echo "<span class=\"erreur text-red-500 text-sm\">Dénivelé non calculée</span>";} ?> 
+                                <span class="erreur text-sm text-red-500"><?php echo returnError('denivele'); ?></span>
                             </div>
                             <input  type="text" name="denivele" id="denivele" <?php echo placeholder("denivele"); ?>
                             class="border-2 border-gray-300 p-4 rounded-md shadow-sm w-full focus:outline-none focus:ring-1 focus:ring-purple-400">
@@ -153,9 +164,9 @@
                         <div class="input_text">
                             <div class="label_error flex flex-row gap-8 mb-2">
                                 <label for="denivele">Type d'activité</label>
-                                <span class="erreur text-red-500 text-sm">Choisir le type d'activité</span>
+                                <span class="erreur text-sm text-red-500"><?php echo returnError('activite'); ?></span>
                             </div>
-                            <input type="text" list="activites" name="activite" id="activite" class="border-2 border-gray-300 p-4 rounded-md shadow-sm w-full focus:outline-none focus:ring-1 focus:ring-purple-400">
+                            <input type="text" list="activites" name="activite" id="activite" class="border-2 border-gray-300 p-4 rounded-md shadow-sm w-full focus:outline-none focus:ring-1 focus:ring-purple-400" <?php if (isset($_SESSION['activite'])) {echo $_SESSION['activite'];}?>">
                                 <datalist id="activites">
                                     <option value="VTT"></option>
                                     <option value="Course à pieds"></option>
@@ -176,7 +187,7 @@
                         <div class="input_text">
                             <div class="label_error flex flex-row gap-8 mb-2">
                                 <label for="date">Date</label>
-                                <span class="erreur text-red-500 text-sm">Date invalide</span>
+                                <span class="erreur text-sm text-red-500"><?php echo returnError('date'); ?></span>
                             </div>
                             <input type="date" name="date" id="date" value="<?php echo $_SESSION['date']; ?>"
                             class="border-2 border-gray-300 p-4 rounded-md shadow-sm w-full focus:outline-none focus:ring-1 focus:ring-purple-400">
@@ -185,9 +196,9 @@
                         <div class="input_text">
                             <div class="label_error flex flex-row gap-8 mb-2">
                                 <label for="ville">Ville Départ</label>
-                                <span class="erreur text-red-500 text-sm"></span>
+                                <span class="erreur text-sm text-red-500"><?php echo returnError('ville'); ?></span>
                             </div>
-                            <input type="text" list="villes" name="ville" id="ville" class="border-2 border-gray-300 p-4 rounded-md shadow-sm w-full focus:outline-none focus:ring-1 focus:ring-purple-400">
+                            <input type="text" list="villes" name="ville" id="ville" class="border-2 border-gray-300 p-4 rounded-md shadow-sm w-full focus:outline-none focus:ring-1 focus:ring-purple-400" value="<?php if (isset($_SESSION['ville'])) {echo $_SESSION['ville'];}?>">
                                 <datalist id="villes">
                                     <option value="Toulouse"></option>
                                     <option value="Blagnac"></option>

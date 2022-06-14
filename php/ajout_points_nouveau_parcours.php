@@ -44,6 +44,7 @@
             if(!isset($_SESSION['ht'])){
                 $hometrainer = NULL;
             } else{
+                $hometrainer = 0;
                 switch($_SESSION['ht']){
                     case 'oui':
                         $hometrainer = 1;
@@ -55,13 +56,13 @@
             }
             
             if(!isset($_SESSION['meteo'])){
-                $meteo = NULL;
+                $meteo = "nuage";
             } else{
                 $meteo = $_SESSION['meteo'];
             }
-            
+            $groupe = 0;
             if(!isset($_SESSION['group'])){
-                $groupe = NULL;
+                
             } else{
                 switch($_SESSION['group']){
                     case 'groupe':
