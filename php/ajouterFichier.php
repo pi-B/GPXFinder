@@ -78,6 +78,16 @@ if (isset($_POST['parcours'])) {
     echo $stmt->debugDumpParams();
     echo "</pre>";
 
+    $fichier = $_SESSION['fichier_enr'];
+        
+    $target = "../fichier_telecharges/";
+    $target_file = $target.$id_parcours;
+
+    if(move_uploaded_file($fichier, $target_file)){
+        echo"fichier transféré";
+    }else{
+        echo"fichier non transféré";
+    }
 
 
 }
@@ -128,8 +138,8 @@ if(!empty($liste_points)){
 } else {
     echo "Aucuns points à ajouter <br>";
 }
-
- header ('location:../public/html/show.html?parcours='.$id_parcours);
+    rename("fichiers_telecharges/temp/".$_SESSION['nom_fichier_telecharge'].".gpx", "fichiers_telecharges/".$id_fichier.".gpx");
+    header ('location:../public/html/show.html?parcours='.$id_parcours);
 
 
 ?>

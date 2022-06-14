@@ -18,8 +18,13 @@
     <section class="relative flex h-screen justify-center items-center bg-purple-400">
         <div class="container max-w-sm rounded-md p-4 bg-white">
             <h2 class="my-4 font-semibold text-lg">Connexion : </h2>
-            <form action="post">
-                <!--<span class="erreur text-red-500 text-sm">Erreur lors de la connexion, veuillez vérifier les informations saisies </span><br><br>-->
+
+            <form action="../../php/connexion.php" method="post">
+                <?php
+                if(isset($_GET['error'])){
+                    echo'<span class="erreur text-red-500 text-sm">Erreur lors de la connexion, veuillez vérifier les informations saisies </span><br><br>';
+                }
+                ?>
                 <input type="text" name="login" placeholder="Login" class="border-2 border-gray-300 p-4 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-purple-400 mb-4"><br>
                 <input type="password" name="password" placeholder="Mot de passe" class="border-2 border-gray-300 p-4 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-purple-400 mb-4"><br>
                 <a href="reset.html" class="reset underline">Mot de passe oublié ?</a><br><br>

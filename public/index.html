@@ -1,3 +1,47 @@
+<?php
+    require('../php/connexionDB.php');
+    
+    session_start();
+    ob_start();
+
+    function recuperer_dernier_fichiers(){
+        $carroussel = '';
+
+        $linkpdo = connexion();
+        $req = (" SELECT nom, ville_depart as ville, duree, distance from fichier order by id_fichier desc LIMIT 5");
+        $res = $linkpdo->prepare($req);
+        $res->execute();
+
+        while($data = $res->fetch()){
+            $carroussel .= "
+                <div class=\"swiper-slide\">
+                    <!-- Carte -->
+                    <div class=\"card p-4 rounded-md flex flex-col w-96 max-w-sm items-center gap-4 bg-gray-100\">
+                        <h3 class=\"uppercase font-semibold\">".$data['nom']."</h3>
+                        <img src=\"../img/On-the-Top.-135x90.jpg\" alt=\"Miniature Trace\" class=\"h-32 min-h-24\">
+                        <ul class=\"flex flex-col gap-3\">
+                            <li class=\"flex gap-3\">
+                                <i class=\"fas fa-map-marker-alt\"></i>
+                                <p>".$data['ville']."</p>
+                            </li>
+                            <li class=\"flex gap-3\">
+                                <i class=\"fas fa-stopwatch\"></i>
+                                <p>".$data['duree']."\"</p>
+                            </li>
+                            <li class=\"flex gap-3\">
+                                <i class=\"fas fa-ruler\"></i>
+                                <p>".$data['distance']."</p>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            ";
+        }
+
+        return $carroussel;
+
+    }
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -49,107 +93,7 @@
                 <!-- Additional required wrapper -->
                 <div class="swiper-wrapper">
                     <!-- Slides -->
-                    <div class="swiper-slide">
-                        <!-- Carte -->
-                        <div class="card p-4 rounded-md flex flex-col w-96 max-w-sm items-center gap-4 bg-gray-100">
-                            <h3 class="uppercase font-semibold">Randonée en montagne</h3>
-                            <img src="../img/On-the-Top.-135x90.jpg" alt="Miniature Trace" class="h-32 min-h-24">
-                            <ul class="flex flex-col gap-3">
-                                <li class="flex gap-3">
-                                    <i class="fas fa-map-marker-alt"></i>
-                                    <p>Lourdes</p>
-                                </li>
-                                <li class="flex gap-3">
-                                    <i class="fas fa-stopwatch"></i>
-                                    <p>1 H 10 ' 35 "</p>
-                                </li>
-                                <li class="flex gap-3">
-                                    <i class="fas fa-ruler"></i>
-                                    <p>8.7 km</p>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="card p-4 rounded-md flex flex-col w-96 max-w-sm items-center gap-4 bg-gray-100">
-                            <h3 class="uppercase">Randonée en montagne</h3>
-                            <img src="../img/On-the-Top.-135x90.jpg" alt="Miniature Trace" class="h-32 min-h-24">
-                            <ul class="flex flex-col gap-3">
-                                <li class="flex gap-3">
-                                    <i class="fas fa-map-marker-alt"></i>
-                                    <p>Lourdes</p>
-                                </li>
-                                <li class="flex gap-3">
-                                    <i class="fas fa-stopwatch"></i>
-                                    <p>1 H 10 ' 35 "</p>
-                                </li>
-                                <li class="flex gap-3">
-                                    <i class="fas fa-ruler"></i>
-                                    <p>8.7 km</p>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="card p-4 rounded-md flex flex-col w-96 max-w-sm items-center gap-4 bg-gray-100">
-                            <h3 class="uppercase">Randonée en montagne</h3>
-                            <img src="../img/On-the-Top.-135x90.jpg" alt="Miniature Trace" class="h-32 min-h-24">
-                            <ul class="flex flex-col gap-3">
-                                <li class="flex gap-3">
-                                    <i class="fas fa-map-marker-alt"></i>
-                                    <p>Lourdes</p>
-                                </li>
-                                <li class="flex gap-3">
-                                    <i class="fas fa-stopwatch"></i>
-                                    <p>1 H 10 ' 35 "</p>
-                                </li>
-                                <li class="flex gap-3">
-                                    <i class="fas fa-ruler"></i>
-                                    <p>8.7 km</p>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="card p-4 rounded-md flex flex-col w-96 max-w-sm items-center gap-4 bg-gray-100">
-                            <h3 class="uppercase">Randonée en montagne</h3>
-                            <img src="../img/On-the-Top.-135x90.jpg" alt="Miniature Trace" class="h-32 min-h-24">
-                            <ul class="flex flex-col gap-3">
-                                <li class="flex gap-3">
-                                    <i class="fas fa-map-marker-alt"></i>
-                                    <p>Lourdes</p>
-                                </li>
-                                <li class="flex gap-3">
-                                    <i class="fas fa-stopwatch"></i>
-                                    <p>1 H 10 ' 35 "</p>
-                                </li>
-                                <li class="flex gap-3">
-                                    <i class="fas fa-ruler"></i>
-                                    <p>8.7 km</p>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="card p-4 rounded-md flex flex-col w-96 max-w-sm items-center gap-4 bg-gray-100">
-                            <h3 class="uppercase">Randonée en montagne</h3>
-                            <img src="../img/On-the-Top.-135x90.jpg" alt="Miniature Trace" class="h-32 min-h-24">
-                            <ul class="flex flex-col gap-3">
-                                <li class="flex gap-3">
-                                    <i class="fas fa-map-marker-alt"></i>
-                                    <p>Lourdes</p>
-                                </li>
-                                <li class="flex gap-3">
-                                    <i class="fas fa-stopwatch"></i>
-                                    <p>1 H 10 ' 35 "</p>
-                                </li>
-                                <li class="flex gap-3">
-                                    <i class="fas fa-ruler"></i>
-                                    <p>8.7 km</p>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
+                    <?php echo recuperer_dernier_fichiers(); ?>
                 </div>
                 <!-- If we need pagination -->
                 <div class="swiper-pagination"></div>
