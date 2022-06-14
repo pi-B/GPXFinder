@@ -4,7 +4,7 @@
 session_start();
 
 
- verifVariables();
+verifVariables();
 
 if (isset($_POST['creer'])) {
     header('Location: ajout_points_nouveau_parcours.php');
@@ -56,7 +56,7 @@ function verifVariables() {
     } else {
         $denivele_parcours = "";
     }
-    $_SESSION['denivele'] = $denivele;
+    $_SESSION['denivele'] = $denivele_parcours;
 
     if (isset($_POST['date'])) {
         $date_parcours = $_POST['date'];
@@ -85,6 +85,20 @@ function verifVariables() {
         $meteo = "";
     }
     $_SESSION['meteo'] = $meteo;
+
+    if (isset($_POST['ht'])) {
+        $ht = $_POST['ht'];
+    } else {
+        $ht = "";
+    }
+    $_SESSION['ht'] = $ht;
+
+    if (isset($_POST['group'])) {
+        $group = $_POST['group'];
+    } else {
+        $group = "";
+    }
+    $_SESSION['group'] = $group;
     
 }
 

@@ -6,25 +6,26 @@ require('PointsGPX.php');
 
 session_start();
 
-if (!isset($_SESSION['variables_fichiers'])) {
-    echo "Variables non définies";
-} else {
-    $description = $_SESSION['desc'];
-    $distance = $_SESSION['distance'];
-    $duree = $_SESSION['duree'];
-    $denivele_parcours = $_SESSION['denivele'];
-    $date_parcours = $_SESSION['date'];
-    $ville_depart = $_SESSION['ville'];
-    $type_activite = $_SESSION['activite'];
-    $meteo = $_SESSION['meteo'];
-}
+
+$description = $_SESSION['desc'];
+$distance = $_SESSION['distance'];
+$duree = $_SESSION['duree'];
+$denivele_parcours = $_SESSION['denivele'];
+$date_parcours = $_SESSION['date'];
+$ville_depart = $_SESSION['ville'];
+$type_activite = $_SESSION['activite'];
+$meteo = $_SESSION['meteo'];
+$hometrainer = $_SESSION['ht'];
+$groupe = $_SESSION['group'];
+$nom = $_SESSION['nom'];
+
 
 $linkpdo = connexion();
 
 //ajouter une fichier dans la base de données
 if (isset($_POST['parcours'])) {
     $id_parcours = $_POST['parcours'];
-    $sql = "INSERT INTO fichier(Id_Parcours,Description,Distance,Date_parcours,Ville_depart,Duree,Type_activite,Meteo,Denivele) VALUES (:id,:description,:distance,:date,:ville,:duree,:activite,:meteo,:denivele)";
+    $sql = "INSERT INTO fichier(Id_Parcours,Description,Distance,Date_parcours,Ville_depart,Type_activite,Meteo,Denivele,Duree, Home_Trainer, Groupe, Nom) VALUES (:id,:description,:distance,:date,:ville,:activite,:meteo,:denivele,:duree, :ht, :groupe, :nom)";
     $stmt = $linkpdo->prepare($sql);
     $stmt->execute(
         array(
@@ -36,7 +37,11 @@ if (isset($_POST['parcours'])) {
         'duree' => $duree,
         'activite' => $type_activite,
         'meteo' => $meteo,
-        'denivele' =>  $denivele_parcours
+        'denivele' =>  $denivele_parcours,
+        'duree' => $duree,
+        'ht' => $hometrainer,
+        'groupe' => $groupe,
+        'nom' => $nom
         ));
    
     echo "<br> Debug requete fichier : <br><pre>";
