@@ -64,8 +64,8 @@ require("../../php/search.php");
                         $resTab = recupDonneesAffichageRecherche();
                         for($i=0; $i<count($resTab); $i++){
                             $tab_int = $resTab[$i];
-                            $temps=temps_beau($tab_int['temps']);
-                            $denivele=denivele_beau($tab_int['denivele']);
+                            $temps=$tab_int['temps'];
+                            $denivele=$tab_int['denivele'];
                         ?>
 
                         <td class='p-3 text-sm text-gray-700'><?php echo $tab_int['date']; ?></td>
@@ -116,8 +116,8 @@ require("../../php/search.php");
             <?php
             for($i=0; $i<count($resTab); $i++){
                 $tab_int = $resTab[$i];
-                $temps=temps_beau($tab_int['temps']);
-                $denivele=denivele_beau($tab_int['denivele']);
+                $temps=$tab_int['temps'];
+                $denivele=$tab_int['denivele'];
             ?>
             <div class="shadow-md rounded-lg border-2 p-4 border-gray-300 text-sm">
                 <div class="">
