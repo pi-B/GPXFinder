@@ -3,8 +3,12 @@
     require('connexionDB.php');
     
     session_start();
+
+    $_SESSION['fichier_enr'] = $_FILES['myFile']['tmp_name'];
+    var_dump($_SESSION['fichier_enr']);
     ob_start();
 
+    
 
     
     function calculateShortDistance($sourceLat,$sourceLong, $destinationLat,$destinationLong){
@@ -39,7 +43,7 @@
     $date_course = "";
 
     $duree_course = 0; // Faire soustraction
-
+    
     $fichier_gpx = simplexml_load_file($_FILES['myFile']['tmp_name']);
 
     foreach($fichier_gpx->children() as $child){

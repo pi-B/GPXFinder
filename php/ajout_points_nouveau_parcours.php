@@ -106,7 +106,16 @@
             $preparation_query->execute(); 
             $id_fichier = $preparation_query->fetch();
 
-            
+            $fichier = $_SESSION['fichier_enr'];
+        
+    $target = "../fichier_telecharges/";
+    $target_file = $target.$id_parcours;
+
+    if(move_uploaded_file($fichier, $target_file)){
+        echo"fichier transféré";
+    }else{
+        echo"fichier non transféré";
+    }
 
             $id_fichier = $id_fichier[0];
 

@@ -78,12 +78,12 @@ if (isset($_POST['parcours'])) {
     echo $stmt->debugDumpParams();
     echo "</pre>";
 
-    $fichier = $_FILES['myFile']['tmp_name'];
-    var_dump($fichier);
+    $fichier = $_SESSION['fichier_enr'];
         
-    $location = "../fichier_telecharges/".$id_parcours;
+    $target = "../fichier_telecharges/";
+    $target_file = $target.$id_parcours;
 
-    if(move_uploaded_file($fichier, $location)){
+    if(move_uploaded_file($fichier, $target_file)){
         echo"fichier transféré";
     }else{
         echo"fichier non transféré";
