@@ -141,7 +141,7 @@
                         'id_fichier' => $id_fichier
                     )))
                     {
-                        echo "Point enregistré <br><br>";
+                        //echo "Point enregistré <br><br>";
                         
 
                     } else {	
@@ -150,13 +150,23 @@
                         // echo "<br><br>";
                     }
                 }
-                header('location:../public/html/show.html?parcours='.$id_parcours);
+
+
+                if(file_exists("fichiers_telecharges/temp/".$_SESSION['nom_fichier_telecharge'].".gpx")){
+                    echo " Je trouve le fichier dnas le dossier temporaire <br>";
+                }
+                if(rename("fichiers_telecharges/temp/".$_SESSION['nom_fichier_telecharge'].".gpx", "fichiers_telecharges/".$id_fichier.".gpx")){
+                    echo "Fichier bougé<br>";
+                } else {
+                    echo "Probleme changement dossier";
+                }    
+                //header('location:../public/html/show.html?parcours='.$id_parcours);
             } else {
                 echo "Aucuns points à ajouter <br>";
             }
-            
         }
-        var_dump($_SESSION);
+
+        
         ajouterPointDB();
 
 ?>

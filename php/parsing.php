@@ -128,6 +128,10 @@
     $_SESSION['duree'] = $difference;
     $_SESSION['tableauPoints'] = $tab_points;
 
+    $_SESSION['nom_fichier_telecharge'] = $_FILES['myFile']['name'];
+    $tmpname =  $_FILES['myFile']['tmp_name'];
+    move_uploaded_file($tmpname,"fichiers_telecharges/temp/".$_SESSION['nom_fichier_telecharge'].".gpx");
+
     header('location:../public/html/add.html');
 
 ?>
