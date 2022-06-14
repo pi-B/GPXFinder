@@ -1,3 +1,395 @@
+<?php 
+    // Test avec l'url : http://localhost/PTUTHub/PTUT/public/html/show.html?parcours=16
+    require('../../php/PointsGPX.php');
+    require('../../php/connexionDB.php'); 
+
+    session_start();
+    $_SESSION['edit'] = array();
+    $_SESSION['edit']['id_fichier'] = $_GET['id_fichier'];
+
+    function returnError($errorType) {
+        if (isset($_SESSION['erreurs'])) {
+            if(isset($_SESSION['erreurs'][$errorType])){
+                return $_SESSION['erreurs'][$errorType];
+            } else {
+                return "";
+            }
+        }
+    }
+
+    function recuperer_points_fichier($id_fichier){
+
+            $linkpdo = connexion();
+            $req = (" SELECT latitude, longitude FROM point_gpx where id_fichier =".$id_fichier);
+            $res = $linkpdo->prepare($req);
+            $res->execute();
+
+            $liste_points=array();
+            while($data = $res->fetch()){
+                $temp = array();
+                array_push($temp,$data['latitude'],$data['longitude']);
+                array_push($liste_points,$temp);
+            }
+
+         //     echo "var dump des points recoltés: <br>";
+         //    echo "<pre>";
+         //     print_r($liste_points);
+         //     echo "</pre>";
+             return $liste_points;
+    }
+
+    function liste_fichiers_parcours(){
+
+        $id_fichier = $_GET['id_fichier'];
+        $liste_parcours = "";
+        $compteur = 1;
+
+        $linkpdo = connexion();
+        $req = "SELECT id_fichier, date_format(date_parcours,'%d/%m/%Y') as date_parcours FROM fichier where id_fichier = $id_fichier order by date_parcours desc";
+        $res = $linkpdo->prepare($req);
+        $res->execute();
+        while($data = $res->fetch()){
+            if($compteur == 1){
+               $liste_parcours .= "<div class=\"trace active\" rel=\"trace1\">
+                    <p class=\"py-2 px-3 text-white rounded-full text-center cursor-pointer\">".$data['date_parcours']."</p>
+                </div>";
+            } else {
+                $liste_parcours .= "<div class=\"trace\" rel=\"trace".$compteur."\">
+                <p class=\"py-2 px-3 text-white rounded-full text-center cursor-pointer\">".$data['date_parcours']."</p>
+                </div>";
+            }
+            $compteur = $compteur + 1;
+        }
+        
+        return $liste_parcours;
+    }
+
+    function nom_parcours(){
+        $id_fichier = $_GET['id_fichier'];
+       
+
+        $linkpdo = connexion();
+        $req = "SELECT nom FROM fichier where id_fichier = $id_fichier";
+        $res = $linkpdo->prepare($req);
+        $res->execute();
+
+        $data = $res->fetch();
+
+        return $data['nom'];
+    }
+    
+    function creer_onglets(){
+
+        $_SESSION['script_leaflet'] = '';
+
+        $compteur = 1;
+        $id_fichier = $_GET['id_fichier'];
+
+        $onglets = "";
+        $linkpdo = connexion();
+        $req = "SELECT nom, description, distance, duree , denivele, Type_activite as activite, date_format(date_parcours,'%d/%m/%Y') as date_parcours, 
+        Ville_depart as ville, meteo, home_trainer as hometrainer, groupe, id_fichier FROM `fichier` where Id_Fichier = $id_fichier";
+        $res = $linkpdo->prepare($req);
+        $res->execute();
+
+        while($data = $res->fetch()){
+            $meteo = "";
+            $hometrainer = "";
+            $groupe ="";
+
+            if($data['meteo'] == "pluie"){
+                $meteo .= "
+                <label for=\"rain\"><i class=\"fas fa-cloud-rain\"></i></label>
+                <input type=\"radio\" name=\"meteo\" id=\"rain\" class=\"text-purple-400 focus:ring-1 focus:ring-purple-400\" checked  >
+                <label for=\"clouds\"><i class=\"fas fa-cloud-sun\"></i></label>
+                <input type=\"radio\" name=\"meteo\" id=\"clouds\" class=\"text-purple-400 focus:ring-1 focus:ring-purple-400\"  >
+                <label for=\"sun\"><i class=\"fas fa-sun\"></i></i></label>
+                <input type=\"radio\" name=\"meteo\" id=\"sun\" class=\"text-purple-400 focus:ring-1 focus:ring-purple-400\"  >
+                " ;
+            } elseif($data['meteo'] == "nuage"){
+                $meteo .= "
+                <label for=\"rain\"><i class=\"fas fa-cloud-rain\"></i></label>
+                <input type=\"radio\" name=\"meteo\" id=\"rain\" class=\"text-purple-400 focus:ring-1 focus:ring-purple-400\"  >
+                <label for=\"clouds\"><i class=\"fas fa-cloud-sun\"></i></label>
+                <input type=\"radio\" name=\"meteo\" id=\"clouds\" class=\"text-purple-400 focus:ring-1 focus:ring-purple-400\" checked  >
+                <label for=\"sun\"><i class=\"fas fa-sun\"></i></i></label>
+                <input type=\"radio\" name=\"meteo\" id=\"sun\" class=\"text-purple-400 focus:ring-1 focus:ring-purple-400\"  >
+                " ;
+            } elseif($data['meteo'] == "soleil"){
+                $meteo .= "
+                <label for=\"rain\"><i class=\"fas fa-cloud-rain\"></i></label>
+                <input type=\"radio\" name=\"meteo\" id=\"rain\" class=\"text-purple-400 focus:ring-1 focus:ring-purple-400\"  >
+                <label for=\"clouds\"><i class=\"fas fa-cloud-sun\"></i></label>
+                <input type=\"radio\" name=\"meteo\" id=\"clouds\" class=\"text-purple-400 focus:ring-1 focus:ring-purple-400\"  >
+                <label for=\"sun\"><i class=\"fas fa-sun\"></i></i></label>
+                <input type=\"radio\" name=\"meteo\" id=\"sun\" class=\"text-purple-400 focus:ring-1 focus:ring-purple-400\" checked  >
+                " ;
+            } else {
+                $meteo .= "
+                <label for=\"rain\"><i class=\"fas fa-cloud-rain\"></i></label>
+                <input type=\"radio\" name=\"meteo\" id=\"rain\" class=\"text-purple-400 focus:ring-1 focus:ring-purple-400\"  >
+                <label for=\"clouds\"><i class=\"fas fa-cloud-sun\"></i></label>
+                <input type=\"radio\" name=\"meteo\" id=\"clouds\" class=\"text-purple-400 focus:ring-1 focus:ring-purple-400\"  >
+                <label for=\"sun\"><i class=\"fas fa-sun\"></i></i></label>
+                <input type=\"radio\" name=\"meteo\" id=\"sun\" class=\"text-purple-400 focus:ring-1 focus:ring-purple-400\"  >
+                " ;
+            }            
+            
+            if(!isset($data['hometrainer'])){
+                $hometrainer = "
+                <label for=\"oui\"><i class=\"fas fa-check-circle\"></i></label>
+                <input type=\"radio\" name=\"ht\" id=\"oui\" class=\"text-purple-400 focus:ring-1 focus:ring-purple-400\"  >
+                <label for=\"non\"><i class=\"fas fa-times-circle\"></i></i></label>
+                <input type=\"radio\" name=\"ht\" id=\"non\" class=\"text-purple-400 focus:ring-1 focus:ring-purple-400\"  >
+                ";
+            }elseif($data['hometrainer'] == 1){
+                $hometrainer = "
+                <label for=\"oui\"><i class=\"fas fa-check-circle\"></i></label>
+                <input type=\"radio\" name=\"ht\" id=\"oui\" class=\"text-purple-400 focus:ring-1 focus:ring-purple-400\" checked  >
+                <label for=\"non\"><i class=\"fas fa-times-circle\"></i></i></label>
+                <input type=\"radio\" name=\"ht\" id=\"non\" class=\"text-purple-400 focus:ring-1 focus:ring-purple-400\"  >
+                ";
+            } elseif($data['hometrainer'] == 0) {
+                $hometrainer = "
+                <label for=\"oui\"><i class=\"fas fa-check-circle\"></i></label>
+                <input type=\"radio\" name=\"ht\" id=\"oui\" class=\"text-purple-400 focus:ring-1 focus:ring-purple-400\"  >
+                <label for=\"non\"><i class=\"fas fa-times-circle\"></i></i></label>
+                <input type=\"radio\" name=\"ht\" id=\"non\" class=\"text-purple-400 focus:ring-1 focus:ring-purple-400\" checked  >
+                ";
+            }
+
+
+            if(!isset($data['groupe'])){
+                $groupe = "   
+                <label for=\"seul\"><i class=\"fas fa-user\"></i></label>
+                <input type=\"radio\" name=\"group\" id=\"seul\" class=\"text-purple-400 focus:ring-1 focus:ring-purple-400\"  >
+                <label for=\"groupe\"><i class=\"fas fa-users\"></i></label>
+                <input type=\"radio\" name=\"group\" id=\"groupe\" class=\"text-purple-400 focus:ring-1 focus:ring-purple-400\"  >
+                ";
+            }elseif($data['groupe'] == 1){
+                $groupe = "   
+                <label for=\"seul\"><i class=\"fas fa-user\"></i></label>
+                <input type=\"radio\" name=\"group\" id=\"seul\" class=\"text-purple-400 focus:ring-1 focus:ring-purple-400\"  >
+                <label for=\"groupe\"><i class=\"fas fa-users\"></i></label>
+                <input type=\"radio\" name=\"group\" id=\"groupe\" class=\"text-purple-400 focus:ring-1 focus:ring-purple-400\" checked  >
+                ";
+            } elseif($data['groupe'] == 0) {
+                $groupe = "   
+                <label for=\"seul\"><i class=\"fas fa-user\"></i></label>
+                <input type=\"radio\" name=\"group\" id=\"seul\" class=\"text-purple-400 focus:ring-1 focus:ring-purple-400\" checked  >
+                <label for=\"groupe\"><i class=\"fas fa-users\"></i></label>
+                <input type=\"radio\" name=\"group\" id=\"groupe\" class=\"text-purple-400 focus:ring-1 focus:ring-purple-400\"   >
+                ";
+            }
+
+            $_SESSION['script_leaflet'] .= 
+            "
+            <script>
+            var map".$compteur." = L.map('map".$compteur."').setView([43.604652, 1.444209], 2);
+    
+            const tiles".$compteur." = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {maxZoom: 12, attribution: '© OpenStreetMap'});
+            
+            tiles".$compteur.".addTo(map".$compteur.");
+
+            var latlngsphp".$compteur." = ".json_encode(recuperer_points_fichier($data['id_fichier'])).";
+            var polyline".$compteur." = L.polyline(latlngsphp".$compteur.",{color: 'red'});
+            polyline".$compteur.".addTo(map".$compteur.");
+            
+            setInterval(function() {   map".$compteur.".invalidateSize(); map".$compteur.".fitBounds(polyline".$compteur.".getBounds()); }, 100);
+
+            </script>
+ 
+            ";
+
+            $onglets .= 
+            "
+            <!-- Resultat Trace ".$compteur." -->
+            <div id=\"trace".$compteur."\" class=\"result container my-8\">
+            
+                        <form action=\"../../php/modifierFichier.php\" method=\"post\">
+                        
+
+
+                            <!-- Donnees generales (Titre + Desc + Image) -->
+                            <div class=\"flex flex-col gap-4 xl:flex-row\">
+                                <div class=\"flex flex-col gap-8 nom_desc\">
+                                    <span class='erreur text-sm text-red-500'>".returnError('nom')."</span>
+                                    <input   type=\"text\" name=\"nom\" value=\"".$data['nom']."\" 
+                                    class=\"border-2 border-gray-300 p-4 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-purple-400\"  >
+                                    <textarea name=\"desc\" id=\"desc\" cols=\"70\" rows=\"4\" value=\"\"
+                                    class=\"border-2 border-gray-300 p-4 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-purple-400\"  >".$data['description']."</textarea>
+                                </div>
+ 
+                                <div class=\"ajouter_image border-2 p-8 w-full\">
+                                    <h3 class=\"mb-3 text-lg font-semibold\">Aperçu</h3>
+                                    <div id=\"map".$compteur."\">
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+                            <!-- Données Avancées -->
+                            <h2 class=\"my-4 font-semibold text-lg text-purple-600\">Données Avancées :</h2>
+            
+                            <!-- Zone Flex -->
+                            <div class=\"flex flex-col gap-8 md:flex-row\">
+                                <!-- Colonne Flex 1 -->
+                                <div class=\"flex flex-col gap-4 w-full\">
+            
+                                    <div class=\"input_text\">
+                                        <div class=\"label_error flex flex-row gap-8 mb-2\">
+                                            <label for=\"distance\">Distance</label>
+                                            <span class='erreur text-sm text-red-500'>".returnError('distance')."</span>
+                                        </div>
+                                        <input   type=\"text\" name=\"distance\" id=\"distance\" value=\"".$data['distance']."\"
+                                        class=\"border-2 border-gray-300 p-4 rounded-md shadow-sm w-full focus:outline-none focus:ring-1 focus:ring-purple-400\"  >
+                                    </div>
+            
+                                    <div class=\"input_text\">
+                                        <div class=\"label_error flex flex-row gap-8 mb-2\">
+                                            <label for=\"temps\">Temps</label>
+                                            <span class='erreur text-sm text-red-500'>".returnError('duree')."</span>
+                                        </div>
+                                        <input  type=\"text\" name=\"duree\" id=\"temps\" value=\"".$data['duree']."\"
+                                        class=\"border-2  border-gray-300 p-4 rounded-md shadow-sm w-full focus:outline-none focus:ring-1 focus:ring-purple-400\"  >
+                                    </div>
+            
+                                    <div class=\"input_text\">
+                                        <div class=\"label_error flex flex-row gap-8 mb-2\">
+                                            <label for=\"denivele\">Dénivelé</label>
+                                            <span class='erreur text-sm text-red-500'>".returnError('denivele')."</span>
+                                        </div>
+                                        <input  type=\"text\" name=\"denivele\" id=\"denivele\" value=\"".$data['denivele']."\"
+                                        class=\"border-2 border-gray-300 p-4 rounded-md shadow-sm w-full focus:outline-none focus:ring-1 focus:ring-purple-400\"  >
+                                    </div>
+            
+                                    <div class=\"input_text\">
+                                        <div class=\"label_error flex flex-row gap-8 mb-2\">
+                                            <label for=\"denivele\">Type d'activité</label>
+                                            <span class='erreur text-sm text-red-500'>".returnError('activite')."</span>
+                                        </div>
+                                        <input type=\"text\" name=\"activite\" id=\"activite\" value=\"".$data['activite']."\" class=\"border-2 border-gray-300 p-4 rounded-md shadow-sm w-full focus:outline-none focus:ring-1 focus:ring-purple-400\"  >
+                                    </div>
+            
+                                    
+                                </div>
+                                <!-- Colonne Flex 2 -->
+                                <div class=\"flex flex-col gap-4 w-full mb-4\">
+            
+                                    <div class=\"input_text\">
+                                        <div class=\"label_error flex flex-row gap-8 mb-2\">
+                                            <label for=\"distance\">Date</label>
+                                            <span class='erreur text-sm text-red-500'>".returnError('date')."</span>
+                                        </div>
+                                        <input type=\"text\" name=\"date\" id=\"date\" value=\"".$data['date_parcours']."\"
+                                        class=\"border-2 border-gray-300 p-4 rounded-md shadow-sm w-full focus:outline-none focus:ring-1 focus:ring-purple-400\"  >
+                                    </div>
+            
+                                    <div class=\"input_text\">
+                                        <div class=\"label_error flex flex-row gap-8 mb-2\">
+                                            <label for=\"denivele\">Ville Départ</label>
+                                            <span class='erreur text-sm text-red-500'>".returnError('ville')."</span>
+                                        </div>
+                                        <input type=\"text\"  name=\"ville\" id=\"ville\" value=\"".$data['ville']."\" class=\"border-2 border-gray-300 p-4 rounded-md shadow-sm w-full focus:outline-none focus:ring-1 focus:ring-purple-400\"  >                  
+                                    </div>
+            
+                                    <div class=\"input_text\">
+                                        <div class=\"label_error flex flex-row gap-8 mb-2\">
+                                            <label for=\"temps\">Home Trainer</label>
+                                        </div>
+                                        <div class=\"flex justify-around items-center py-4 mt-2 border-gray-300 border-2 rounded-md\"  >
+                                            ".$hometrainer."
+                                        </div>
+                                    </div>
+            
+                                    <div class=\"input_text\">
+                                        <div class=\"label_error flex flex-row gap-8 mb-2\">
+                                            <label for=\"temps\">Météo</label>
+                                        </div>
+                                        <div class=\"flex justify-around items-center py-4 mt-2 border-gray-300 border-2 rounded-md\"  >
+                                            ".$meteo."
+                                        </div>
+                                    </div>
+            
+                                    
+                                </div>
+                            </div>
+            
+                            <!-- Seul / En Groupe -->
+                            <div class=\"input_text mb-4\">
+                                <div class=\"label_error flex flex-row gap-8 mb-2\">
+                                    <label for=\"group\">Seul ou en Groupe</label>
+                                </div>
+                                <div class=\"flex justify-around items-center py-4 mt-2 border-gray-300 border-2 rounded-md\">
+                                    ".$groupe."
+                                </div>
+                            </div>
+            
+                            <!-- Membres du groupe -->
+                            <div class=\"input_text mb-8\">
+                                <div class=\"label_error flex flex-row gap-8 mb-2\">
+                                    <label for=\"membre\">Membres du groupe :</label>
+                                </div>
+                                <input type=\"text\" list=\"membres\" name=\"membre\" id=\"membre\" class=\"border-2 border-gray-300 p-4 rounded-md shadow-sm w-full focus:outline-none focus:ring-1 focus:ring-purple-400\">
+                                            <datalist id=\"membres\">
+                                                <option value=\"Famille\"></option>
+                                                <option value=\"Club de VTT\"></option>
+                                                <option value=\"Club de Course\"></option>
+                                                <option value=\"Micheline\"></option>
+                                                <option value=\"Patrick\"></option>
+                                                <option value=\"Bruno\"></option>
+                                            </datalist>
+                                        </input>
+                                    
+                            </div>
+                            ";
+                if($compteur == 1){
+                    $onglets .=                     
+                    "
+                    <!-- Submit -->
+                    <div class=\"flex flex-col md:flex-row gap-3 justify-around mb-8\">
+                        <a href=\"../index.html\" class=\"bg-red-400 text-white py-3 px-7 rounded-md text-center\">Accueil</a>
+                        <a href=\"./addTo.html\" class=\"bg-gray-400 text-white py-3 px-7 rounded-md text-center\">Télécharger le fichier</a>
+                        <button type=\"submit\" name=\"modifier\" class=\"bg-purple-400 text-white py-3 px-7 rounded-md text-center\">Modifier Trace</button>
+                    </div>
+
+                    </form>
+                    </div>
+                    
+                ";
+                }
+                $onglets .= "</form> </div>";
+                $compteur = $compteur + 1;
+        }
+        return $onglets;
+    }
+
+    $id_fichier = $_GET['id_fichier'];
+    $_SESSION['style_leaflet'] = '';
+    $onglets = "";
+    $linkpdo = connexion();
+    $req = "SELECT count(*) as count FROM `fichier` where Id_Fichier = $id_fichier";
+    $res = $linkpdo->prepare($req);
+    $res->execute();
+    $data = $res->fetch();
+
+    for($i = 1 ; $i <= $data['count'] ; $i++ ){
+        
+        $_SESSION['style_leaflet'] .= 
+        "
+        <style>
+        #map".$i." { 
+            height: 180px;
+            width: 400px;
+            }
+        </style>
+        ";
+        }
+ //   liste_fichiers_parcours();
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,7 +402,15 @@
     />
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous">
     <link rel="stylesheet" href="../style.css">
-    <title>GPX - Modifier</title>
+    <!-- Style pour faire fonctionner Leaflet -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.8.0/dist/leaflet.css" integrity="sha512-hoalWLoI8r4UszCkZ5kL8vayOGVae1oxXe/2A4AO6J9+580uKHDO3JdHb7NzwwzK5xr/Fs0W40kiNHxM9vyTtQ==" crossorigin=""/>
+    <title>GPX - Afficher</title>
+     <script src="https://unpkg.com/leaflet@1.8.0/dist/leaflet.js"
+    integrity="sha512-BB3hKbKWOc9Ez/TAwyWxNXeoV9c1v6FIeYiBieIWkpLjauysF18NzgR1MBNBXf8/KABdlkX68nAhlwcDFLGPCQ=="
+    crossorigin=""> 
+    </script> <!-- Script pour faire fonctionner Leaflet -->
+    <?php echo $_SESSION['style_leaflet']; ?> <!-- Pour chaque onglet on aura un nom de division map different donc on doit déclarer autant de style pour donner une taille aux maps -->
+
 </head>
 <body class="font-Monserrat">
 
@@ -29,190 +429,64 @@
     </header>
 
     <!-- Titre de la page -->
-    <h1 class="text-2xl font-bold text-center my-8">Créer une trace :</h1>
+    <h1 class="text-2xl font-bold text-center my-8">Afficher un parcours : <?php echo nom_parcours() ; ?></h1>
 
     <!-- Saisie  -->
     <section class="relative">
 
-        <!-- Formulaire -->
-        <div class="container">
+        <div class="container flex flex-col md:flex-row gap-3">
+            <h2 class="font-semibold text-lg text-purple-600">Trace(s) associée(s) à ce parcours : </h2>
+            <div class="flex gap-2" id="traces">
+                <?php  echo liste_fichiers_parcours() ; ?>
+            </div>
+        </div>
 
-            <form action="#" method="post">
+        <div id="results">
 
-                <!-- Donnees generales (Titre + Desc + Image) -->
-                <div class="flex flex-col gap-4 xl:flex-row">
-                    <div class="flex flex-col gap-8 nom_desc">
-                        <input type="text" name="nom" placeholder="Nom de la trace" 
-                        class="border-2 border-gray-300 p-4 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-purple-400">
-                        <textarea name="desc" id="desc" cols="70" rows="4" placeholder="Description de la trace"
-                        class="border-2 border-gray-300 p-4 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-purple-400"></textarea>
-                    </div>
-                    <div class="ajouter_image border-2 p-8 w-full">
-                        <h3 class="mb-3 text-lg font-semibold">Image</h3>
-                        <input type="file" name="add_image" id="add_image">
-                    </div>
-                </div>
+            <!-- Resultat Trace 2 caché
+                Quand on clique sur Trace 2 on cache Trace 1 et vice versa -->
+                    
+                    <?php echo creer_onglets(); ?>
 
-                <!-- Données Avancées -->
-                <h2 class="my-4 font-semibold text-lg text-purple-600">Données Avancées :</h2>
-
-                <!-- Zone Flex -->
-                <div class="flex flex-col gap-8 md:flex-row">
-                    <!-- Colonne Flex 1 -->
-                    <div class="flex flex-col gap-4 w-full">
-
-                        <div class="input_text">
-                            <div class="label_error flex flex-row gap-8 mb-2">
-                                <label for="distance">Distance</label>
-                                <span class="erreur text-red-500 text-sm">Distance non calculée</span>
-                            </div>
-                            <input disabled type="text" name="distance" id="distance" placeholder="18 km"
-                            class="border-2 border-gray-300 p-4 rounded-md shadow-sm w-full focus:outline-none focus:ring-1 focus:ring-purple-400">
-                        </div>
-
-                        <div class="input_text">
-                            <div class="label_error flex flex-row gap-8 mb-2">
-                                <label for="temps">Temps</label>
-                                <span class="erreur text-red-500 text-sm">Temps non calculée</span>
-                            </div>
-                            <input disabled type="text" name="temps" id="temps" placeholder="1h10'30''"
-                            class="border-2  border-gray-300 p-4 rounded-md shadow-sm w-full focus:outline-none focus:ring-1 focus:ring-purple-400">
-                        </div>
-
-                        <div class="input_text">
-                            <div class="label_error flex flex-row gap-8 mb-2">
-                                <label for="denivele">Dénivelé</label>
-                                <span class="erreur text-red-500 text-sm">Dénivelé non calculée</span>
-                            </div>
-                            <input disabled type="text" name="denivele" id="denivele" placeholder="1 456 m"
-                            class="border-2 border-gray-300 p-4 rounded-md shadow-sm w-full focus:outline-none focus:ring-1 focus:ring-purple-400">
-                        </div>
-
-                        <div class="input_text">
-                            <div class="label_error flex flex-row gap-8 mb-2">
-                                <label for="denivele">Type d'activité</label>
-                                <span class="erreur text-red-500 text-sm">Choisir le type d'activité</span>
-                            </div>
-                            <input type="text" list="activites" name="activite" id="activite" class="border-2 border-gray-300 p-4 rounded-md shadow-sm w-full focus:outline-none focus:ring-1 focus:ring-purple-400">
-                                <datalist id="activites">
-                                    <option value="VTT"></option>
-                                    <option value="Course à pieds"></option>
-                                    <option value="Randonée pedestre"></option>
-                                    <option value="Natation"></option>
-                                    <option value="Vélo de route"></option>
-                                    <option value="Kayak"></option>
-                                </datalist>
-                            </input>
-                                
-                        </div>
-
-                        
-                    </div>
-                    <!-- Colonne Flex 2 -->
-                    <div class="flex flex-col gap-4 w-full mb-4">
-
-                        <div class="input_text">
-                            <div class="label_error flex flex-row gap-8 mb-2">
-                                <label for="distance">Date</label>
-                                <span class="erreur text-red-500 text-sm">Date invalide</span>
-                            </div>
-                            <input type="date" name="date" id="date" placeholder="12/01/2018"
-                            class="border-2 border-gray-300 p-4 rounded-md shadow-sm w-full focus:outline-none focus:ring-1 focus:ring-purple-400">
-                        </div>
-
-                        <div class="input_text">
-                            <div class="label_error flex flex-row gap-8 mb-2">
-                                <label for="denivele">Ville Départ</label>
-                                <span class="erreur text-red-500 text-sm"></span>
-                            </div>
-                            <input type="text" list="villes" name="ville" id="ville" class="border-2 border-gray-300 p-4 rounded-md shadow-sm w-full focus:outline-none focus:ring-1 focus:ring-purple-400">
-                                <datalist id="villes">
-                                    <option value="Toulouse"></option>
-                                    <option value="Blagnac"></option>
-                                    <option value="Albi"></option>
-                                    <option value="Auch"></option>
-                                    <option value="Saint-Orens"></option>
-                                    <option value="Villefranche"></option>
-                                </datalist>
-                            </input>
-                                
-                        </div>
-
-                        <div class="input_text">
-                            <div class="label_error flex flex-row gap-8 mb-2">
-                                <label for="temps">Home Trainer</label>
-                                <span class="erreur text-red-500 text-sm"></span>
-                            </div>
-                            <div class="flex justify-around items-center py-4 mt-2 border-gray-300 border-2 rounded-md">
-                                <label for="oui"><i class="fas fa-check-circle"></i></label>
-                                <input type="radio" name="ht" id="oui" class="text-purple-400 focus:ring-1 focus:ring-purple-400">
-                                <label for="non"><i class="fas fa-times-circle"></i></i></label>
-                                <input type="radio" name="ht" id="non" class="text-purple-400 focus:ring-1 focus:ring-purple-400">
-                            </div>
-                        </div>
-
-                        <div class="input_text">
-                            <div class="label_error flex flex-row gap-8 mb-2">
-                                <label for="temps">Météo</label>
-                                <span class="erreur text-red-500 text-sm"></span>
-                            </div>
-                            <div class="flex justify-around items-center py-4 mt-2 border-gray-300 border-2 rounded-md">
-                                <label for="rain"><i class="fas fa-cloud-rain"></i></label>
-                                <input type="radio" name="meteo" id="rain" class="text-purple-400 focus:ring-1 focus:ring-purple-400">
-                                <label for="clouds"><i class="fas fa-cloud-sun"></i></label>
-                                <input type="radio" name="meteo" id="clouds" class="text-purple-400 focus:ring-1 focus:ring-purple-400">
-                                <label for="sun"><i class="fas fa-sun"></i></i></label>
-                                <input type="radio" name="meteo" id="sun" class="text-purple-400 focus:ring-1 focus:ring-purple-400">
-                            </div>
-                        </div>
-
-                        
-                    </div>
-                </div>
-
-                <!-- Seul / En Groupe -->
-                <div class="input_text mb-4">
-                    <div class="label_error flex flex-row gap-8 mb-2">
-                        <label for="group">Seul ou en Groupe</label>
-                        <span class="erreur text-red-500 text-sm"></span>
-                    </div>
-                    <div class="flex justify-around items-center py-4 mt-2 border-gray-300 border-2 rounded-md">
-                        <label for="seul"><i class="fas fa-user"></i></label>
-                        <input type="radio" name="group" id="seul" class="text-purple-400 focus:ring-1 focus:ring-purple-400">
-                        <label for="groupe"><i class="fas fa-users"></i></label>
-                        <input type="radio" name="group" id="groupe" class="text-purple-400 focus:ring-1 focus:ring-purple-400">
-                    </div>
-                </div>
-
-                <!-- Membres du groupe -->
-                <div class="input_text mb-8">
-                    <div class="label_error flex flex-row gap-8 mb-2">
-                        <label for="membre">Membres du groupe :</label>
-                        <span class="erreur text-red-500 text-sm"></span>
-                    </div>
-                    <input type="text" list="membres" name="membre" id="membre" class="border-2 border-gray-300 p-4 rounded-md shadow-sm w-full focus:outline-none focus:ring-1 focus:ring-purple-400">
-                                <datalist id="membres">
-                                    <option value="Famille"></option>
-                                    <option value="Club de VTT"></option>
-                                    <option value="Club de Course"></option>
-                                    <option value="Micheline"></option>
-                                    <option value="Patrick"></option>
-                                    <option value="Bruno"></option>
-                                </datalist>
-                            </input>
-                        
-                </div>
-
-                <!-- Submit -->
-                <div class="flex flex-col md:flex-row gap-3 justify-around mb-8">
-                    <a href="../index.html" class="bg-red-400 text-white py-3 px-7 rounded-md text-center">Accueil</a>
-                    <button type="reset" class="bg-gray-400 text-white py-3 px-7 rounded-md text-center">Tout Effacer</button>
-                    <button type="submit" class="bg-purple-400 text-white py-3 px-7 rounded-md text-center">Modifier Parcours</button>
-                </div>
-
-            </form>
+                </form>
+            </div>
         </div>
 
     </section>
+
+   
+    <?php echo $_SESSION['script_leaflet']; ?>
+
+    <script>
+        
+        
+
+        var actif = document.getElementsByClassName("active");
+        var divActive = actif[0].getAttribute("rel");
+        document.getElementById(divActive).style.display = "block";
+
+        // Get the container element
+        var tracesList = document.getElementById("traces");
+
+        // Get all buttons with class="btn" inside the container
+        var traces = tracesList.getElementsByClassName("trace");
+
+        // Loop through the buttons and add the active class to the current/clicked button
+        for (var i = 0; i < traces.length; i++) {
+            traces[i].addEventListener("click", function(i) {
+                var current = document.getElementsByClassName("active");
+                current[0].className = current[0].className.replace(" active", "");
+                this.className += " active";
+
+                var results = document.getElementsByClassName("result");
+                var divName = this.getAttribute("rel");
+                var divElem = document.getElementById(divName);
+                for (var j = 0; j < results.length; j++) {
+                    results[j].style.display = "none";
+                }
+                divElem.style.display = 'block';
+            });
+        }
+    </script>
 </body>
 </html>

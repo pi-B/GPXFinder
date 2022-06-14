@@ -45,7 +45,7 @@ ob_start();
             <h2 class="text-2xl text-center font-bold text-white mb-4">Dépot du fichier :</h2>  
             <div class="drop-zone font-Monserrat flex gap-8 w-full">
                 <span class="drop-zone__prompt">Cliquez ou faites glisser le fichier ici</span>
-                <input type="file" name="myFile" class="drop-zone__input" />
+                <input type="file" name="myFile" class="drop-zone__input" required/>
             </div>
             <?php if(isset($_FILES)) { test_extension();} ?>
             <input type="submit" value="Déposer" class="py-3 px-4 rounded-lg bg-purple-100 mt-4">
