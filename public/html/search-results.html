@@ -1,7 +1,8 @@
 <?php
 if(!isset($_POST['recherche'])){
     header('Location:search.html')
-}
+} ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -109,8 +110,8 @@ if(!isset($_POST['recherche'])){
                                 break;
                             }
                             ?>
-                        <td><a href=<?php echo $lien_modif ; ?> class="bg-purple-400 text-white py-3 px-7 rounded-md text-center">Modifier</a></td>
-                        <td><a href=<?php echo $lien_affiche ; ?> class="bg-purple-400 text-white py-3 px-7 rounded-md text-center">Afficher</a></td>
+                        <td><a href=<?php echo $lien_modif ; ?> class="text-center text-sm text-purple-400">Modifier</a></td>
+                        <td><a href=<?php echo $lien_affiche ; ?> class="text-center text-sm text-purple-400">Afficher</a></td>
                         </tr>  
                         <?php
                     }
