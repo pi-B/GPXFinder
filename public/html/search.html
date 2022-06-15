@@ -66,41 +66,45 @@ require("../../php/search.php");
                             $tab_int = $resTab[$i];
                             $temps=$tab_int['temps'];
                             $denivele=$tab_int['denivele'];
-                            $lien = "show.html?parcours=".$tab_int['id_parcours']."&fichier=".$tab_int['id_fichier'];
+                            $lien_affiche = "show.html?parcours=".$tab_int['id_parcours']."&fichier=".$tab_int['id_fichier'];
+                            $lien_modif = "edit.html?parcours=".$tab_int['id_parcours']."&id_fichier=".$tab_int['id_fichier'];
+
                         ?>
                         
-                        <td class='p-3 text-sm text-gray-700'><a href=<?php echo $lien ; ?>><?php echo $tab_int['date']; ?></a></td>
-                        <td class='p-3 text-sm text-gray-700'><a href=<?php echo $lien ; ?>><?php echo $tab_int['nom'] ; ?></a></td>
-                        <td class='p-3 text-sm text-gray-700'><a href=<?php echo $lien ; ?>><?php echo $tab_int['activite'] ; ?></a></td>
-                        <td class='p-3 text-sm text-gray-700'><a href=<?php echo $lien ; ?>><?php echo $temps ; ?></a></td>
-                        <td class='p-3 text-sm text-gray-700'><a href=<?php echo $lien ; ?>><?php echo $denivele ; ?></a></td>
-                        <td class='p-3 text-sm text-gray-700'><a href=<?php echo $lien ; ?>><?php echo $tab_int['depart'] ; ?></a></td>
-                        <td class='p-3 text-sm text-gray-700'><a href=<?php echo $lien ; ?>><?php echo $tab_int['auteur'] ; ?></a></td>
-                        <td class='p-3 text-sm text-gray-700'><a href=<?php echo $lien ; ?>><?php
+                        <td class='p-3 text-sm text-gray-700'><?php echo $tab_int['date']; ?></td>
+                        <td class='p-3 text-sm text-gray-700'><?php echo $tab_int['nom'] ; ?></td>
+                        <td class='p-3 text-sm text-gray-700'><?php echo $tab_int['activite'] ; ?></td>
+                        <td class='p-3 text-sm text-gray-700'><?php echo $temps ; ?></td>
+                        <td class='p-3 text-sm text-gray-700'>><?php echo $denivele ; ?></td>
+                        <td class='p-3 text-sm text-gray-700'><?php echo $tab_int['depart'] ; ?></td>
+                        <td class='p-3 text-sm text-gray-700'><?php echo $tab_int['auteur'] ; ?></td>
+                        <td class='p-3 text-sm text-gray-700'><?php
                             if($tab_int['groupe']=='non'){
-                                echo"<span class='p-1.5 bg-red-400 text-red-800 rounded-md uppercase tracking-wider bg-opacity-30'>Non</span></a></td>";
+                                echo"<span class='p-1.5 bg-red-400 text-red-800 rounded-md uppercase tracking-wider bg-opacity-30'>Non</span></td>";
                             }else{
-                                echo"<span class='p-1.5 bg-green-400 text-green-800 rounded-md uppercase tracking-wider bg-opacity-30'>Oui</span></a></td>";
+                                echo"<span class='p-1.5 bg-green-400 text-green-800 rounded-md uppercase tracking-wider bg-opacity-30'>Oui</span></td>";
                             }?>
-                        <td class='p-3 text-sm text-gray-700'><a href=<?php echo $lien ; ?>><?php
+                        <td class='p-3 text-sm text-gray-700'><?php
                             if($tab_int['trainer']=='non'){
-                            echo"<span class='p-1.5 bg-red-400 text-red-800 rounded-md uppercase tracking-wider bg-opacity-30'>Non</span></a></td>";
+                            echo"<span class='p-1.5 bg-red-400 text-red-800 rounded-md uppercase tracking-wider bg-opacity-30'>Non</span></td>";
                         }else{
-                            echo"<span class='p-1.5 bg-green-400 text-green-800 rounded-md uppercase tracking-wider bg-opacity-30'>Oui</span></a></td>";
+                            echo"<span class='p-1.5 bg-green-400 text-green-800 rounded-md uppercase tracking-wider bg-opacity-30'>Oui</span></td>";
                         }?>
-                        <td class='p-3 text-sm text-gray-700'><a href=<?php echo $lien ; ?>><?php
+                        <td class='p-3 text-sm text-gray-700'><?php
                             switch($tab_int['meteo']){
                                 case 'soleil':
-                                    echo"<i class='fas fa-sun'></i></a></td>";
+                                    echo"<i class='fas fa-sun'></i></td>";
                                 break;
                                 case 'nuage':
-                                    echo"<i class='fas fa-cloud-sun'></i></a></td>";
+                                    echo"<i class='fas fa-cloud-sun'></i></td>";
                                 break;
                                 case 'pluie':
-                                    echo"<i class='fas fa-cloud-rain'></i></a></td>";
+                                    echo"<i class='fas fa-cloud-rain'></i></td>";
                                 break;
                             }
                             ?>
+                        <td><a href=<?php echo $lien_modif ; ?> class="bg-purple-400 text-white py-3 px-7 rounded-md text-center">Modifier</a></td>
+                        <td><a href=<?php echo $lien_affiche ; ?> class="bg-purple-400 text-white py-3 px-7 rounded-md text-center">Afficher</a></td>
                         </tr>  
                         <?php
                     }
@@ -119,9 +123,9 @@ require("../../php/search.php");
                 $tab_int = $resTab[$i];
                 $temps=$tab_int['temps'];
                 $denivele=$tab_int['denivele'];
-                $lien = "show.html?parcours=".$tab_int['id_parcours']."&fichier=".$tab_int['id_fichier'];
+                $lien_affiche = "show.html?parcours=".$tab_int['id_parcours']."&fichier=".$tab_int['id_fichier'];
+                $lien_modif = "edit.html?parcours=".$tab_int['id_parcours']."&id_fichier=".$tab_int['id_fichier'];
             ?>
-            <a href=<?php echo $lien ; ?>>
             <div class="shadow-md rounded-lg border-2 p-4 border-gray-300 text-sm">
                 <div class="">
                     <div class="flex items-center gap-4">
@@ -170,6 +174,16 @@ require("../../php/search.php");
                                 echo"<span class='p-1.5 bg-green-400 text-green-800 rounded-md uppercase tracking-wider bg-opacity-30 text-xs'>";
                             }?>GROUPE</span>
                     </div>
+                    <div class ="mt-2">
+                        <div class="flex items-center gap-16">
+                            <div class="flex flex-col gap-2">
+                                <span class="py-1.5 px-2.5 text-center text-sm  text-white bg-purple-400 bg-opacity-80 rounded-lg w-24"><a href=<?php echo $lien_modif ; ?>>Modifier</a></span> 
+                            </div>
+                            <div class="flex flex-col gap-2">
+                                <span class="py-1.5 px-2.5 text-center text-sm  text-white bg-purple-400 bg-opacity-80 rounded-lg w-24"><a href=<?php echo $lien_affiche ; ?>>Afficher</a></span> 
+                            </div>
+                        </div>
+                    </div> 
                 </div>
             </div></a>
             <?php
