@@ -166,23 +166,23 @@
             if(!isset($data['groupe'])){
                 $groupe = "   
                 <label for=\"seul\"><i class=\"fas fa-user\"></i></label>
-                <input type=\"radio\" name=\"group\" id=\"seul\" value=\"non\" class=\"text-purple-400 focus:ring-1 focus:ring-purple-400\"  >
+                <input type=\"radio\" name=\"group\" id=\"seul\" value=\"seul\" class=\"text-purple-400 focus:ring-1 focus:ring-purple-400\"  >
                 <label for=\"groupe\"><i class=\"fas fa-users\"></i></label>
-                <input type=\"radio\" name=\"group\" id=\"groupe\" value=\"oui\" class=\"text-purple-400 focus:ring-1 focus:ring-purple-400\"  >
+                <input type=\"radio\" name=\"group\" id=\"groupe\" value=\"groupe\" class=\"text-purple-400 focus:ring-1 focus:ring-purple-400\"  >
                 ";
             }elseif($data['groupe'] == 1){
                 $groupe = "   
                 <label for=\"seul\"><i class=\"fas fa-user\"></i></label>
-                <input type=\"radio\" name=\"group\" id=\"seul\" value=\"non\" class=\"text-purple-400 focus:ring-1 focus:ring-purple-400\"  >
+                <input type=\"radio\" name=\"group\" id=\"seul\" value=\"seul\" class=\"text-purple-400 focus:ring-1 focus:ring-purple-400\"  >
                 <label for=\"groupe\"><i class=\"fas fa-users\"></i></label>
-                <input type=\"radio\" name=\"group\" id=\"groupe\" value=\"oui\" class=\"text-purple-400 focus:ring-1 focus:ring-purple-400\" checked  >
+                <input type=\"radio\" name=\"group\" id=\"groupe\" value=\"groupe\" class=\"text-purple-400 focus:ring-1 focus:ring-purple-400\" checked  >
                 ";
             } elseif($data['groupe'] == 0) {
                 $groupe = "   
                 <label for=\"seul\"><i class=\"fas fa-user\"></i></label>
-                <input type=\"radio\" name=\"group\" id=\"seul\" value=\"non\" class=\"text-purple-400 focus:ring-1 focus:ring-purple-400\" checked  >
+                <input type=\"radio\" name=\"group\" id=\"seul\" value=\"seul\" class=\"text-purple-400 focus:ring-1 focus:ring-purple-400\" checked  >
                 <label for=\"groupe\"><i class=\"fas fa-users\"></i></label>
-                <input type=\"radio\" name=\"group\" id=\"groupe\" value=\"oui\" class=\"text-purple-400 focus:ring-1 focus:ring-purple-400\"   >
+                <input type=\"radio\" name=\"group\" id=\"groupe\" value=\"groupe\" class=\"text-purple-400 focus:ring-1 focus:ring-purple-400\"   >
                 ";
             }
 
@@ -347,10 +347,7 @@
                                         </input>
                                     
                             </div>
-                            ";
-                if($compteur == 1){
-                    $onglets .=                     
-                    "
+
                     <!-- Submit -->
                     <div class=\"flex flex-col md:flex-row gap-3 justify-around mb-8\">
                         <a href=\"../index.html\" class=\"bg-red-400 text-white py-3 px-7 rounded-md text-center\">Accueil</a>
@@ -362,7 +359,7 @@
                     </div>
                     
                 ";
-                }
+                
                 $onglets .= "</form> </div>";
                 $compteur = $compteur + 1;
         }
@@ -425,7 +422,7 @@
             <ul class="hidden md:flex flex-1 items-center justify-end gap-12 text-sm">
                 <li class="uppercase cursor-pointer"><a href="dragNdrop.html">Ajouter</a></li>
                 <li class="uppercase cursor-pointer"><a href="search.html">Rechercher</a></li>
-                <button type="button" class="bg-red-400 text-white py-3 px-7 rounded-md uppercase">Logout</button>
+                <a href="../../php/deconnexion.php"><button type="button" class="bg-red-400 text-white py-3 px-7 rounded-md uppercase">Logout</button></a>
                 <div><img src="../img/user.png" alt="Avatar"></div>
             </ul>
             <div class="flex md:hidden flex-1 justify-end cursor-pointer"><i class="text-2xl far fa-caret-square-down"></i></div>
