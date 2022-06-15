@@ -4,7 +4,7 @@
 
     session_start();
     $_SESSION['edit'] = array();
-    $_SESSION['edit']['id_fichier'] = $_GET['fichier'];
+    $_SESSION['edit']['id_fichier'] = $_GET['id_fichier'];
 
     function returnError($errorType) {
         if (isset($_SESSION['erreurs'])) {
@@ -36,7 +36,7 @@
 
     function liste_fichiers_parcours(){
 
-        $id_fichier = $_GET['fichier'];
+        $id_fichier = $_GET['id_fichier'];
         $liste_parcours = "";
         $compteur = 1;
 
@@ -61,7 +61,7 @@
     }
 
     function nom_parcours(){
-        $id_fichier = $_GET['fichier'];
+        $id_fichier = $_GET['id_fichier'];
        
 
         $linkpdo = connexion();
@@ -79,7 +79,7 @@
         $_SESSION['script_leaflet'] = '';
 
         $compteur = 1;
-        $id_fichier = $_GET['fichier'];
+        $id_fichier = $_GET['id_fichier'];
 
         $onglets = "";
         $linkpdo = connexion();
@@ -361,7 +361,7 @@
         return $onglets;
     }
 
-    $id_fichier = $_GET['fichier'];
+    $id_fichier = $_GET['id_fichier'];
     $_SESSION['style_leaflet'] = '';
     $onglets = "";
     $linkpdo = connexion();
