@@ -138,8 +138,8 @@ if(!empty($liste_points)){
 } else {
     echo "Aucuns points à ajouter <br>";
 }
-
- header ('location:../public/html/show.html?parcours='.$id_parcours);
+    rename("fichiers_telecharges/temp/".$_SESSION['nom_fichier_telecharge'].".gpx", "fichiers_telecharges/".$id_fichier.".gpx");
+    header ('location:../public/html/show.html?parcours='.$id_parcours);
 
 
 ?>
