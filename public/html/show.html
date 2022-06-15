@@ -1,5 +1,4 @@
 <?php 
-    // Test avec l'url : http://localhost/PTUTHub/PTUT/public/html/show.html?parcours=16
     require('../../php/PointsGPX.php');
     require('../../php/connexionDB.php'); 
 
@@ -197,7 +196,7 @@
             <!-- Resultat Trace ".$compteur." -->
             <div id=\"trace".$compteur."\" class=\"result container my-8\">
             
-                        <form action=\"edit.html?id_fichier=".$data['id_fichier']."\" method=\"post\">
+                        <form action=\"edit.html?fichier=".$data['id_fichier']."&parcours=".$_GET['parcours']."\" method=\"post\">
                         
 
 
