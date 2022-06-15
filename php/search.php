@@ -1,11 +1,11 @@
 <?php
-    require("connexionDB.php");
+    
 
-    function recupDonneesAffichageRecherche(){
-
+    function recupDonneesAffichageRecherche($requete){
+        require("connexionDB.php");
         $linkpdo=connexion();
 
-        $req=$linkpdo->prepare('select date_parcours, Nom, type_activite, duree, denivele, ville_depart, groupe, home_trainer, meteo, id_fichier, id_parcours from fichier order by date_parcours DESC;');
+        $req=$linkpdo->prepare("$requete");
 
         $req->execute();
         $nb_lignes = $req->rowCount();
@@ -72,6 +72,31 @@
         $retour.="/";
         $retour.=$arr2[0];
         return $retour;
+    }
+
+    function creerRequeteRechercheLibre($recherche) {
+    
+        $sql = "SELECT date_parcours, Nom, type_activite, duree, denivele, ville_depart, groupe, home_trainer, meteo, id_fichier, id_parcours FROM fichier WHERE nom LIKE '%".$recherche."%'";
+        $sql .= " OR description LIKE '%".$recherche."%'";
+        $sql .= " OR distance LIKE '%".$recherche."%'";
+        $sql .= " OR date_parcours LIKE '%".$recherche."%'";
+        $sql .= " OR ville_depart LIKE '%".$recherche."%'";
+        $sql .= " OR groupe LIKE '%".$recherche."%'";
+        $sql .= " OR type_activite LIKE '%".$recherche."%'";
+        $sql .= " OR meteo LIKE '%".$recherche."%'";
+        $sql .= " OR denivele LIKE '%".$recherche."%'";
+        $sql .= " OR duree LIKE '%".$recherche."%'";
+        $sql .= " OR distance LIKE '%".$recherche."%'";
+        $sql .= " OR home_trainer LIKE '%".$recherche."%'";
+
+        $res = recupDonneesAffichageRecherche($sql);
+
+        return $res;
+    }
+
+    function searchbasique(){
+        $res = recupDonneesAffichageRecherche("select date_parcours, Nom, type_activite, duree, denivele, ville_depart, groupe, home_trainer, meteo, id_fichier, id_parcours from fichier order by date_parcours DESC;");
+        return $res;
     }
 
 ?>
