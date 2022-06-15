@@ -66,7 +66,11 @@
     />
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous">
     <link rel="stylesheet" href="./style.css">
-    <script src='JS/div_clickable.js' async></script>
+    <script type="text/javascript">
+        function ouvrirTrace($id_fichier,$id_parcours){
+            window.location.href="html/show.html?id_parcours="+$id_parcours+"&id_fichier="+$id_fichier;
+        }
+    </script>
     <title>GPX - Accueil</title>
 </head>
 <body class="font-Monserrat">

@@ -153,7 +153,7 @@
 
 
                 rename("fichiers_telecharges/temp/".$_SESSION['nom_fichier_telecharge'].".gpx", "fichiers_telecharges/".$id_fichier.".gpx");
-                header('location:../public/html/show.html?parcours='.$id_parcours);
+                header('location:../public/html/show.html?id_parcours='.$id_parcours);
             } else {
                 echo "Aucuns points à ajouter <br>";
             }
