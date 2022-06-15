@@ -1,11 +1,16 @@
 <?php    
+    ini_set('display_errors',0);
     require('PointsGPX.php');
     require('connexionDB.php');
     
     session_start();
     ob_start();
 
-    
+    if(empty($_FILES['myFile']['name'] && empty($_FILES['myFile']['size'] == 0))){
+        header('location:../public/html/dragNdrop.html?empty=1');
+    } else {
+        var_dump($_FILES);
+    }
 
     
     function calculateShortDistance($sourceLat,$sourceLong, $destinationLat,$destinationLong){
@@ -32,6 +37,7 @@
       return $c;
     }
 
+    
 
     $tab_points = new ArrayObject();
     $distance_course = 0;
@@ -40,8 +46,7 @@
     $date_course = "";
 
     $duree_course = 0; // Faire soustraction
-    $_SESSION['fichier_enr'] = $_FILES['myFile']['tmp_name'];
-    var_dump($_SESSION['fichier_enr']);
+
     $fichier_gpx = simplexml_load_file($_FILES['myFile']['tmp_name']);
 
     foreach($fichier_gpx->children() as $child){

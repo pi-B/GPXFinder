@@ -4,6 +4,11 @@
     session_start();
     ob_start();
 
+    if(!isset($_SESSION['connecte'])){
+        header('location:html/login.html');
+    }
+
+    
     function verifDatas(){
         $linkpdo = connexion();
         $sql = "SELECT * FROM fichier";
@@ -66,7 +71,11 @@
     />
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous">
     <link rel="stylesheet" href="./style.css">
-    <script src='JS/div_clickable.js' async></script>
+    <script type="text/javascript">
+        function ouvrirTrace($id_fichier,$id_parcours){
+            window.location.href="html/show.html?id_parcours="+$id_parcours+"&id_fichier="+$id_fichier;
+        }
+    </script>
     <title>GPX - Accueil</title>
 </head>
 <body class="font-Monserrat">
@@ -78,7 +87,7 @@
             <ul class="hidden md:flex flex-1 items-center justify-end gap-12 text-sm">
                 <li class="uppercase cursor-pointer"><a href="html/dragNdrop.html">Ajouter</a></li>
                 <li class="uppercase cursor-pointer"><a href="html/search.html">Rechercher</a></li>
-                <button type="button" class="bg-red-400 text-white py-3 px-7 rounded-md uppercase">Logout</button>
+                <a href="../php/deconnexion.php"><button type="button" class="bg-red-400 text-white py-3 px-7 rounded-md uppercase">Logout</button></a>
                 <div><img src="../img/user.png" alt="Avatar"></div>
             </ul>
             <div class="flex md:hidden flex-1 justify-end cursor-pointer"><i class="text-2xl far fa-caret-square-down"></i></div>

@@ -1,5 +1,6 @@
 <?php
-
+    session_start();
+    require('../../php/utils/verifLogin.php');
     require '../../php/rechercheAvancee.php'
 
 ?>
@@ -78,8 +79,8 @@
                             $tab_int = $resTab[$i];
                             $temps=$tab_int['temps'];
                             $denivele=$tab_int['denivele'];
-                            $lien_affiche = "show.html?parcours=".$tab_int['id_parcours']."&fichier=".$tab_int['id_fichier'];
-                            $lien_modif = "edit.html?parcours=".$tab_int['id_parcours']."&id_fichier=".$tab_int['id_fichier'];
+                            $lien_affiche = "show.html?id_parcours=".$tab_int['id_parcours']."&id_fichier=".$tab_int['id_fichier'];
+                            $lien_modif = "edit.html?id_parcours=".$tab_int['id_parcours']."&id_fichier=".$tab_int['id_fichier'];
 
                         ?>
                         
@@ -137,7 +138,7 @@
                     $tab_int = $resTab[$i];
                     $temps=$tab_int['temps'];
                     $denivele=$tab_int['denivele'];
-                    $lien = "show.html?parcours=".$tab_int['id_parcours']."&id_fichier=".$tab_int['id_fichier'];
+                    $lien = "show.html?id_parcours=".$tab_int['id_parcours']."&id_fichier=".$tab_int['id_fichier'];
                 ?>
                 <a href=<?php echo $lien ; ?>>
                 <div class="shadow-md rounded-lg border-2 p-4 border-gray-300 text-sm">

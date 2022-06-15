@@ -9,6 +9,10 @@
 
     ob_start();
         
+    require('../../php/utils/verifLogin.php');
+
+    
+
     function placeholder($statistique){
         $tableau_stat = array(0 => 'distance', 1 => 'temps', 2 => 'denivele', 3 => 'date', 4 => 'nom', 5 => 'duree');
         if(isset($_SESSION["$statistique"]) and !empty($_SESSION["$statistique"])){

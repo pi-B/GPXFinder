@@ -10,7 +10,7 @@ if (isset($_POST['modifier'])) {
     //si la taille du tableau $_SESSION['erreurs'] est vide, on peut ajouter le parcours
     if (empty($_SESSION['erreurs'])) {
         modifierFichier();
-        header ('Location: ../public/html/show.html?fichier='.$_SESSION['edit']['id_fichier']."&parcours=".$_GET['parcours']);
+        header ('Location: ../public/html/show.html?id_fichier='.$_SESSION['edit']['id_fichier']."&id_parcours=".$_GET['id_parcours']);
     } else {
         var_dump($_SESSION['erreurs']);
         header ('Location: ../public/html/edit.html?id_fichier='.$_SESSION['edit']['id_fichier']);
@@ -68,27 +68,7 @@ function modifierFichier() {
     $res->bindParam(':denivele', $_SESSION['denivele']);
     $res->bindParam(':type_activite', $_SESSION['activite']);
     $res->bindParam(':meteo', $_SESSION['meteo']);
-    $res->bindParam(':id_fichier', $_SESSION['edit']['id_fichier']);
-
-    if(! $res->execute(
-        // array(
-        //     'nom' => $_SESSION['nom'],
-        //     'description ' => $_SESSION['desc'],
-        //     'distance ' => $_SESSION['distance'],
-        //     'ville_depart' => $_SESSION['ville'],
-        //     'duree' => $_SESSION['duree'],
-        //     'date_parcours' => $_SESSION['date'],
-        //     'home_trainer' => $_SESSION['ht'],
-        //     'groupe' => $_SESSION['groupe'],
-        //     'denivele' => $_SESSION['denivele'],
-        //     'type_activite' => $_SESSION['activite'],
-        //     'meteo' => $_SESSION['meteo']
-        // )
-    )){
-        $res->debugDumpParamas();
-    }
-
-    
+    $res->bindParam(':id_fichier', $_SESSION['edit']['id_fichier']);        
     
 }
 

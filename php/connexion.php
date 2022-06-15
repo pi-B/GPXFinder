@@ -1,9 +1,9 @@
 <?php
- session_start();
- require("connexionDB.php");
+    session_start();
+    require("connexionDB.php");
 
- if (isset($_SESSION['login']))
-    header("location:../public/index.html");
+    if (isset($_SESSION['login']))
+        header("location:../public/index.html");
 
     if(!empty($_POST['login']) && !empty($_POST['password'])){
        
@@ -17,6 +17,7 @@
 
             if(md5($connexion['password']) == md5($_POST['password'])){
                 $_SESSION['login']=$_POST['login'];
+                $_SESSION['connecte'] = 'true';
                 $connexion = true;
                 header('location:../public/index.html');
             }else{
