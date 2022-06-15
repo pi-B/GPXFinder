@@ -11,6 +11,7 @@ session_start();
 if(!isset($_SESSION['ht'])){
     $hometrainer = NULL;
 } else{
+    $hometrainer = 0;
     switch($_SESSION['ht']){
         case 'oui':
             $hometrainer = 1;
@@ -22,14 +23,15 @@ if(!isset($_SESSION['ht'])){
 }
 
 if(!isset($_SESSION['meteo'])){
-    $meteo = NULL;
+    $meteo = 'nuage';
 } else{
     $meteo = $_SESSION['meteo'];
 }
 
 if(!isset($_SESSION['group'])){
-    $groupe = NULL;
+    $groupe = 0;
 } else{
+    $groupe = 0;
     switch($_SESSION['group']){
         case 'groupe':
             $groupe = 1;
@@ -48,6 +50,7 @@ $date_parcours = $_SESSION['date'];
 $ville_depart = $_SESSION['ville'];
 $type_activite = $_SESSION['activite'];
 $nom = $_SESSION['nom'];
+
 
 
 $linkpdo = connexion();
@@ -96,8 +99,8 @@ $liste_points = $_SESSION['tableauPoints'];
 $query = "select LAST_INSERT_ID()";     
 $preparation_query = $linkpdo->prepare($query);
 $preparation_query->execute(); 
-$lastid = $preparation_query->fetch();
-$lastid = $lastid[0];
+$id_fichier = $preparation_query->fetch();
+$id_fichier = $id_fichier[0];
 
 if(!empty($liste_points)){
 
@@ -127,7 +130,7 @@ if(!empty($liste_points)){
             'lat' => $point->getLat(),
             'long' => $point->getLong(),
             'type' => 'trkpt',
-            'id_fichier' => $lastid
+            'id_fichier' => $id_fichier
         )))
        {	
             echo "Erreur : <br>";
@@ -139,7 +142,7 @@ if(!empty($liste_points)){
     echo "Aucuns points à ajouter <br>";
 }
     rename("fichiers_telecharges/temp/".$_SESSION['nom_fichier_telecharge'].".gpx", "fichiers_telecharges/".$id_fichier.".gpx");
-    header ('location:../public/html/show.html?parcours='.$id_parcours);
+    header ('location:../public/html/show.html?parcours='.$id_parcours."&id_fichier=".$id_fichier);
 
 
 ?>

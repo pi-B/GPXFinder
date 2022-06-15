@@ -171,7 +171,7 @@
                 } else {
                     echo "Probleme changement dossier";
                 }    
-                //header('location:../public/html/show.html?parcours='.$id_parcours);
+                header('location:../public/html/show.html?parcours='.$id_parcours."&id_fichier=".$id_fichier);
             } else {
                 echo "Aucuns points à ajouter <br>";
             }
