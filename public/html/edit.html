@@ -4,7 +4,7 @@
 
     session_start();
 
-    require('../../php/utils/verifLogin.php');
+    require('../../php/utils/verifIntegrite.php');
 
     if(!isset($_GET['id_parcours']) OR verifier_repertoir_non_vide($_GET['id_parcours']) == 0 ){
         header('location:../index.html');
