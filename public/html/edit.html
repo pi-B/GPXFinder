@@ -1,11 +1,10 @@
 <?php 
-    // Test avec l'url : http://localhost/PTUTHub/PTUT/public/html/show.html?parcours=16
     require('../../php/PointsGPX.php');
     require('../../php/connexionDB.php'); 
 
     session_start();
     $_SESSION['edit'] = array();
-    $_SESSION['edit']['id_fichier'] = $_GET['id_fichier'];
+    $_SESSION['edit']['id_fichier'] = $_GET['fichier'];
 
     function returnError($errorType) {
         if (isset($_SESSION['erreurs'])) {
@@ -31,21 +30,18 @@
                 array_push($liste_points,$temp);
             }
 
-         //     echo "var dump des points recoltés: <br>";
-         //    echo "<pre>";
-         //     print_r($liste_points);
-         //     echo "</pre>";
+
              return $liste_points;
     }
 
     function liste_fichiers_parcours(){
 
-        $id_fichier = $_GET['id_fichier'];
+        $id_fichier = $_GET['fichier'];
         $liste_parcours = "";
         $compteur = 1;
 
         $linkpdo = connexion();
-        $req = "SELECT id_fichier, date_format(date_parcours,'%d/%m/%Y') as date_parcours FROM fichier where id_fichier = $id_fichier order by date_parcours desc";
+        $req = "SELECT id_fichier, date_format(date_parcours,'%d/%m/%Y') as date_parcours FROM fichier where id_fichier = $id_fichier ";
         $res = $linkpdo->prepare($req);
         $res->execute();
         while($data = $res->fetch()){
@@ -65,7 +61,7 @@
     }
 
     function nom_parcours(){
-        $id_fichier = $_GET['id_fichier'];
+        $id_fichier = $_GET['fichier'];
        
 
         $linkpdo = connexion();
@@ -83,16 +79,17 @@
         $_SESSION['script_leaflet'] = '';
 
         $compteur = 1;
-        $id_fichier = $_GET['id_fichier'];
+        $id_fichier = $_GET['fichier'];
 
         $onglets = "";
         $linkpdo = connexion();
-        $req = "SELECT nom, description, distance, duree , denivele, Type_activite as activite, date_format(date_parcours,'%d/%m/%Y') as date_parcours, 
+        $req = "SELECT nom, description, distance, duree , denivele, Type_activite as activite, date_parcours , 
         Ville_depart as ville, meteo, home_trainer as hometrainer, groupe, id_fichier FROM `fichier` where Id_Fichier = $id_fichier";
         $res = $linkpdo->prepare($req);
         $res->execute();
 
         while($data = $res->fetch()){
+
             $meteo = "";
             $hometrainer = "";
             $groupe ="";
@@ -100,61 +97,61 @@
             if($data['meteo'] == "pluie"){
                 $meteo .= "
                 <label for=\"rain\"><i class=\"fas fa-cloud-rain\"></i></label>
-                <input type=\"radio\" name=\"meteo\" id=\"rain\" class=\"text-purple-400 focus:ring-1 focus:ring-purple-400\" checked  >
+                <input type=\"radio\" name=\"meteo\" id=\"rain\" value=\"pluie\" class=\"text-purple-400 focus:ring-1 focus:ring-purple-400\" checked  >
                 <label for=\"clouds\"><i class=\"fas fa-cloud-sun\"></i></label>
-                <input type=\"radio\" name=\"meteo\" id=\"clouds\" class=\"text-purple-400 focus:ring-1 focus:ring-purple-400\"  >
+                <input type=\"radio\" name=\"meteo\" id=\"clouds\" value=\"nuage\" class=\"text-purple-400 focus:ring-1 focus:ring-purple-400\"  >
                 <label for=\"sun\"><i class=\"fas fa-sun\"></i></i></label>
-                <input type=\"radio\" name=\"meteo\" id=\"sun\" class=\"text-purple-400 focus:ring-1 focus:ring-purple-400\"  >
+                <input type=\"radio\" name=\"meteo\" id=\"sun\" value=\"soleil\" class=\"text-purple-400 focus:ring-1 focus:ring-purple-400\"  >
                 " ;
             } elseif($data['meteo'] == "nuage"){
                 $meteo .= "
                 <label for=\"rain\"><i class=\"fas fa-cloud-rain\"></i></label>
-                <input type=\"radio\" name=\"meteo\" id=\"rain\" class=\"text-purple-400 focus:ring-1 focus:ring-purple-400\"  >
+                <input type=\"radio\" name=\"meteo\" id=\"rain\" value=\"pluie\" class=\"text-purple-400 focus:ring-1 focus:ring-purple-400\"   >
                 <label for=\"clouds\"><i class=\"fas fa-cloud-sun\"></i></label>
-                <input type=\"radio\" name=\"meteo\" id=\"clouds\" class=\"text-purple-400 focus:ring-1 focus:ring-purple-400\" checked  >
+                <input type=\"radio\" name=\"meteo\" id=\"clouds\" value=\"nuage\" class=\"text-purple-400 focus:ring-1 focus:ring-purple-400\"  checked>
                 <label for=\"sun\"><i class=\"fas fa-sun\"></i></i></label>
-                <input type=\"radio\" name=\"meteo\" id=\"sun\" class=\"text-purple-400 focus:ring-1 focus:ring-purple-400\"  >
+                <input type=\"radio\" name=\"meteo\" id=\"sun\" value=\"soleil\" class=\"text-purple-400 focus:ring-1 focus:ring-purple-400\"  >
                 " ;
             } elseif($data['meteo'] == "soleil"){
                 $meteo .= "
                 <label for=\"rain\"><i class=\"fas fa-cloud-rain\"></i></label>
-                <input type=\"radio\" name=\"meteo\" id=\"rain\" class=\"text-purple-400 focus:ring-1 focus:ring-purple-400\"  >
+                <input type=\"radio\" name=\"meteo\" id=\"rain\" value=\"pluie\" class=\"text-purple-400 focus:ring-1 focus:ring-purple-400\"   >
                 <label for=\"clouds\"><i class=\"fas fa-cloud-sun\"></i></label>
-                <input type=\"radio\" name=\"meteo\" id=\"clouds\" class=\"text-purple-400 focus:ring-1 focus:ring-purple-400\"  >
+                <input type=\"radio\" name=\"meteo\" id=\"clouds\" value=\"nuage\" class=\"text-purple-400 focus:ring-1 focus:ring-purple-400\"  >
                 <label for=\"sun\"><i class=\"fas fa-sun\"></i></i></label>
-                <input type=\"radio\" name=\"meteo\" id=\"sun\" class=\"text-purple-400 focus:ring-1 focus:ring-purple-400\" checked  >
+                <input type=\"radio\" name=\"meteo\" id=\"sun\" value=\"soleil\" class=\"text-purple-400 focus:ring-1 focus:ring-purple-400\" checked >
                 " ;
             } else {
                 $meteo .= "
                 <label for=\"rain\"><i class=\"fas fa-cloud-rain\"></i></label>
-                <input type=\"radio\" name=\"meteo\" id=\"rain\" class=\"text-purple-400 focus:ring-1 focus:ring-purple-400\"  >
+                <input type=\"radio\" name=\"meteo\" id=\"rain\" value=\"pluie\" class=\"text-purple-400 focus:ring-1 focus:ring-purple-400\"   >
                 <label for=\"clouds\"><i class=\"fas fa-cloud-sun\"></i></label>
-                <input type=\"radio\" name=\"meteo\" id=\"clouds\" class=\"text-purple-400 focus:ring-1 focus:ring-purple-400\"  >
+                <input type=\"radio\" name=\"meteo\" id=\"clouds\" value=\"nuage\" class=\"text-purple-400 focus:ring-1 focus:ring-purple-400\"  >
                 <label for=\"sun\"><i class=\"fas fa-sun\"></i></i></label>
-                <input type=\"radio\" name=\"meteo\" id=\"sun\" class=\"text-purple-400 focus:ring-1 focus:ring-purple-400\"  >
+                <input type=\"radio\" name=\"meteo\" id=\"sun\" value=\"soleil\" class=\"text-purple-400 focus:ring-1 focus:ring-purple-400\"  >
                 " ;
             }            
             
             if(!isset($data['hometrainer'])){
                 $hometrainer = "
                 <label for=\"oui\"><i class=\"fas fa-check-circle\"></i></label>
-                <input type=\"radio\" name=\"ht\" id=\"oui\" class=\"text-purple-400 focus:ring-1 focus:ring-purple-400\"  >
+                <input type=\"radio\" name=\"ht\" id=\"oui\" value=\"oui\" class=\"text-purple-400 focus:ring-1 focus:ring-purple-400\"  >
                 <label for=\"non\"><i class=\"fas fa-times-circle\"></i></i></label>
-                <input type=\"radio\" name=\"ht\" id=\"non\" class=\"text-purple-400 focus:ring-1 focus:ring-purple-400\"  >
+                <input type=\"radio\" name=\"ht\" id=\"non\" value=\"non\" class=\"text-purple-400 focus:ring-1 focus:ring-purple-400\"  >
                 ";
             }elseif($data['hometrainer'] == 1){
                 $hometrainer = "
                 <label for=\"oui\"><i class=\"fas fa-check-circle\"></i></label>
-                <input type=\"radio\" name=\"ht\" id=\"oui\" class=\"text-purple-400 focus:ring-1 focus:ring-purple-400\" checked  >
+                <input type=\"radio\" name=\"ht\" id=\"oui\" value=\"oui\" class=\"text-purple-400 focus:ring-1 focus:ring-purple-400\" checked  >
                 <label for=\"non\"><i class=\"fas fa-times-circle\"></i></i></label>
-                <input type=\"radio\" name=\"ht\" id=\"non\" class=\"text-purple-400 focus:ring-1 focus:ring-purple-400\"  >
+                <input type=\"radio\" name=\"ht\" id=\"non\" value=\"non\" class=\"text-purple-400 focus:ring-1 focus:ring-purple-400\"  >
                 ";
             } elseif($data['hometrainer'] == 0) {
                 $hometrainer = "
                 <label for=\"oui\"><i class=\"fas fa-check-circle\"></i></label>
-                <input type=\"radio\" name=\"ht\" id=\"oui\" class=\"text-purple-400 focus:ring-1 focus:ring-purple-400\"  >
+                <input type=\"radio\" name=\"ht\" id=\"oui\" value=\"oui\" class=\"text-purple-400 focus:ring-1 focus:ring-purple-400\"  >
                 <label for=\"non\"><i class=\"fas fa-times-circle\"></i></i></label>
-                <input type=\"radio\" name=\"ht\" id=\"non\" class=\"text-purple-400 focus:ring-1 focus:ring-purple-400\" checked  >
+                <input type=\"radio\" name=\"ht\" id=\"non\" value=\"non\" class=\"text-purple-400 focus:ring-1 focus:ring-purple-400\" checked  >
                 ";
             }
 
@@ -162,23 +159,23 @@
             if(!isset($data['groupe'])){
                 $groupe = "   
                 <label for=\"seul\"><i class=\"fas fa-user\"></i></label>
-                <input type=\"radio\" name=\"group\" id=\"seul\" class=\"text-purple-400 focus:ring-1 focus:ring-purple-400\"  >
+                <input type=\"radio\" name=\"group\" id=\"seul\" value=\"non\" class=\"text-purple-400 focus:ring-1 focus:ring-purple-400\"  >
                 <label for=\"groupe\"><i class=\"fas fa-users\"></i></label>
-                <input type=\"radio\" name=\"group\" id=\"groupe\" class=\"text-purple-400 focus:ring-1 focus:ring-purple-400\"  >
+                <input type=\"radio\" name=\"group\" id=\"groupe\" value=\"oui\" class=\"text-purple-400 focus:ring-1 focus:ring-purple-400\"  >
                 ";
             }elseif($data['groupe'] == 1){
                 $groupe = "   
                 <label for=\"seul\"><i class=\"fas fa-user\"></i></label>
-                <input type=\"radio\" name=\"group\" id=\"seul\" class=\"text-purple-400 focus:ring-1 focus:ring-purple-400\"  >
+                <input type=\"radio\" name=\"group\" id=\"seul\" value=\"non\" class=\"text-purple-400 focus:ring-1 focus:ring-purple-400\"  >
                 <label for=\"groupe\"><i class=\"fas fa-users\"></i></label>
-                <input type=\"radio\" name=\"group\" id=\"groupe\" class=\"text-purple-400 focus:ring-1 focus:ring-purple-400\" checked  >
+                <input type=\"radio\" name=\"group\" id=\"groupe\" value=\"oui\" class=\"text-purple-400 focus:ring-1 focus:ring-purple-400\" checked  >
                 ";
             } elseif($data['groupe'] == 0) {
                 $groupe = "   
                 <label for=\"seul\"><i class=\"fas fa-user\"></i></label>
-                <input type=\"radio\" name=\"group\" id=\"seul\" class=\"text-purple-400 focus:ring-1 focus:ring-purple-400\" checked  >
+                <input type=\"radio\" name=\"group\" id=\"seul\" value=\"non\" class=\"text-purple-400 focus:ring-1 focus:ring-purple-400\" checked  >
                 <label for=\"groupe\"><i class=\"fas fa-users\"></i></label>
-                <input type=\"radio\" name=\"group\" id=\"groupe\" class=\"text-purple-400 focus:ring-1 focus:ring-purple-400\"   >
+                <input type=\"radio\" name=\"group\" id=\"groupe\" value=\"oui\" class=\"text-purple-400 focus:ring-1 focus:ring-purple-400\"   >
                 ";
             }
 
@@ -206,7 +203,7 @@
             <!-- Resultat Trace ".$compteur." -->
             <div id=\"trace".$compteur."\" class=\"result container my-8\">
             
-                        <form action=\"../../php/modifierFichier.php\" method=\"post\">
+                        <form action=\"../../php/modifierFichier.php?parcours=".$_GET['parcours']."\" method=\"post\">
                         
 
 
@@ -281,7 +278,7 @@
                                         <div class=\"label_error flex flex-row gap-8 mb-2\">
                                             <label for=\"distance\">Date</label>
                                             <span class='erreur text-sm text-red-500'>".returnError('date')."</span>
-                                        </div>
+                                        </div> 
                                         <input type=\"date\" name=\"date\" id=\"date\" value=\"".date('Y-m-d',strtotime($data['date_parcours']))."\"
                                         class=\"border-2 border-gray-300 p-4 rounded-md shadow-sm w-full focus:outline-none focus:ring-1 focus:ring-purple-400\"  >
                                     </div>
@@ -350,7 +347,6 @@
                     <!-- Submit -->
                     <div class=\"flex flex-col md:flex-row gap-3 justify-around mb-8\">
                         <a href=\"../index.html\" class=\"bg-red-400 text-white py-3 px-7 rounded-md text-center\">Accueil</a>
-                        <a href=\"./addTo.html\" class=\"bg-gray-400 text-white py-3 px-7 rounded-md text-center\">Télécharger le fichier</a>
                         <button type=\"submit\" name=\"modifier\" class=\"bg-purple-400 text-white py-3 px-7 rounded-md text-center\">Modifier Trace</button>
                     </div>
 
@@ -365,7 +361,7 @@
         return $onglets;
     }
 
-    $id_fichier = $_GET['id_fichier'];
+    $id_fichier = $_GET['fichier'];
     $_SESSION['style_leaflet'] = '';
     $onglets = "";
     $linkpdo = connexion();
@@ -429,7 +425,7 @@
     </header>
 
     <!-- Titre de la page -->
-    <h1 class="text-2xl font-bold text-center my-8">Afficher un parcours : <?php echo nom_parcours() ; ?></h1>
+    <h1 class="text-2xl font-bold text-center my-8">Modification du fichier : <?php echo nom_parcours() ; ?></h1>
 
     <!-- Saisie  -->
     <section class="relative">
