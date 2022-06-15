@@ -9,7 +9,7 @@
         $carroussel = '';
 
         $linkpdo = connexion();
-        $req = (" SELECT nom, ville_depart as ville, duree, distance from fichier order by id_fichier desc LIMIT 5");
+        $req = (" SELECT nom, ville_depart as ville, duree, distance, id_fichier, id_parcours from fichier order by id_fichier desc LIMIT 5");
         $res = $linkpdo->prepare($req);
         $res->execute();
 
@@ -17,7 +17,7 @@
             $carroussel .= "
                 <div class=\"swiper-slide\">
                     <!-- Carte -->
-                    <div class=\"card p-4 rounded-md flex flex-col w-96 max-w-sm items-center gap-4 bg-gray-100\">
+                    <div class=\"card p-4 rounded-md flex flex-col w-96 max-w-sm items-center gap-4 bg-gray-100\" onclick=\"ouvrirTrace(".$data['id_fichier'].",".$data['id_parcours'].")\">
                         <h3 class=\"uppercase font-semibold\">".$data['nom']."</h3>
                         <img src=\"../img/On-the-Top.-135x90.jpg\" alt=\"Miniature Trace\" class=\"h-32 min-h-24\">
                         <ul class=\"flex flex-col gap-3\">
@@ -55,6 +55,7 @@
     />
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous">
     <link rel="stylesheet" href="./style.css">
+    <script src='JS/div_clickable.js' async></script>
     <title>GPX - Accueil</title>
 </head>
 <body class="font-Monserrat">

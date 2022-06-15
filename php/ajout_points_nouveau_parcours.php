@@ -106,17 +106,6 @@
             $preparation_query->execute(); 
             $id_fichier = $preparation_query->fetch();
 
-            $fichier = $_SESSION['fichier_enr'];
-        
-    $target = "../fichier_telecharges/";
-    $target_file = $target.$id_parcours;
-
-    if(move_uploaded_file($fichier, $target_file)){
-        echo"fichier transféré";
-    }else{
-        echo"fichier non transféré";
-    }
-
             $id_fichier = $id_fichier[0];
 
             if(!empty($liste_points)){
@@ -163,15 +152,8 @@
                 }
 
 
-                if(file_exists("fichiers_telecharges/temp/".$_SESSION['nom_fichier_telecharge'].".gpx")){
-                    echo " Je trouve le fichier dnas le dossier temporaire <br>";
-                }
-                if(rename("fichiers_telecharges/temp/".$_SESSION['nom_fichier_telecharge'].".gpx", "fichiers_telecharges/".$id_fichier.".gpx")){
-                    echo "Fichier bougé<br>";
-                } else {
-                    echo "Probleme changement dossier";
-                }    
-                header('location:../public/html/show.html?parcours='.$id_parcours."&id_fichier=".$id_fichier);
+                rename("fichiers_telecharges/temp/".$_SESSION['nom_fichier_telecharge'].".gpx", "fichiers_telecharges/".$id_fichier.".gpx");
+                header('location:../public/html/show.html?parcours='.$id_parcours);
             } else {
                 echo "Aucuns points à ajouter <br>";
             }
