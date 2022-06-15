@@ -4,6 +4,17 @@
     session_start();
     ob_start();
 
+    function verifDatas(){
+        $linkpdo = connexion();
+        $sql = "SELECT * FROM fichier";
+        $preparation_query = $linkpdo->prepare($sql);
+        $preparation_query->execute();
+        //si le résultat de la requete est vide alors on affiche le message
+        if($preparation_query->rowCount() == 0){
+            echo "<br><br><br><br><div class='text-lg text-center'>Aucun parcours n'a été trouvé. Veuillez renseigner une trace.</div>";
+        } 
+    }
+
 
     function recuperer_dernier_fichiers(){
         $carroussel = '';
@@ -77,7 +88,7 @@
     <!-- Hero -->
     <section class="relative mt-8">
         <div class="container flex flex-col items-center md:flex-row gap-12 bg-gradient-to-r from-cyan-200 to-blue-200 p-8">
-            <h1 class="text-2xl font-semibold">Bienvenue <span class="text-purple-600"></span>, envie de prendre l'air ?</h1>
+            <h1 class="text-2xl font-semibold">Bienvenue<span class="text-purple-600"></span>, envie de prendre l'air ?</h1>
             <div class="boutons flex flex-col sm:flex-row gap-4">
                 <a href="html/dragNdrop.html" class="bg-gray-400 text-white py-3 px-7 rounded-md min-w-200 text-center">Ajouter une trace</a>
                 <a href="html/search.html" class="bg-purple-400 text-white py-3 px-7 rounded-md text-center">Rechercher une trace</a>
@@ -90,6 +101,7 @@
 
         <div class="container">
             <h2 class="text-xl text-center mb-8">Vos derniers exploits...</h2>
+            <?php  verifDatas(); ?>
             <!-- Slider main container -->
             <div class="swiper">
                 <!-- Additional required wrapper -->

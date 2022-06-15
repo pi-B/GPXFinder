@@ -32,14 +32,17 @@ require("../../php/search.php");
     <h1 class="text-2xl font-bold text-center my-8">Recherche par mot-clé(s) :</h1>
 
     <!-- Barre de recherche -->
-    <div class="container flex px-16 mb-4">
-        <input type="text" name="recherche" placeholder="Nom de la trace, ville de départ, mot-clé..." 
+    <div >
+        <form action="../../php/rechercheLibre.php" method="post" class="container flex px-16 mb-4 gap-8">
+            <input type="text" name="recherche" placeholder="Nom de la trace, ville de départ, mot-clé..." 
         class="border-2 border-gray-300 p-4 rounded-md shadow-sm focus:outline-none focus:ring-1 w-full mb-6 focus:ring-purple-400">
+        <button type="submit" class="bg-purple-400 text-white py-3 px-7 rounded-md uppercase">Rechercher</button>
+        </form>
     </div>
 
     <!-- Résultats -->
     <div class="container">
-        <a href="search-adv.html" class="mx-8 font-semibold text-lg text-purple-600">Paramètres de recherche avancée <i class="fa-solid fa-angle-right"></i> </a>
+        <a href="search-adv.html" class="mx-8 font-semibold text-lg text-purple-600">Paramètres de recherche avancée </a>
 
         <!-- Tableau -->
         <div class="hidden my-8 lg:block">
@@ -103,7 +106,7 @@ require("../../php/search.php");
                             ?>
                         </tr>  
                         <?php
-                    }
+                        }
                     ?>  
                 </tbody>
             </table>
