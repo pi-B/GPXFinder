@@ -12,8 +12,29 @@ if (isset($_POST['modifier'])) {
         header('Location: ../public/html/search.html');
     } else {
         var_dump($_SESSION['erreurs']);
+        modifierFichier();
         header ('Location: ../public/html/edit.html?id_fichier='.$_SESSION['edit']['id_fichier']);
     }
+    
+}
+
+function modifierFichier() {
+    $linkpdo = connexion();
+    $req = (" UPDATE fichier SET nom = :nom, ville_depart = :ville_depart, date_parcours = :date_parcours, duree = :duree, distance = :distance, description = :description , home_trainer = :home_trainer, groupe = :groupe, denivele = :denivele, type_activite = :type_activite, meteo = :meteo WHERE id_fichier = :id_fichier");
+    $res = $linkpdo->prepare($req);
+    $res->bindParam(':nom', $_SESSION['nom']);
+    $res->bindParam(':description', $_SESSSION['desc']);
+    $res->bindParam(':distance', $_SESSION['distance']);
+    $res->bindParam(':ville_depart', $_SESSION['ville']);
+    $res->bindParam(':duree', $_SESSION['duree']);
+    $res->bindParam(':date_parcours', $_SESSION['date']);
+    $res->bindParam(':home_trainer', $_SESSION['ht']);
+    $res->bindParam(':groupe', $_SESSION['groupe']);
+    $res->bindParam(':denivele', $_SESSION['denivele']);
+    $res->bindParam(':type_activite', $_SESSION['activite']);
+    $res->bindParam(':meteo', $_SESSION['meteo']);
+    $res->bindParam(':id_fichier', $_SESSION['edit']['id_fichier']);
+    $res->execute();
     
 }
 
