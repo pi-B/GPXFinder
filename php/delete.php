@@ -9,6 +9,8 @@
         $res = $linkpdo->prepare($req);
         $res->execute();
 
+        unlink('fichiers_telecharges/'.$_GET['id_fichier'].'.gpx');
+
         $req = (" select count(id_fichier) as nb_fichiers FROM fichier where id_parcours =".$_GET['id_parcours'] );
         $res = $linkpdo->prepare($req);
         $res->execute();
