@@ -3,6 +3,13 @@
     require('../../php/connexionDB.php'); 
 
     session_start();
+
+    require('../../php/utils/verifLogin.php');
+
+    if(!isset($_GET['id_parcours']) OR verifier_repertoir_non_vide($_GET['id_parcours']) == 0 ){
+        header('location:../index.html');
+    }
+    
     $_SESSION['edit'] = array();
     $_SESSION['edit']['id_fichier'] = $_GET['id_fichier'];
 

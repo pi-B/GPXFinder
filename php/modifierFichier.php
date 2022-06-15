@@ -68,27 +68,7 @@ function modifierFichier() {
     $res->bindParam(':denivele', $_SESSION['denivele']);
     $res->bindParam(':type_activite', $_SESSION['activite']);
     $res->bindParam(':meteo', $_SESSION['meteo']);
-    $res->bindParam(':id_fichier', $_SESSION['edit']['id_fichier']);
-
-    if(! $res->execute(
-        // array(
-        //     'nom' => $_SESSION['nom'],
-        //     'description ' => $_SESSION['desc'],
-        //     'distance ' => $_SESSION['distance'],
-        //     'ville_depart' => $_SESSION['ville'],
-        //     'duree' => $_SESSION['duree'],
-        //     'date_parcours' => $_SESSION['date'],
-        //     'home_trainer' => $_SESSION['ht'],
-        //     'groupe' => $_SESSION['groupe'],
-        //     'denivele' => $_SESSION['denivele'],
-        //     'type_activite' => $_SESSION['activite'],
-        //     'meteo' => $_SESSION['meteo']
-        // )
-    )){
-        $res->debugDumpParamas();
-    }
-
-    
+    $res->bindParam(':id_fichier', $_SESSION['edit']['id_fichier']);        
     
 }
 

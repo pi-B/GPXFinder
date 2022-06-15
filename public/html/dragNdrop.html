@@ -6,6 +6,8 @@ require('../../php/connexionDB.php');
 session_start();
 ob_start();
 
+require('../../php/utils/verifLogin.php');
+
 
 
   function test_extension(){
@@ -19,6 +21,10 @@ ob_start();
           parsing();
         }
     }
+  }
+
+  if(isset($_GET['empty'])){
+    echo "<span style=\"color:#d63024; text-align:center\"> Champs d'envoie vide, sélectionnez un fichier. </span>";
   }
 
   unset($_SESSION['erreurs']);

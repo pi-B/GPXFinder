@@ -4,6 +4,11 @@
     session_start();
     ob_start();
 
+    if(!isset($_SESSION['connecte'])){
+        header('location:html/login.html');
+    }
+
+    
     function verifDatas(){
         $linkpdo = connexion();
         $sql = "SELECT * FROM fichier";
