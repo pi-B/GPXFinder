@@ -17,6 +17,6 @@
         if($data['nb_fichiers'] == 0){
             header('location:../public/index.html');
         } else{
-            header('location:../public/html/show.html/?parcours='.$_GET['parcours']);
+            header('location:../public/html/show.html?parcours='.$_GET['parcours']);
         }
 ?>
