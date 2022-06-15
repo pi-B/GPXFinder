@@ -218,11 +218,7 @@
             <!-- Resultat Trace ".$compteur." -->
             <div id=\"trace".$compteur."\" class=\"result container my-8\">
             
-<<<<<<< HEAD
-                        <form action=\"edit.html?id_fichier=".$data['id_fichier']."&parcours=".$_GET['parcours']."\" method=\"post\">
-=======
                         <form action=\"edit.html?id_fichier=".$data['id_fichier']."&id_parcours=".$_GET['id_parcours']."\" method=\"post\">
->>>>>>> e37ffdb1536b8efc493f0a5b07a6ef0d0fa1e5b3
                         
 
 
@@ -360,11 +356,7 @@
                         <a href=\"../index.html\" class=\"bg-red-400 text-white py-3 px-7 rounded-md text-center\">Accueil</a>
                         <a download=\"".str_replace(' ','_',$data['nom']).".gpx\" href=\"../../php/fichiers_telecharges/".$data['id_fichier'].".gpx\" class=\"bg-gray-400 text-white py-3 px-7 rounded-md text-center\">Télécharger le fichier</a>
                         <button type=\"submit\" class=\"bg-purple-400 text-white py-3 px-7 rounded-md text-center\">Modifier Trace</button>
-<<<<<<< HEAD
-                        <a href=\"../../php/delete.php?fichier=".$data['id_fichier']."&parcours=".$_GET['parcours']."\" class=\"bg-red-400 text-white py-3 px-7 rounded-md text-center\">Supprimer</a>
-=======
                         <a href=\"../../php/delete.php?id_fichier=".$data['id_fichier']."&id_parcours=".$_GET['id_parcours']."\" class=\"bg-red-400 text-white py-3 px-7 rounded-md text-center\">Supprimer</a>
->>>>>>> e37ffdb1536b8efc493f0a5b07a6ef0d0fa1e5b3
                     </div>
 
                     </form>
