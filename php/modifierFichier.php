@@ -9,10 +9,10 @@ verifVariables();
 if (isset($_POST['modifier'])) {
     //si la taille du tableau $_SESSION['erreurs'] est vide, on peut ajouter le parcours
     if (empty($_SESSION['erreurs'])) {
+        modifierFichier();
         header('Location: ../public/html/search.html');
     } else {
         var_dump($_SESSION['erreurs']);
-        modifierFichier();
         header ('Location: ../public/html/edit.html?id_fichier='.$_SESSION['edit']['id_fichier']);
     }
     
@@ -43,7 +43,7 @@ function verifVariables() {
     if (isset($_POST['nom'])) {
         $nom = $_POST['nom'];
         //Le nom ne doit contenir que des lettres, des chiffres ou des espaces et doit faire entre 2 et 50 caractères
-        if (!preg_match("/^[a-zA-Z ]{2,50}$/", $nom)) {
+        if (!preg_match("/^[0-9a-zA-Z áàâäãåçéèêëíìîïñóòôöõúùûüýÿæœÁÀÂÄÃÅÇÉÈÊËÍÌÎÏÑÓÒÔÖÕÚÙÛÜÝŸÆŒ]{2,50}$/", $nom)) {
             $_SESSION['erreurs']['nom'] = "Le nom doit contenir entre 2 et 50 caractères non numériques";
         } else {
             //unset 

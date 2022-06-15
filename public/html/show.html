@@ -4,7 +4,7 @@
     require('../../php/connexionDB.php'); 
 
     session_start();
-    
+    unset($_SESSION['erreurs']);
     
 
     function recuperer_points_fichier($id_fichier){
@@ -329,10 +329,7 @@
                                         </input>
                                     
                             </div>
-                            ";
-                if($compteur == 1){
-                    $onglets .=                     
-                    "
+                            
                     <!-- Submit -->
                     <div class=\"flex flex-col md:flex-row gap-3 justify-around mb-8\">
                         <a href=\"../index.html\" class=\"bg-red-400 text-white py-3 px-7 rounded-md text-center\">Accueil</a>
@@ -344,7 +341,7 @@
                     </div>
                     
                 ";
-                }
+                
                 $onglets .= "</form> </div>";
                 $compteur = $compteur + 1;
         }
