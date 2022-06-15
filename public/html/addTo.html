@@ -6,7 +6,8 @@
     session_start();
 
     require('../../php/utils/verifIntegrite.php');
-
+    verifier_admin();
+    
     function idDuDernierFichier() {
         //recuperer l'id du fichier qui vient d'etre ajouté a la base de données 
         $sql = "SELECT Id_Fichier FROM fichier ORDER BY Id_Fichier DESC LIMIT 1";

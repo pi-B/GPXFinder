@@ -13,5 +13,11 @@
 
         return $data['nb_fichiers'];
     }
+
+    function verifier_admin(){
+        if($_SESSION['login'] != 'admin'){
+            header('location:../index.html'); 
+        }
+    }
     
     ?>

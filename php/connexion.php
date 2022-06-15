@@ -5,7 +5,12 @@
     if (isset($_SESSION['login']))
         header("location:../public/index.html");
 
-    if(!empty($_POST['login']) && !empty($_POST['password'])){
+    if($_GET['invite'] == 1){
+        $_SESSION['connecte'] = 'true';
+        $_SESSION['login']='invite';
+        header('location:../public/index.html');
+    } else{ 
+        if(!empty($_POST['login']) && !empty($_POST['password'])){
        
         $linkpdo = connexion() ;
         
@@ -19,21 +24,23 @@
                 $_SESSION['login']=$_POST['login'];
                 $_SESSION['connecte'] = 'true';
                 $connexion = true;
-                header('location:../public/index.html');
+                //header('location:../public/index.html');
             }else{
                 $connexion="password";
-                header('location:../public/html/login.html?error='.$connexion);
+                //header('location:../public/html/login.html?error='.$connexion);
                 //Le mot de passe n'est pas correct
             }
 
             if($connexion.isnull()){
                 $connexion="login";
-                header('location:../public/html/login.html?error='.$connexion);
+                //header('location:../public/html/login.html?error='.$connexion);
                 //Le login existe pas dans la table
             }
         }
     }else{
         $connexion = "champ";
         header('location:../public/html/login.html?error='.$connexion); //Un champ ou les deux champs sont/est vide
-    }
+    }}
+
+   
 ?>
