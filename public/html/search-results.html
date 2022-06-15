@@ -35,9 +35,12 @@
     <h1 class="text-2xl font-bold text-center my-8">Recherche par mot-clé(s) :</h1>
 
     <!-- Barre de recherche -->
-    <div class="container flex px-16 mb-4">
-        <input type="text" name="recherche" placeholder="Nom de la trace, ville de départ, mot-clé..." 
+    <div >
+        <form action="../../php/rechercheLibre.php" method="post" class="container flex px-16 mb-4 gap-8">
+            <input type="text" name="recherche" placeholder="Nom de la trace, ville de départ, mot-clé..." 
         class="border-2 border-gray-300 p-4 rounded-md shadow-sm focus:outline-none focus:ring-1 w-full mb-6 focus:ring-purple-400">
+        <button type="submit" class="bg-purple-400 text-white py-3 px-7 rounded-md uppercase">Rechercher</button>
+        </form>
     </div>
 
     <!-- Résultats -->
@@ -63,6 +66,8 @@
                         <th class="p-3 text-sm font-semibold tracking-wide text-left">Groupe</th>
                         <th class="p-3 text-sm font-semibold tracking-wide text-left">Trainer</th>
                         <th class="p-3 text-sm font-semibold tracking-wide text-left">Météo</th>
+                        <th class="p-3 text-sm font-semibold tracking-wide text-left">Modifier</th>
+                        <th class="p-3 text-sm font-semibold tracking-wide text-left">Afficher</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -73,44 +78,48 @@
                             $tab_int = $resTab[$i];
                             $temps=$tab_int['temps'];
                             $denivele=$tab_int['denivele'];
-                            $lien = "show.html?parcours=".$tab_int['id_parcours']."&id_fichier=".$tab_int['id_fichier'];
+                            $lien_affiche = "show.html?parcours=".$tab_int['id_parcours']."&fichier=".$tab_int['id_fichier'];
+                            $lien_modif = "edit.html?parcours=".$tab_int['id_parcours']."&id_fichier=".$tab_int['id_fichier'];
+
                         ?>
                         
-                        <td class='p-3 text-sm text-gray-700'><a href=<?php echo $lien ; ?>><?php echo $tab_int['date']; ?></a></td>
-                        <td class='p-3 text-sm text-gray-700'><a href=<?php echo $lien ; ?>><?php echo $tab_int['nom'] ; ?></a></td>
-                        <td class='p-3 text-sm text-gray-700'><a href=<?php echo $lien ; ?>><?php echo $tab_int['activite'] ; ?></a></td>
-                        <td class='p-3 text-sm text-gray-700'><a href=<?php echo $lien ; ?>><?php echo $temps ; ?></a></td>
-                        <td class='p-3 text-sm text-gray-700'><a href=<?php echo $lien ; ?>><?php echo $denivele ; ?></a></td>
-                        <td class='p-3 text-sm text-gray-700'><a href=<?php echo $lien ; ?>><?php echo $tab_int['depart'] ; ?></a></td>
-                        <td class='p-3 text-sm text-gray-700'><a href=<?php echo $lien ; ?>><?php echo $tab_int['auteur'] ; ?></a></td>
-                        <td class='p-3 text-sm text-gray-700'><a href=<?php echo $lien ; ?>><?php
+                        <td class='p-3 text-sm text-gray-700'><?php echo $tab_int['date']; ?></td>
+                        <td class='p-3 text-sm text-gray-700'><?php echo $tab_int['nom'] ; ?></td>
+                        <td class='p-3 text-sm text-gray-700'><?php echo $tab_int['activite'] ; ?></td>
+                        <td class='p-3 text-sm text-gray-700'><?php echo $temps ; ?></td>
+                        <td class='p-3 text-sm text-gray-700'><?php echo $denivele ; ?></td>
+                        <td class='p-3 text-sm text-gray-700'><?php echo $tab_int['depart'] ; ?></td>
+                        <td class='p-3 text-sm text-gray-700'><?php echo $tab_int['auteur'] ; ?></td>
+                        <td class='p-3 text-sm text-gray-700'><?php
                             if($tab_int['groupe']=='non'){
-                                echo"<span class='p-1.5 bg-red-400 text-red-800 rounded-md uppercase tracking-wider bg-opacity-30'>Non</span></a></td>";
+                                echo"<span class='p-1.5 bg-red-400 text-red-800 rounded-md uppercase tracking-wider bg-opacity-30'>Non</span></td>";
                             }else{
-                                echo"<span class='p-1.5 bg-green-400 text-green-800 rounded-md uppercase tracking-wider bg-opacity-30'>Oui</span></a></td>";
+                                echo"<span class='p-1.5 bg-green-400 text-green-800 rounded-md uppercase tracking-wider bg-opacity-30'>Oui</span></td>";
                             }?>
-                        <td class='p-3 text-sm text-gray-700'><a href=<?php echo $lien ; ?>><?php
+                        <td class='p-3 text-sm text-gray-700'><?php
                             if($tab_int['trainer']=='non'){
-                            echo"<span class='p-1.5 bg-red-400 text-red-800 rounded-md uppercase tracking-wider bg-opacity-30'>Non</span></a></td>";
+                            echo"<span class='p-1.5 bg-red-400 text-red-800 rounded-md uppercase tracking-wider bg-opacity-30'>Non</span></td>";
                         }else{
-                            echo"<span class='p-1.5 bg-green-400 text-green-800 rounded-md uppercase tracking-wider bg-opacity-30'>Oui</span></a></td>";
+                            echo"<span class='p-1.5 bg-green-400 text-green-800 rounded-md uppercase tracking-wider bg-opacity-30'>Oui</span></td>";
                         }?>
-                        <td class='p-3 text-sm text-gray-700'><a href=<?php echo $lien ; ?>><?php
+                        <td class='p-3 text-sm text-gray-700'><?php
                             switch($tab_int['meteo']){
                                 case 'soleil':
-                                    echo"<i class='fas fa-sun'></i></a></td>";
+                                    echo"<i class='fas fa-sun'></i></td>";
                                 break;
                                 case 'nuage':
-                                    echo"<i class='fas fa-cloud-sun'></i></a></td>";
+                                    echo"<i class='fas fa-cloud-sun'></i></td>";
                                 break;
                                 case 'pluie':
-                                    echo"<i class='fas fa-cloud-rain'></i></a></td>";
+                                    echo"<i class='fas fa-cloud-rain'></i></td>";
                                 break;
                             }
                             ?>
+                        <td><a href=<?php echo $lien_modif ; ?> class="text-center text-sm text-purple-400">Modifier</a></td>
+                        <td><a href=<?php echo $lien_affiche ; ?> class="text-center text-sm text-purple-400">Afficher</a></td>
                         </tr>  
                         <?php
-                        }
+                    }
                     ?>  
                 </tbody>
             </table>

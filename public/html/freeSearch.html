@@ -1,5 +1,5 @@
 <?php
-require("../../php/search.php");
+require("../../php/rechercheLibre.php");
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -33,7 +33,7 @@ require("../../php/search.php");
 
     <!-- Barre de recherche -->
     <div >
-        <form action="freeSearch.html" method="post" class="container flex px-16 mb-4 gap-8">
+        <form action="../../php/rechercheLibre.php" method="post" class="container flex px-16 mb-4 gap-8">
             <input type="text" name="recherche" placeholder="Nom de la trace, ville de départ, mot-clé..." 
         class="border-2 border-gray-300 p-4 rounded-md shadow-sm focus:outline-none focus:ring-1 w-full mb-6 focus:ring-purple-400">
         <button type="submit" class="bg-purple-400 text-white py-3 px-7 rounded-md uppercase">Rechercher</button>
@@ -42,7 +42,7 @@ require("../../php/search.php");
 
     <!-- Résultats -->
     <div class="container">
-        <a href="search-adv.html" class="mx-8 font-semibold text-lg text-purple-600">Paramètres de recherche avancée </a>
+        <a href="search-adv.html" class="mx-8 font-semibold text-lg text-purple-600">Résultats de recherche: </a>
 
         <!-- Tableau -->
         <div class="hidden my-8 lg:block">
@@ -60,17 +60,15 @@ require("../../php/search.php");
                         <th class="p-3 text-sm font-semibold tracking-wide text-left">Trainer</th>
                         <th class="p-3 text-sm font-semibold tracking-wide text-left">Météo</th>
                         <th class="p-3 text-sm font-semibold tracking-wide text-left">Modifier</th>
-                        <th class="p-3 text-sm font-semibold tracking-wide text-left">Afficher</th>
+                        <th class="p -3 text-sm font-semibold tracking-wide text-left">Afficher</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr class="bg-white">
+
                         <?php
-                        if(isset($_POST['recherche'])){
-                            $resTab = creerRequeteRechercheLibre($_POST['recherche']);
-                        }else{
-                            $resTab = searchbasique();
-                        }
+
+                        $resTab = recupDonneesAffichageRechercheLibre();
                         
                         for($i=0; $i<count($resTab); $i++){
                             $tab_int = $resTab[$i];
