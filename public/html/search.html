@@ -32,11 +32,12 @@ require("../../php/search.php");
     <h1 class="text-2xl font-bold text-center my-8">Recherche par mot-clé(s) :</h1>
 
     <!-- Barre de recherche -->
-    <div class="container flex px-16 mb-4">
-        <form method="post" action="search.html">
-        <input type="text" name="recherche" placeholder="Nom de la trace, ville de départ, mot-clé..." 
-        class="border-2 border-gray-300 p-4 rounded-md shadow-sm focus:outline-none focus:ring-1 w-full mb-6 focus:ring-purple-400">
-        <button type="submit" class="bg-purple-400 text-white py-3 px-7 rounded-md text-center">Recherche</button></form>
+    <div >
+        <form method="post" action="search.html" class="container flex px-16 mb-4 gap-8">
+            <input type="text" name="recherche" placeholder="Nom de la trace, ville de départ, mot-clé..." 
+            class="border-2 border-gray-300 p-4 rounded-md shadow-sm focus:outline-none focus:ring-1 w-full mb-6 focus:ring-purple-400">
+            <button type="submit" class="bg-purple-400 text-white py-3 px-7 rounded-md text-center">Recherche</button>
+        </form>
     </div>
 
     <!-- Résultats -->
@@ -58,6 +59,8 @@ require("../../php/search.php");
                         <th class="p-3 text-sm font-semibold tracking-wide text-left">Groupe</th>
                         <th class="p-3 text-sm font-semibold tracking-wide text-left">Trainer</th>
                         <th class="p-3 text-sm font-semibold tracking-wide text-left">Météo</th>
+                        <th class="p-3 text-sm font-semibold tracking-wide text-left">Modifier</th>
+                        <th class="p-3 text-sm font-semibold tracking-wide text-left">Afficher</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -82,7 +85,7 @@ require("../../php/search.php");
                         <td class='p-3 text-sm text-gray-700'><?php echo $tab_int['nom'] ; ?></td>
                         <td class='p-3 text-sm text-gray-700'><?php echo $tab_int['activite'] ; ?></td>
                         <td class='p-3 text-sm text-gray-700'><?php echo $temps ; ?></td>
-                        <td class='p-3 text-sm text-gray-700'>><?php echo $denivele ; ?></td>
+                        <td class='p-3 text-sm text-gray-700'><?php echo $denivele ; ?></td>
                         <td class='p-3 text-sm text-gray-700'><?php echo $tab_int['depart'] ; ?></td>
                         <td class='p-3 text-sm text-gray-700'><?php echo $tab_int['auteur'] ; ?></td>
                         <td class='p-3 text-sm text-gray-700'><?php
@@ -110,8 +113,8 @@ require("../../php/search.php");
                                 break;
                             }
                             ?>
-                        <td><a href=<?php echo $lien_modif ; ?> class="bg-purple-400 text-white py-3 px-7 rounded-md text-center">Modifier</a></td>
-                        <td><a href=<?php echo $lien_affiche ; ?> class="bg-purple-400 text-white py-3 px-7 rounded-md text-center">Afficher</a></td>
+                        <td><a href=<?php echo $lien_modif ; ?> class="text-center text-sm text-purple-400">Modifier</a></td>
+                        <td><a href=<?php echo $lien_affiche ; ?> class="text-center text-sm text-purple-400">Afficher</a></td>
                         </tr>  
                         <?php
                     }
@@ -184,10 +187,10 @@ require("../../php/search.php");
                     <div class ="mt-2">
                         <div class="flex items-center gap-16">
                             <div class="flex flex-col gap-2">
-                                <span class="py-1.5 px-2.5 text-center text-sm  text-white bg-purple-400 bg-opacity-80 rounded-lg w-24"><a href=<?php echo $lien_modif ; ?>>Modifier</a></span> 
+                                <span class="text-center text-sm text-purple-400"><a href=<?php echo $lien_modif ; ?>>Modifier</a></span> 
                             </div>
                             <div class="flex flex-col gap-2">
-                                <span class="py-1.5 px-2.5 text-center text-sm  text-white bg-purple-400 bg-opacity-80 rounded-lg w-24"><a href=<?php echo $lien_affiche ; ?>>Afficher</a></span> 
+                                <span class="text-center text-sm text-purple-400"><a href=<?php echo $lien_affiche ; ?>>Afficher</a></span> 
                             </div>
                         </div>
                     </div> 

@@ -57,7 +57,7 @@
 
     function denivele_beau($denivele){
         $retour= str_replace('.',',', $denivele);
-        $retour.=' km';
+        $retour.=' m';
         return $retour;
     }
 
