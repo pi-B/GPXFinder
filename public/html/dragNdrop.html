@@ -48,7 +48,10 @@ ob_start();
                 <input type="file" name="myFile" class="drop-zone__input" required/>
             </div>
             <?php if(isset($_FILES)) { test_extension();} ?>
-            <input type="submit" value="Déposer" class="py-3 px-4 rounded-lg bg-purple-100 mt-4">
+            <div class="flex flex-column md:flex-row mt-4 gap-8">
+              <a href="../index.html" class="bg-red-400 text-white py-3 px-4 rounded-md text-center">Retour</a>
+              <input type="submit" value="Déposer" class="py-3 px-4 rounded-lg bg-purple-100">
+            </div>
         </form>
     </div>  
 
