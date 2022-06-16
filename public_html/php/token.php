@@ -18,10 +18,10 @@
         $_SESSION['mailtoken'] = $_POST["email"];
         if($_POST['token'] == $reset[0]){
             
-            header('Location:../public_html/changementMDP.html?token='.$reset[0]);
+            header('Location:../html/changementMDP.html?token='.$reset[0]);
         }else{
-            header('Location:../public_html/token.html?error=token&email='.$_POST["email"]);
+            header('Location:../html/token.html?error=token&email='.$_POST["email"]);
         }
     }else{
-        header('Location:../public_html/token.html?error=token&email='.$_POST["email"]);
+        header('Location:../html/token.html?error=token&email='.$_POST["email"]);
     }

@@ -1,11 +1,8 @@
 <?php
 session_start();
 
-if($_SESSION['token'] == false){
-    header('Location:login.html');
-}
 
-require("php/connexionDB.php");
+require("../php/connexionDB.php");
 
 $linkpdo=connexion();
 $req = $linkpdo->prepare('select login from Utilisateur where tokeninit like :token');
@@ -33,7 +30,7 @@ $login = $req -> fetch();
     <section class="relative flex h-screen justify-center items-center bg-purple-400">
         <div class="container max-w-sm rounded-md p-4 bg-white">
             <h2 class="my-4 font-semibold text-lg"><?php echo"Bonjour ".$login[0];?></h2>
-            <form action="php/changementMDP.php" method="post">
+            <form action="../php/changementMDP.php" method="post">
                 <p>Veuillez saisir votre nouveau mot de passe :</p><br>
 
                 <span class="erreur text-red-500 text-sm">Mot de passe incorrect</span><br>

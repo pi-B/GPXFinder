@@ -82,22 +82,22 @@ if (!empty($_POST['email'])){
             //envoi
             $mail->send();
             }catch(Exception $e){
-                header("Location:../public_html/reset.html?error=$erreur");
+                header("Location:../html/reset.html?error=$erreur");
                 //echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
             }
             //envoi vers la page de changement de mot de passe
-            header("Location:../public_html/token.html?email=$email_recup");
+            header("Location:../html/token.html?email=$email_recup");
             //echo"essai";
         }else{
             $erreur = "Cette adresse mail ne correspond à aucun utilisateur";
-            header("Location:../public_html/reset.html?error=$erreur");
+            header("Location:../html/reset.html?error=$erreur");
         }
     }else{
         $erreur = "Veuillez entrer une adresse mail valide";
-        header("Location:../public_html/reset.html?error=$erreur");
+        header("Location:../html/reset.html?error=$erreur");
     }
 }else{
     $erreur = "Veuillez entrer une adresse mail valide";
-    header("Location:../public_html/reset.html?error=$erreur");
+    header("Location:../html/reset.html?error=$erreur");
 }
 ?>

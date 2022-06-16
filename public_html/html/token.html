@@ -22,7 +22,7 @@ $mail = $_GET["email"];
     <section class="relative flex h-screen justify-center items-center bg-purple-400">
         <div class="container max-w-sm rounded-md p-4 bg-white">
             <h2 class="my-4 font-semibold text-lg">Connexion : </h2>
-            <form action="php/token.php" method="post">
+            <form action="../php/token.php" method="post">
                 <p>Veuillez saisir le token recu par mail :</p><br>
                 <?php
                 if(isset($_GET['error'])){

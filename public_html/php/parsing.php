@@ -6,7 +6,7 @@
     ob_start();
 
     if(empty($_FILES['myFile']['name'] && empty($_FILES['myFile']['size'] == 0))){
-        header('location:../public_html/dragNdrop.html?empty=1');
+        header('location:../html/dragNdrop.html?empty=1');
     } else {
         var_dump($_FILES);
     }

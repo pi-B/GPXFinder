@@ -4,7 +4,7 @@
 
  
  if (isset($_SESSION['login']))
- header("location:../public/index.html");
+ header("location:../index.html");
 
     if(!empty($_POST['newpassword'])){
         $linkpdo=connexion();
@@ -15,7 +15,7 @@
                             'mail' => $mail));
         
 
-        header('Location:../public/index.html');
+        header('Location:../index.html');
     }else{
-        header('Location:../public_html/changementMDP.html?error=mdp');
+        header('Location:../html/changementMDP.html?error=mdp');
     }
