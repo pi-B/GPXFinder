@@ -1,0 +1,142 @@
+<?php
+// Permettra de passer le tableau d'objet qui ressort du parsing et les données extraites/calculées pour les proposer
+require('../php/PointsGPX.php');
+require('../php/connexionDB.php');
+
+session_start();
+ob_start();
+
+require('../php/utils/verifIntegrite.php');
+
+verifier_admin();
+
+
+  function test_extension(){
+      if(isset($_FILES['myFile']) && $_FILES['myFile']['size'] != 0){
+        $finfo = finfo_open(FILEINFO_MIME_TYPE);
+        $extension = finfo_file($finfo,$_FILES['myFile']['tmp_name']); // Va chercher l'image MIME du fichier qui se trouve à l'emplacement 'tmp_name' (nom du fichier dans le repertoire temporaire)
+
+        if($extension != "text/xml"){
+          echo "<span style=\"color:#d63024; text-align:center\"> Le fichier que vous souhaitez télécharger n'est pas un fichier GPX. </span>";
+        } else { 
+          parsing();
+        }
+    }
+  }
+
+  if(isset($_GET['empty'])){
+    echo "<span style=\"color:#d63024; text-align:center\"> Champs d'envoie vide, sélectionnez un fichier. </span>";
+  }
+
+  unset($_SESSION['erreurs']);
+  unset($_SESSION['nom']);
+  unset($_SESSION['ville']);
+  unset($_SESSION['activite']);
+
+  
+?>
+
+<!DOCTYPE html>
+<head>
+  <title>GPX - Upload</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="utf-8" />
+  <link rel="shortcut icon" href="/assets/favicon.ico" />
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous">
+  <link rel="stylesheet" href="../style.css" />
+</head>
+
+<body class="bg-purple-400">
+
+    <a href="../index.html" class=" text-white py-3 px-4 rounded-md text-center my-8"> < Retour</a>
+    <div class="relative h-screen flex flex-col justify-center items-center ">
+    <div class="card p-8 rounded-lg">
+        <form action="../php/parsing.php" method="POST" enctype="multipart/form-data" class="flex flex-col gap-4 justify-center items-center">
+            <h2 class="text-2xl text-center font-bold text-white mb-4">Dépot du fichier :</h2>  
+            <div class="drop-zone font-Monserrat flex gap-8 w-full">
+                <span class="drop-zone__prompt">Cliquez ou faites glisser le fichier ici</span>
+                <input type="file" name="myFile" class="drop-zone__input" />
+            </div>
+            <?php if(isset($_FILES)) { test_extension();} ?>
+            <div class="flex flex-column md:flex-row mt-4 gap-8">
+              <input type="submit" value="Déposer" class="py-3 px-4 rounded-lg bg-purple-100">
+            </div>
+        </form>
+    </div>  
+    </div>
+    
+
+  <script>
+    document.querySelectorAll(".drop-zone__input").forEach((inputElement) => {
+      const dropZoneElement = inputElement.closest(".drop-zone");
+
+      dropZoneElement.addEventListener("click", (e) => {
+        inputElement.click();
+      });
+
+      inputElement.addEventListener("change", (e) => {
+        if (inputElement.files.length) {
+          updateThumbnail(dropZoneElement, inputElement.files[0]);
+        }
+      });
+
+      dropZoneElement.addEventListener("dragover", (e) => {
+        e.preventDefault();
+        dropZoneElement.classList.add("drop-zone--over");
+      });
+
+      ["dragleave", "dragend"].forEach((type) => {
+        dropZoneElement.addEventListener(type, (e) => {
+          dropZoneElement.classList.remove("drop-zone--over");
+        });
+      });
+
+      dropZoneElement.addEventListener("drop", (e) => {
+        e.preventDefault();
+
+        if (e.dataTransfer.files.length) {
+          inputElement.files = e.dataTransfer.files;
+          updateThumbnail(dropZoneElement, e.dataTransfer.files[0]);
+        }
+
+        dropZoneElement.classList.remove("drop-zone--over");
+      });
+    });
+
+    /**
+     * Updates the thumbnail on a drop zone element.
+     *
+     * @param {HTMLElement} dropZoneElement
+     * @param {File} file
+     */
+    function updateThumbnail(dropZoneElement, file) {
+      let thumbnailElement = dropZoneElement.querySelector(".drop-zone__thumb");
+
+      // First time - remove the prompt
+      if (dropZoneElement.querySelector(".drop-zone__prompt")) {
+        dropZoneElement.querySelector(".drop-zone__prompt").remove();
+      }
+
+      // First time - there is no thumbnail element, so lets create it
+      if (!thumbnailElement) {
+        thumbnailElement = document.createElement("div");
+        thumbnailElement.classList.add("drop-zone__thumb");
+        dropZoneElement.appendChild(thumbnailElement);
+      }
+
+      thumbnailElement.dataset.label = file.name;
+
+      // Show thumbnail for image files
+      if (file.type.startsWith("image/")) {
+        const reader = new FileReader();
+
+        reader.readAsDataURL(file);
+        reader.onload = () => {
+          thumbnailElement.style.backgroundImage = `url('${reader.result}')`;
+        };
+      } else {
+        thumbnailElement.style.backgroundImage = null;
+      }
+    }
+  </script>
+</body>

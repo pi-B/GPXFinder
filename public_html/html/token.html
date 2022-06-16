@@ -1,0 +1,43 @@
+<?php
+session_start();
+$mail = $_GET["email"];
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link
+        rel="stylesheet"
+        href="https://unpkg.com/swiper@8/swiper-bundle.min.css"
+    />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous">
+    <link rel="stylesheet" href="../style.css">
+    <title>Mot de passe oublié</title>
+</head>
+<body class="font-Monserrat">
+
+    <!-- Connexion -->
+    <section class="relative flex h-screen justify-center items-center bg-purple-400">
+        <div class="container max-w-sm rounded-md p-4 bg-white">
+            <h2 class="my-4 font-semibold text-lg">Connexion : </h2>
+            <form action="php/token.php" method="post">
+                <p>Veuillez saisir le token recu par mail :</p><br>
+                <?php
+                if(isset($_GET['error'])){
+                echo'<span class="erreur text-red-500 text-sm">Token incorrect</span><br>';
+                }
+                ?>
+                <input type="hidden" name="email" value='<?php echo $mail; ?>' >
+                <input type="text" name="token" placeholder="hgjSD4855sd748sfqq" class="border-2 border-gray-300 p-4 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-purple-400 mb-4"><br>
+                <button type="submit" class="bg-purple-400 text-white py-3 px-7 rounded-md text-center">Réinitialisation</button>
+            </form>
+        </div>
+    </section>
+    
+
+    <script src="https://unpkg.com/swiper@8/swiper-bundle.min.js"></script>
+    <script src="../src/swiper.js"></script>
+</body>
+</html>
